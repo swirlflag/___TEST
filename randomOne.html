@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+    const randomDirection = (...nots) => {
+        let result;
+        let arr = ['Up','Down', 'Left', 'Right'];
+        nots.map((not) => {
+            if(arr.indexOf(not) > -1){
+                console.log(1);
+                const pointer = arr.indexOf(not);
+                arr.splice(pointer,1);
+            };
+        })
+        result = randomOne(...arr);
+        return result;
+    };
+
+    const randomOne = (...arr) => arr[Math.floor(Math.random() * arr.length)];
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="./util.js"></script>
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+</head>
+<style>
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+#check {
+    display: none;
+    position: fixed;
+    top: 10px; left: 10px;
+    border: 1px solid #d3d;
+    color: #d3d;
+    font-weight: bold;
+    z-index: 9999;
+    background-color: #000;
+}
+
+.dx-page-slide {
+
+    position: relative;
+    overflow-y: scroll;
+    width: 100%; height: 100%;
+    /* width: 90%; height: 90% !important;
+    left: 5%; top: 5%; */
+
+    display: block;
+    box-sizing: border-box;
+
+    font-size: 200px;
+
+    /* scroll-behavior: smooth; */
+}
+
+.page-section {
+    min-height: 100%;
+    box-sizing: border-box;
+}
+
+/* .page-section:nth-child(4) {
+    background-image: url(./image/etiqa_2.png);
+    background-attachment : fixed;
+}
+
+.page-section:nth-child(5){
+    background-image: url(./image/tetrapod_main.jpg);
+    background-attachment : fixed;
+} */
+.dummy{
+    height: 200px;
+    border: 3px solid #fff;
+    color: #fff;
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.dummy.check {
+    background-color: rgb(0, 51, 133);
+    opacity: 0.5;
+}
+
+</style>
+<body>
+
+<div id="check"></div>
+
+<div class="dx-page-slide">
+    <div class="page-section" style="background-color : #B9DADF">0</div>
+    <div class="page-section" style="background-color : #7DC0D1">1</div>
+    <div class="page-section" style="background-color : #1D7F8C;">
+        <div class="dummy check">start</div>
+        <div class="dummy"></div>
+        <div class="dummy"></div>
+        <div class="dummy"></div>
+        <div class="dummy"></div>
+        <div class="dummy"></div>
+        <div class="dummy"></div>
+        <div class="dummy"></div>
+        <div class="dummy"></div>
+        <div class="dummy"></div>
+        <div class="dummy"></div>
+        <div class="dummy check">end!</div>
+    </div>
+    <div class="page-section" style="background-color : #C36742">3</div>
+    <div class="page-section" style="background-color : #F0A272">4</div>
+    <div class="page-section" style="background-color : #f9E79D">5</div>
+</div>
+
+<script>
+
+var easingStack;
+
+let isPaging = false;
+// let canScroll = false;
+
+class PageEasing {
+    constructor(target , easing, startVal, endVal, time ,callback) {
+        this.target = target;
+        this.easing = easing;
+        this.st = 0;
+        this.cv = startVal;
+        this.ev = endVal;
+        this.ch = this.ev - this.cv;
+        this.at = time;
+        this.callback = callback;
+    }
+
+    updateEasing(){
+        this.cv = this.easing(this.st, this.cv, this.ch, this.at);
+        this.ch = this.ev - this.cv;
+        this.target.scrollTop = Math.round(this.cv);
+        if(Math.round(this.cv) == this.ev){
+            removeEasingStack(this);
+            this.target.scrollTop = this.ev;
+            this.callback && this.callback();
+        }
+        this.st++;
+    }
+};
+
+
+var mainLoop = function (){
+    requestAnimationFrame(mainLoop);
+    for(var key in easingStack){
+        var obj = easingStack[key];
+        obj.updateEasing();
+    }
+}
+
+function removeEasingStack(val){
+    for(var key in easingStack){
+        var obj = easingStack[key];
+        if(obj == val){
+            easingStack.splice(key, 1);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const DXscroll = function() {
+    const wrap                  = document.querySelector('.dx-page-slide');
+    if(!wrap) {return null};
+    wrap.style.height           = window.innerHeight + 'px';
+    const sections              = wrap.querySelectorAll('.page-section');
+
+    let ticking         = false;
+    let fastCanScroll = false;
+    let canScroll       = false;
+    let nowSt           = wrap.scrollTop;
+    let beforeNumber    = 0;
+    let currentNumber   = 0;
+    let currentSection  = sections[0];
+    let sectionLength   = sections.length;
+    let wrapHeight      = window.innerHeight;
+    let sectionSt       = 0;
+    let sectionEndSt    = 0;
+    let mouseRecordSt   = 0;
+    let touchRecordSt   = 0;
+    let isMouseDown     = false;
+
+
+    // let isUserWheel = false;
+    let isUserWheel = true;
+    let userWheelChecker = null;
+    let orWheelPaging = false;
+
+
+    const findNearSection = () => {
+        const scanValue = [...sections].reduce((prev,section,idx) => {
+            const nowGap = Math.abs(wrap.scrollTop - section.offsetTop);
+            return nowGap <= prev[0] ? [nowGap, prev[1] + 1] : prev ;
+        },[Infinity, -1]);
+        beforeNumber   = currentNumber;
+        currentNumber  = scanValue[1];
+        currentSection = sections[currentNumber];
+    }
+
+    const slideTo = () => {
+        const direction     = beforeNumber < currentNumber;
+        const willScroll    = currentSection.offsetHeight > wrapHeight;
+        const startPoint    = wrap.scrollTop;
+        let endPoint = currentSection.offsetTop;
+
+        if(willScroll && !direction && !isMouseDown){
+            endPoint = currentSection.offsetTop + currentSection.offsetHeight - wrapHeight;
+        }
+
+        fastCanScroll     = willScroll;
+        var paging = new PageEasing(wrap,easeOutQuad,startPoint,endPoint,300,() => {
+            isPaging        = false;
+            sectionSt       = 0;
+            sectionEndSt    = currentSection.offsetHeight - wrapHeight;
+            canScroll       = willScroll;
+            fastCanScroll   = canScroll;
+            isMouseDown     = false;
+        });
+
+        easingStack = [];
+		easingStack.push(paging);
+        isPaging    = true;
+    }
+
+    if(localStorage.saveDXscrollTop){
+        // wrap.scrollTop      = localStorage.saveDXscrollTop;
+        // findNearSection();
+        // wrap.scrollTop = currentSection.offsetTop;
+    }
+
+    const currentCheck = (value = true) => {
+        beforeNumber   = currentNumber;
+        value ? currentNumber++ : currentNumber--;
+        if(currentNumber <= 0){
+            currentNumber = 0;
+        }
+        if(currentNumber >= sectionLength){
+            currentNumber = sectionLength - 1;
+        }
+        currentSection = sections[currentNumber];
+    }
+
+    const wrapResize = () => {
+        wrap.style.height = window.innerHeight + 'px';
+        wrapHeight = window.innerHeight;
+    }
+
+    var wheelDeltas = [null, null];
+    var wheelLock = 0;
+    var hasPeak = () => {
+        if (wheelLock > 0) {
+            wheelLock--;
+            return false;
+        }
+        if(wheelDeltas[0] == null) return false;
+        if(wheelDeltas[0] <  wheelDeltas[1])return true;
+        return false;
+    }
+
+    const wheelLockCheck = (e) => {
+
+        if(isPaging){
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        if(!canScroll){
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        var delta  = e.deltaY;
+        wheelDeltas.shift();
+        wheelDeltas.push(Math.abs(delta));
+
+        if(hasPeak()) {
+            wheelLock = 5;
+			return true;
+        }
+        return false;
+    }
+
+    const wrapWheelAction = (e) => {
+
+    // 페이징 중에는 이벤트 없음
+        if(isPaging){
+            e.preventDefault();
+			return false;
+		}
+
+        const delta     = e.deltaY;
+
+    // //  스크롤이 영역이 없는 상황에서는 바로 위 아래 결정
+        if(!canScroll){
+            console.log('스크롤이 영역이 없는 상황에서는 휠 이벤트에서 위 아래 결정 ')
+            e.preventDefault();
+            currentCheck(delta > 0)
+            slideTo();
+            return ;
+        }
+
+    // 스크롤 가능 상태에서의 휠 동작시
+        if(canScroll){
+            const willSt = sectionSt + delta;
+
+        // prev로 가려고 할때
+            if(willSt < 0){
+                currentCheck(false);
+                slideTo();
+            }
+        // next로 가려고 할때
+            if(willSt > sectionEndSt){
+                currentCheck(true);
+                slideTo();
+            }
+        }
+
+    };
+
+    const wrapScrollAction = (e) => {
+
+        nowSt = wrap.scrollTop;
+        window.localStorage.saveDXscrollTop = wrap.scrollTop;
+
+    // 페이징 중에는 이벤트 없음
+        // if(isPaging){
+        //     console.log('페이징 중엔 스크롤 X');
+        //     e.preventDefault();
+        //     e.stopPropagation();
+        //     return false;
+        // }
+
+    // 스크롤 불가능 상태에서는  동작 필요없음
+        // if(!canScroll){
+        //     console.log('스크롤 불가일떄는 동작 X')
+        //     e.preventDefault();
+        //     e.stopPropagation();
+        //     return false;
+        // }
+
+    // 섹션 기준 scrollTop 기록
+        sectionSt = nowSt - currentSection.offsetTop;
+
+    // 스크롤이 섹션 내부에서만 이동한다면 이벤트 없음
+        if(sectionSt >= 0 && sectionSt <= sectionEndSt){
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+        }
+
+    // 스크롤 가능 상태에서 스크롤 동작시
+        if(canScroll){
+            if(sectionSt < 0){
+                currentCheck(false);
+                slideTo();
+            }else if(sectionSt > sectionEndSt){
+                currentCheck(true);
+                slideTo();
+            }
+            return;
+        }
+    };
+
+    wrap.addEventListener('wheel', (e) => {
+
+        clearTimeout(userWheelChecker);
+        userWheelChecker = setTimeout(() => {
+            isUserWheel = false;
+            if( !isPaging ) orWheelPaging = false;
+            console.log({orWheelPaging, isUserWheel, isPaging});
+            console.log('last wheel');
+        },100);
+        isUserWheel = true;
+
+        let ch = wheelLockCheck(e);
+
+        console.log({orWheelPaging, isUserWheel, isPaging});
+        if(orWheelPaging){
+            if( isUserWheel && isPaging ) orWheelPaging = true;
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+        if( isUserWheel && isPaging ) orWheelPaging = true;
+        else if( !isPaging && isUserWheel ) orWheelPaging = false;
+
+        if(ch){
+            wrapWheelAction(e);
+        }
+    }, {passive : false});
+
+    wrap.addEventListener('scroll', (e) => {
+        wrapScrollAction(e);
+    },{passive : false});
+
+
+    const recordScrollTopMouse = (e) => {
+        mouseRecordSt = wrap.scrollTop;
+    }
+
+    const recordScrollTopTouch = (e) => {
+        touchRecordSt = wrap.scrollTop;
+    }
+
+    wrap.addEventListener('mousedown' , (e) => {
+        isMouseDown = true;
+        wrap.addEventListener('scroll' , recordScrollTopMouse);
+    });
+
+    wrap.addEventListener('mouseup' , (e) => {
+        findNearSection();
+        slideTo();
+        wrap.removeEventListener('scroll' , recordScrollTopMouse);
+    });
+
+    // wrap.addEventListener('touchstart', (e) => {
+    //     if(isPaging){
+    //         console.log('is paging')
+    //         return
+    //     }
+    //     touchRecordSt = wrap.scrollTop;
+    // }, {passive : false});
+
+    // wrap.addEventListener('touchmove' , (e) => {
+    //     if(isPaging || wrap.scrollTop === touchRecordSt){
+    //         e.preventDefault();
+    //         return false;
+    //     }
+
+    // }, { passive : false});
+
+    // wrap.addEventListener('touchend' , (e) => {
+    //     if(Math.abs(wrap.scrollTop - touchRecordSt) > 40){
+    //         const direction = wrap.scrollTop - touchRecordSt > 0;
+    //         currentCheck(direction);
+    //     };
+
+    //     slideTo();
+    // }, {passive : false});
+
+    window.addEventListener('resize', wrapResize);
+
+    return {
+        wrap,
+        sections,
+    };
+
+}
+
+
+mainLoop();
+const myScroll = new DXscroll();
+
+// ex) 예상하는 기능.. 하지만 현재는 constructor기능에만 집중
+// myScroll.function() ....
+// myScroll.value ....
+
+</script>
+</body>
+</html>
