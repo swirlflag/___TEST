@@ -29,7 +29,6 @@ html, body {
 }
 
 .dx-page-slide {
-
     position: relative;
     overflow-y: scroll;
     width: 100%; height: 100%;
@@ -43,6 +42,11 @@ html, body {
 
     /* scroll-behavior: smooth; */
 }
+
+.dx-page-slide.lock-scroll {
+    overflow-y: hidden;
+}
+
 
 .page-section {
     min-height: 100%;
@@ -93,6 +97,15 @@ html, body {
         <div class="dummy"></div>
         <div class="dummy check">end!</div>
     </div>
+    <div class="page-section" style="background-color : rgb(191, 53, 209);">
+        <div class="dummy check">start</div>
+        <div class="dummy"></div>
+        <div class="dummy"></div>
+        <div class="dummy"></div>
+        <div class="dummy"></div>
+        <div class="dummy check">end!</div>
+    </div>
+
     <div class="page-section" style="background-color : #C36742">3</div>
     <div class="page-section" style="background-color : #F0A272">4</div>
     <div class="page-section" style="background-color : #f9E79D">5</div>
@@ -193,7 +206,7 @@ const DXscroll = function() {
     let isMouseDown     = false;
 
     // let isUserWheel = false;
-    let isUserWheel = true;
+    let isUserWheel = false;
     let userWheelChecker = null;
     let orWheelPaging = false;
 
@@ -230,17 +243,21 @@ const DXscroll = function() {
             endPoint = currentSection.offsetTop + currentSection.offsetHeight - wrapHeight;
         }
 
-        var paging = new PageEasing(wrap,easeOutQuad,startPoint,endPoint,300,() => {
+        var paging = new PageEasing(wrap,easeOutQuad,startPoint,endPoint,400,() => {
             isPaging        = false;
-            sectionSt       = 0;
             sectionEndSt    = currentSection.offsetHeight - wrapHeight;
+            sectionSt       = direction ? 0 : sectionEndSt;
             canScroll       = willScroll;
             isMouseDown     = false;
+            if( !isUserWheel ) {
+                orWheelPaging = false
+                wrap.classList.remove('lock-scroll');
+            };
         });
 
         easingStack = [];
 		easingStack.push(paging);
-        
+
     }
 
 
@@ -273,33 +290,78 @@ const DXscroll = function() {
     }
 
     const wrapWheelAction = (e) => {
-
-    };
-
-    const wrapScrollAction = (e) => {
-
-    };
-
-    wrap.addEventListener('wheel', (e) => {
-        const delta = e.deltaY;
+        const delta = Math.floor(e.deltaY);
 
         if(isPaging){
             return false;
         }
 
-        currentCheck(delta > 0);
-        changeSlide();
+        if(orWheelPaging && isUserWheel && !isPaging) {
+            return false;
+        }
+
+        if(!canScroll){
+            currentCheck(delta > 0);
+            changeSlide();
+        }else {
+            const willSt = sectionSt + delta;
+            console.log({sectionSt , sectionEndSt , willSt});
+            if(willSt < 0){
+                currentCheck(false)
+                changeSlide();
+            }else if(willSt > sectionEndSt){
+                currentCheck(true)
+                changeSlide();
+            }
+        }
+
+    };
+
+    const wrapScrollAction = (e) => {
+        nowSt = wrap.scrollTop;
+        if(canScroll){
+            sectionSt = nowSt - currentSection.offsetTop;
+        }
+    };
+
+    wrap.addEventListener('wheel', (e) => {
+        if( Math.abs(e.deltaY) <= 5 ) { return false; }
+        clearTimeout(userWheelChecker);
+        userWheelChecker = setTimeout(() => {
+            isUserWheel = false;
+            if( !isPaging ) {
+                orWheelPaging = false;
+                wrap.classList.remove('lock-scroll');
+            }
+        },40);
+
+        wrapWheelAction(e);
+
+        isUserWheel = true;
+        if( isUserWheel && isPaging ) {
+            orWheelPaging = true;
+            wrap.classList.add('lock-scroll');
+        }
+
     }, {passive : false});
 
     wrap.addEventListener('scroll', (e) => {
-
+        if( isUserWheel || isPaging ) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        wrapScrollAction(e);
     },  {passive : false});
 
 
-    wrap.addEventListener('mousedown' , (e) => {
-    });
-
+    wrap.addEventListener('mousedown', () => {
+        mouseRecordSt = nowSt;
+    })
     wrap.addEventListener('mouseup' , (e) => {
+        if(mouseRecordSt !== nowSt){
+            findNearSection();
+            changeSlide();
+        }
     });
 
     return {
