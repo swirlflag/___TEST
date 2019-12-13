@@ -107,6 +107,7 @@ let isPaging = false;
 
 class PageEasing {
     constructor(target , easing, startVal, endVal, time ,callback) {
+
         this.target = target;
         this.easing = easing;
         this.st = 0;
@@ -115,6 +116,7 @@ class PageEasing {
         this.ch = this.ev - this.cv;
         this.at = time;
         this.callback = callback;
+
     }
 
     updateEasing(){
@@ -190,12 +192,10 @@ const DXscroll = function() {
     let touchRecordSt   = 0;
     let isMouseDown     = false;
 
-
     // let isUserWheel = false;
     let isUserWheel = true;
     let userWheelChecker = null;
     let orWheelPaging = false;
-
 
     const findNearSection = () => {
         const scanValue = [...sections].reduce((prev,section,idx) => {
@@ -205,37 +205,6 @@ const DXscroll = function() {
         beforeNumber   = currentNumber;
         currentNumber  = scanValue[1];
         currentSection = sections[currentNumber];
-    }
-
-    const slideTo = () => {
-        const direction     = beforeNumber < currentNumber;
-        const willScroll    = currentSection.offsetHeight > wrapHeight;
-        const startPoint    = wrap.scrollTop;
-        let endPoint = currentSection.offsetTop;
-
-        if(willScroll && !direction && !isMouseDown){
-            endPoint = currentSection.offsetTop + currentSection.offsetHeight - wrapHeight;
-        }
-
-        fastCanScroll     = willScroll;
-        var paging = new PageEasing(wrap,easeOutQuad,startPoint,endPoint,300,() => {
-            isPaging        = false;
-            sectionSt       = 0;
-            sectionEndSt    = currentSection.offsetHeight - wrapHeight;
-            canScroll       = willScroll;
-            fastCanScroll   = canScroll;
-            isMouseDown     = false;
-        });
-
-        easingStack = [];
-		easingStack.push(paging);
-        isPaging    = true;
-    }
-
-    if(localStorage.saveDXscrollTop){
-        // wrap.scrollTop      = localStorage.saveDXscrollTop;
-        // findNearSection();
-        // wrap.scrollTop = currentSection.offsetTop;
     }
 
     const currentCheck = (value = true) => {
@@ -249,6 +218,31 @@ const DXscroll = function() {
         }
         currentSection = sections[currentNumber];
     }
+
+    const changeSlide = () => {
+        const direction     = beforeNumber < currentNumber;
+        const willScroll    = currentSection.offsetHeight > wrapHeight;
+        const startPoint    = wrap.scrollTop;
+        let endPoint = currentSection.offsetTop;
+        isPaging    = true;
+
+        if(willScroll && !direction && !isMouseDown){
+            endPoint = currentSection.offsetTop + currentSection.offsetHeight - wrapHeight;
+        }
+
+        var paging = new PageEasing(wrap,easeOutQuad,startPoint,endPoint,300,() => {
+            isPaging        = false;
+            sectionSt       = 0;
+            sectionEndSt    = currentSection.offsetHeight - wrapHeight;
+            canScroll       = willScroll;
+            isMouseDown     = false;
+        });
+
+        easingStack = [];
+		easingStack.push(paging);
+        
+    }
+
 
     const wrapResize = () => {
         wrap.style.height = window.innerHeight + 'px';
@@ -268,21 +262,9 @@ const DXscroll = function() {
     }
 
     const wheelLockCheck = (e) => {
-
-        if(isPaging){
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        if(!canScroll){
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
         var delta  = e.deltaY;
         wheelDeltas.shift();
         wheelDeltas.push(Math.abs(delta));
-
         if(hasPeak()) {
             wheelLock = 5;
 			return true;
@@ -292,163 +274,33 @@ const DXscroll = function() {
 
     const wrapWheelAction = (e) => {
 
-    // 페이징 중에는 이벤트 없음
-        if(isPaging){
-            e.preventDefault();
-			return false;
-		}
-
-        const delta     = e.deltaY;
-
-    // //  스크롤이 영역이 없는 상황에서는 바로 위 아래 결정
-        if(!canScroll){
-            console.log('스크롤이 영역이 없는 상황에서는 휠 이벤트에서 위 아래 결정 ')
-            e.preventDefault();
-            currentCheck(delta > 0)
-            slideTo();
-            return ;
-        }
-
-    // 스크롤 가능 상태에서의 휠 동작시
-        if(canScroll){
-            const willSt = sectionSt + delta;
-
-        // prev로 가려고 할때
-            if(willSt < 0){
-                currentCheck(false);
-                slideTo();
-            }
-        // next로 가려고 할때
-            if(willSt > sectionEndSt){
-                currentCheck(true);
-                slideTo();
-            }
-        }
-
     };
 
     const wrapScrollAction = (e) => {
 
-        nowSt = wrap.scrollTop;
-        window.localStorage.saveDXscrollTop = wrap.scrollTop;
-
-    // 페이징 중에는 이벤트 없음
-        // if(isPaging){
-        //     console.log('페이징 중엔 스크롤 X');
-        //     e.preventDefault();
-        //     e.stopPropagation();
-        //     return false;
-        // }
-
-    // 스크롤 불가능 상태에서는  동작 필요없음
-        // if(!canScroll){
-        //     console.log('스크롤 불가일떄는 동작 X')
-        //     e.preventDefault();
-        //     e.stopPropagation();
-        //     return false;
-        // }
-
-    // 섹션 기준 scrollTop 기록
-        sectionSt = nowSt - currentSection.offsetTop;
-
-    // 스크롤이 섹션 내부에서만 이동한다면 이벤트 없음
-        if(sectionSt >= 0 && sectionSt <= sectionEndSt){
-            e.preventDefault();
-            e.stopPropagation();
-            return;
-        }
-
-    // 스크롤 가능 상태에서 스크롤 동작시
-        if(canScroll){
-            if(sectionSt < 0){
-                currentCheck(false);
-                slideTo();
-            }else if(sectionSt > sectionEndSt){
-                currentCheck(true);
-                slideTo();
-            }
-            return;
-        }
     };
 
     wrap.addEventListener('wheel', (e) => {
+        const delta = e.deltaY;
 
-        clearTimeout(userWheelChecker);
-        userWheelChecker = setTimeout(() => {
-            isUserWheel = false;
-            if( !isPaging ) orWheelPaging = false;
-            console.log({orWheelPaging, isUserWheel, isPaging});
-            console.log('last wheel');
-        },100);
-        isUserWheel = true;
-
-        let ch = wheelLockCheck(e);
-
-        console.log({orWheelPaging, isUserWheel, isPaging});
-        if(orWheelPaging){
-            if( isUserWheel && isPaging ) orWheelPaging = true;
-            e.preventDefault();
-            e.stopPropagation();
+        if(isPaging){
             return false;
         }
-        if( isUserWheel && isPaging ) orWheelPaging = true;
-        else if( !isPaging && isUserWheel ) orWheelPaging = false;
 
-        if(ch){
-            wrapWheelAction(e);
-        }
+        currentCheck(delta > 0);
+        changeSlide();
     }, {passive : false});
 
     wrap.addEventListener('scroll', (e) => {
-        wrapScrollAction(e);
-    },{passive : false});
 
+    },  {passive : false});
 
-    const recordScrollTopMouse = (e) => {
-        mouseRecordSt = wrap.scrollTop;
-    }
-
-    const recordScrollTopTouch = (e) => {
-        touchRecordSt = wrap.scrollTop;
-    }
 
     wrap.addEventListener('mousedown' , (e) => {
-        isMouseDown = true;
-        wrap.addEventListener('scroll' , recordScrollTopMouse);
     });
 
     wrap.addEventListener('mouseup' , (e) => {
-        findNearSection();
-        slideTo();
-        wrap.removeEventListener('scroll' , recordScrollTopMouse);
     });
-
-    // wrap.addEventListener('touchstart', (e) => {
-    //     if(isPaging){
-    //         console.log('is paging')
-    //         return
-    //     }
-    //     touchRecordSt = wrap.scrollTop;
-    // }, {passive : false});
-
-    // wrap.addEventListener('touchmove' , (e) => {
-    //     if(isPaging || wrap.scrollTop === touchRecordSt){
-    //         e.preventDefault();
-    //         return false;
-    //     }
-
-    // }, { passive : false});
-
-    // wrap.addEventListener('touchend' , (e) => {
-    //     if(Math.abs(wrap.scrollTop - touchRecordSt) > 40){
-    //         const direction = wrap.scrollTop - touchRecordSt > 0;
-    //         currentCheck(direction);
-    //     };
-
-    //     slideTo();
-    // }, {passive : false});
-
-    window.addEventListener('resize', wrapResize);
 
     return {
         wrap,
