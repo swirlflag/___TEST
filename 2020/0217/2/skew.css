@@ -1,0 +1,161 @@
+*  {
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: "AkzidenzGrotesk";
+    src: url("./AkzidenzGrotesk-MediumExtended 2.otf");
+    font-weight: bold;
+}
+
+body{
+    font-family: "AkzidenzGrotesk", sans-serif;
+}
+
+
+#split-view {
+    width: 100vw; height: 100vh;
+    overflow: hidden;
+    position: relative;
+    transition: background-color 1s ease;
+    transform : scale(1.005);
+}
+
+.mask-item {
+    overflow: hidden;
+    width: 100vw; height: 100vh;
+    position: relative;
+    transform-origin: top;
+}
+
+
+.mask-content {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.mask-image {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+
+@keyframes fadeOut {
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+.mask-image.before {
+}
+.mask-image.current {
+    opacity: 1;
+    /* background-image: url(img/01.png); */
+}
+
+
+
+
+nav {
+    box-sizing: border-box;
+    /* border: 1px solid #d3d; */
+    z-index: 1000;
+    position: fixed;
+    left: 50px;
+    top: 50px;
+    height: calc(100vh - 100px);
+    width: calc(100vw - 100px);
+    pointer-events: none;
+}
+
+nav .gnb {
+    position: absolute;
+    right: 0; top: 0;
+    transform: scale(0.5);
+    transform-origin: top right;
+}
+
+nav .code {
+    position: absolute;
+    right: 120px;
+    bottom: 0;
+    transform: scale(0.5);
+    transform-origin: bottom right;
+}
+
+nav .text {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: scale(0.5);
+    transform-origin: right top;
+}
+
+
+nav .clock {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    font-weight: 900;
+    font-size: 60px;
+    /* letter-spacing: em; */
+    bottom: 0;
+    line-height: 1em;
+}
+
+nav .clock-block{
+    display: inline-block;
+    /* border: 1px solid #000; */
+    position: relative;
+}
+nav .clock-block::before{
+    content : '';
+    display: inline-block;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    /* background-color: #d3d; */
+    right: -30px;
+    top: 6px;
+    background-image: url(./img/r.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+
+}
+
+nav .word {
+    position: absolute;
+    display: inline-block;
+    /* border: 1px solid #3dd; */
+    line-height: 90px;
+    font-size: 120px;
+}
+nav .word-f {
+    left: 0;
+    top: 0;
+}
+nav .word-x {
+    right: -15px;
+    top: 0;
+
+}
+nav .word-n {
+    left: 0;
+    bottom: 0;
+
+
+}
+nav .word-t {
+    right: 0;
+    bottom: 0;
+}

@@ -1,0 +1,93 @@
+<html>
+<head>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script language="javascript">
+
+	function winSize(){
+	    var size = {
+    		width : window.innerWidth || document.body.clientWidth,
+    		height : window.innerHeight || document.body.clientHeight
+		}
+		return size;
+	}
+
+	var cx , cy, cz;
+
+	var canvasMouseX = 0;
+	var canvasMouseY = 0;
+
+    window.addEventListener("resize", function(event) {
+	    cx = winSize().width / 2;
+	    cy = winSize().height / 2;
+	});
+
+	Math.radians = function(degrees) {
+    	return degrees * Math.PI / 180;
+	};
+
+	function init(){
+	    cx = winSize().width / 2;
+	    cy = winSize().height / 2;
+
+		var cen = $('#cen')
+		cen.css('position', 'absolute')
+		cen.css('top', cy)
+		cen.css('left', cx - 50)
+		cen.css('font-size', '300px')
+		cen.css('line-height', '0px')
+
+		var obj = $('#obj')
+		obj.css('position', 'absolute')
+		obj.css('top', cy)
+		obj.css('left', cx)
+		obj.css('font-size', '50px')
+		obj.css('line-height', '0px')
+
+		mainLoop();
+	}
+
+	var a = 0;
+	var xr = 300;
+	var yr = 300;
+	var spd = 3;
+
+	function draw(){
+		var obj = $('#obj')
+		var ty = cy + Math.sin(Math.radians(a)) * yr;
+		var tx = cx + Math.cos(Math.radians(a)) * xr;
+
+		obj.css('top', ty)
+		obj.css('left', tx)
+
+		var ts = 70 + Math.sin(Math.radians(a))*30
+		obj.css('font-size', ts)
+
+		a += spd;
+	}
+
+
+	// Loop
+	var mainLoop = function (){
+		requestAnimationFrame(mainLoop);
+		draw();
+	}
+
+	window.onload = function(){
+		init();
+	}
+
+</script>
+</head>
+<style>
+*{margin: 0;padding: 0}
+.fullsize{border : 0px solid #000; box-sizing : border-box}
+</style>
+<body>
+<p id="cen">o</p>
+<p id="obj">o</p>
+
+</body>
+</html>

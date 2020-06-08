@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<style>
+
+*{
+    padding: 0;
+    margin: 0;
+}
+.set{
+    width: 500px;
+    height: 500px;
+    border: 1px solid #000;
+}
+.set span{
+    width: 300px; height: 300px;
+    border-radius: 100%;
+    display: inline-block;
+    position: absolute;
+    top: 0; left: 0;
+}
+
+.set .circle-1{
+    background-color: #d3d;
+    width: 50px; height: 50px;
+
+}
+.set .circle-2{
+    background-color: #3d3;
+}
+</style>
+</head>
+<body>
+
+<div class="set">
+   <span class="circle-1"></span>
+   <span class="circle-2"></span>
+</div>
+
+<script>
+
+
+Math.radians = (degrees) => degrees * Math.PI / 180;
+
+
+const render = () => {
+    console.log(1);
+    requestAnimationFrame(render);
+}
+
+const DOMLOAD = () => {
+    render();
+}
+
+document.addEventListener('DOMContentLoaded' , () => {
+    DOMLOAD();
+})
+
+</script>
+</body>
+</html>
