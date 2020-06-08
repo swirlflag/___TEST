@@ -1,0 +1,98 @@
+<html>
+<head>
+<script type="text/javascript" src="../cotton/inc/js/jquery-1.11.2.min.js"></script>
+<script language="javascript">
+
+	function winSize(){
+	    var size = {
+    		width : window.innerWidth || document.body.clientWidth,
+    		height : window.innerHeight || document.body.clientHeight
+		}
+		return size;		
+	}
+
+	var cx , cy, cz;
+
+	var canvasMouseX = 0;
+	var canvasMouseY = 0;
+	
+    window.addEventListener("resize", function(event) {
+	    cx = winSize().width / 2;
+	    cy = winSize().height / 2;
+	});
+
+	Math.radians = function(degrees) {
+    	return degrees * Math.PI / 180;
+	};
+
+
+	function init(){
+	    cx = winSize().width / 2;
+	    cy = winSize().height / 2;
+
+		var cen = $('#cen')	
+		cen.css('position', 'absolute')
+		cen.css('top', cy)
+		cen.css('left', cx - 50)
+		cen.css('font-size', '300px')
+		cen.css('line-height', '0px')
+				
+		var obj = $('#obj')		
+		obj.css('position', 'absolute')
+		obj.css('top', cy)
+		obj.css('left', cx)
+		obj.css('font-size', '50px')
+		obj.css('line-height', '0px')
+		
+		mainLoop();
+	}
+
+	var a = 0;
+	var v = 30;
+	var xr = 300;
+	var yr = 100;
+	var spd = 2;
+		
+	function draw(){
+		var obj = $('#obj')
+		var ar = Math.radians(a);
+		var vr = Math.radians(v);
+		var tx = Math.cos(ar) * xr;
+		var ty = Math.sin(ar) * yr;
+		
+		var txx = cx + tx * Math.cos(vr) + ty * Math.sin(vr)
+		var tyy = cy - tx * Math.sin(vr) + ty * Math.cos(vr)
+		
+		obj.css('top', tyy)
+		obj.css('left', txx)
+	
+		var ts = 70 + Math.sin(Math.radians(a))*30
+		obj.css('font-size', ts)
+		
+		a += spd;
+		v += 0;
+	}
+	
+
+	// Loop	
+	var mainLoop = function (){
+		requestAnimationFrame(mainLoop);
+		draw();
+	}
+
+	window.onload = function(){
+		init();
+	}
+	
+</script>
+</head>
+<style>
+*{margin: 0;padding: 0}
+.fullsize{border : 0px solid #000; box-sizing : border-box}
+</style>
+<body>
+<p id="cen">o</p>
+<p id="obj">o</p>
+
+</body>
+</html>

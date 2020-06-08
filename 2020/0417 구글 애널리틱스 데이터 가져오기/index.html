@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name = "google-signin-client_id" content="plusx">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name = "google-signin-scope" content = "https://www.googleapis.com/auth/analytics.readonly" >
+<title>Document</title>
+</head>
+<body>
+
+<p class="g-signin2" data-onsuccess="queryReports"></p>
+<textarea cols="80" rows="20" id="query-output"></textarea>
+
+<script src = "https://apis.google.com/js/client:platform.js" ></script>
+
+<script>
+
+var VIEW_ID = 'swirlflag@plus-ex.com';
+
+function queryReports() {
+    gapi.client.request({
+        path: '/v4/reports:batchGet',
+        root: 'https://analyticsreporting.googleapis.com/',
+        method: 'POST',
+        body: {
+            reportRequests: [
+                {
+                    viewId: VIEW_ID,
+                    dateRanges: [
+                        {
+                            startDate: '7daysAgo',
+                            endDate: 'today'
+                        }
+                    ],
+                    metrics: [
+                        {
+                            expression: 'ga:sessions'
+                        }
+                    ]
+                }
+            ]
+        }
+    }).then(displayResults, console.error.bind(console));
+}
+
+function displayResults(response) {
+    var formattedJson = JSON.stringify(response.result, null, 2);
+    document.getElementById('query-output').value = formattedJson;
+}
+
+</script>
+
+</body>
+</html>

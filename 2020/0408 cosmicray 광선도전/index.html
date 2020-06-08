@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+
+<style>
+#canvas {
+    width: 1000px; height: 1000px;
+    border: 1px solid #ddd;
+}
+</style>
+</head>
+<body>
+
+
+<canvas id="canvas">
+
+</canvas>
+
+<script>
+
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+const mx = 1000;
+const my = 1000;
+const mr = mx * 1.7;
+
+const cx = mx/2;
+const cy = my/2;
+
+canvas.width = mx;
+canvas.height = my;
+
+let time = 0;
+
+
+
+const beam = () => {
+
+    const positionX = Math.random() * mx;
+    const positionY = Math.random() * my;
+    const tick =    30+  Math.random() * 100;
+
+    // console.log(position);
+
+    ctx.fillStyle = `rgba(${Math.floor(Math.random()*256)}, ${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(positionX,0);
+    ctx.lineTo(positionX+tick,0);
+    ctx.fill();
+    ctx.closePath();
+}
+
+const draw = (timestamp) => {
+    if(++time%3 === 0){
+        const length = 3 + Math.round(Math.random() * 10);
+
+    console.log('draw');
+
+    ctx.beginPath();
+    ctx.fillStyle = `#000`;
+    ctx.rect(0, 0, mx, my);
+    ctx.fill();
+
+    // for(let i = 0; i < length; ++i){
+        beam();
+    // }
+    }
+
+
+    requestAnimationFrame(draw);
+
+    // ctx.fillStyle   = 'green';
+    // ctx.beginPath();
+
+    // ctx.moveTo(cx,cy);
+    // ctx.lineTo(cx,0);
+    // ctx.lineTo(mx,cy);
+    // ctx.fill();
+    // ctx.closePath();
+
+    // ctx.fillStyle   = 'blue';
+    // ctx.beginPath();
+    // ctx.moveTo(cx,cy);
+    // ctx.lineTo(cx,0);
+    // ctx.lineTo(0,cy);
+    // ctx.fill();
+    // ctx.closePath();
+
+}
+
+
+window.addEventListener('DOMContentLoaded', () => {
+    requestAnimationFrame(draw);
+})
+
+
+</script>
+</body>
+</html>

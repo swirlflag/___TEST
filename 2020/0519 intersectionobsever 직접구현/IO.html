@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<style>
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#wrap {
+    width: 90vw;
+    margin-left: 5vw;
+    margin-top: 5vw;
+    border: 1px solid #eee;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#wrap div {
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+    font-weight: bold;
+    color: #fff;
+    vertical-align: top;
+    opacity: 0.3;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    transform: translateX(-50px);
+}
+.hey{
+    width: 130px; height: 100px;
+    background-color: rgb(51, 119, 221);
+    margin-right: 40vw;
+    margin-top: 1vw;
+}
+
+.ho{
+    width: 100px; height: 120px;
+    background: rgb(25, 197, 160);
+    margin-right: 30vw;
+    margin-top: 5vw;
+}
+.hi{
+    width: 90px; height: 170px;
+    background-color: rgb(240, 116, 107);
+    margin-right: 25vw;
+    margin-top: 4vw;
+
+}
+.hello {
+    width: 200px; height: 90px;
+    background-color: rgb(240, 173, 29);
+    margin-right: 41vw;
+    margin-top: 2vw;
+}
+
+.visible {
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+}
+</style>
+</head>
+<body>
+
+
+<div id="wrap">
+</div>
+
+
+<script>
+
+const randomOne = (...arr) => !arr.length ? Math.random() > 0.5 : arr[Math.floor(Math.random() * arr.length)];
+const iterElements = (elList,callBack) => {
+    for(let i = 0, leng = elList.length; i < leng; ++i){
+        callBack(elList[i],i);
+    };
+};
+
+const IO = class{
+    constructor() {
+        this.observeList = new Set();
+        window.addEventListener('scroll' , (e) => {
+            this.detected(e)
+        });
+        this.detected();
+    }
+
+    detected(e) {
+        const wy = window.scrollY;
+        const wh = window.innerHeight;
+
+        for(let value of this.observeList){
+            const { element , visible, unvisible } = value;
+            if(element.offsetTop < wy + wh && element.offsetTop + element.offsetHeight > wy){
+                visible(element);
+            }else {
+                unvisible(element);
+            }
+        }
+    }
+
+    observe(element, visible, unvisible) {
+        const length = element.length || 1;
+        for(let i = 0; i < length; ++i){
+            const target = element[i] || element;
+            const item = {
+                element : target,
+                visible,
+                unvisible,
+            };
+            if(this.observeList.has(item)){
+                return
+            }else {
+                this.observeList.add(item)
+            }
+        }
+    }
+}
+
+const wrap = document.getElementById('wrap');
+const randomWords = ['hey' , 'ho' , 'hi' , 'hello'];
+
+var myIO = new IO();
+
+const randomSay = () => {
+    const say = randomOne(...randomWords);
+    const el_say = document.createElement('div')
+    el_say.innerText = say;
+    el_say.classList.add(say);
+    return el_say;
+}
+
+const repeatSay = (repeat = 5) => {
+    for(let i = 0; i < repeat; ++i){
+        const el_say = randomSay();
+        wrap.appendChild(el_say);
+        myIO.observe(el_say , (target) => {
+            target.classList.add('visible');
+        }, (target) => {
+            target.classList.remove('visible');
+        });
+    };
+};
+
+repeatSay(100);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+
+<style>
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#app {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.rect {
+    display: inline-block;
+    position: absolute;
+    top: 0; left: 0;
+    width: 100px; height: 100px;
+    background-color: rgba(54, 101, 255, 0.164);
+    border: 5px solid dodgerblue;
+    box-sizing: border-box;
+}
+</style>
+
+</head>
+<body>
+
+<div id="app">
+</div>
+
+<script>
+
+const app = document.querySelector('#app');
+
+const addRect = (options) => {
+
+    const rect = document.createElement('span');
+
+    rect.classList.add('rect');
+
+    if(options){
+        for(const [k,v] of Object.entries(options)){
+            rect.style[k] = v;
+        }
+    }
+    app.appendChild(rect);
+
+}
+
+addRect();
+
+</script>
+
+</body>
+</html>

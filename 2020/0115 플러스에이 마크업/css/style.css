@@ -1,0 +1,346 @@
+@charset "utf-8";/************************************************************************
+ * 파일명 :index.css
+ * 설명 :레이아웃_공통
+ * 작성자 :plus-X JMR
+ * 작성일 :2018.12.26
+ * 최종수정일 :2018.12.26
+************************************************************************/
+
+/* reset ******************************************************/
+*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
+html{-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-tap-highlight-color:transparent;outline:none}
+header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{display:block}
+body,p,h1,h2,h3,h4,h5,h6,em,ul,ol,li,dl,dt,dd,div,table,th,td,form,fieldset,legend,input,textarea,button,select,label,iframe,pre,code,blockquote,video,audio,object,img,canvas,address,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section,object{margin:0;padding:0}
+body{-webkit-text-size-adjust:none;font-family:'Roboto',Roboto,'Noto Sans KR',Noto Sans KR,'sans-serif',sans-serif;font-weight:400}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:inherit}
+hr,legend{display:none}
+ul,ol,dl,dt,dd{list-style:none}
+table{width:100%;margin:0;padding:0;border:none;border-collapse:collapse;border-spacing:0}
+tr,th,td{border:none;-webkit-box-orient:vertical}
+caption{visibility:hidden;overflow:hidden;width:0;height:0;font-size:0;line-height:0}
+input[type=text],input[type=password],input[type=button],input[type=number],input[type=tel],input[type=email],input[type=search],input[type=hidden],textarea,select{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-ms-border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;-moz-appearance:none;-o-appearance:none;-ms-appearance:none;-webkit-appearance:none;border:none;background-color:transparent;outline:none}
+input[type=checkbox],input[type=radio]{-moz-appearance:none;-o-appearance:none;-ms-appearance:none;-webkit-appearance:none;background-color:transparent;-ms-border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;outline:none;border:none}
+input,textarea,select,button{font-family:inherit;font-size:inherit;font-weight:inherit;vertical-align:middle}
+button{overflow:visible;border:none;background-color:transparent;cursor:pointer;-webkit-appearance:none;text-decoration:none;outline:none}
+button::-moz-focus-inner{padding:0;border:none}
+button,a,a:hover,a:active,a:focus{text-decoration:none;outline:none}
+em{font-style:normal}
+img{vertical-align:top}
+.blind{visibility:hidden;overflow:hidden;position:absolute;top:0;left:0;width:1px;height:1px;font-size:0;line-height:0}
+.fl{float:left}
+.fr{float:right}
+.mximg{width:100%;max-width:100%;height:auto}
+
+
+#wrap{position:relative;overflow:hidden}
+#header{position:relative;overflow:hidden;z-index:20}
+#common {overflow:hidden}
+#container{position:relative;overflow:hidden}
+#footer{position:relative;overflow:hidden}
+/* panel */
+#panel{overflow:hidden}
+#header{overflow:hidden;position:fixed;left:0;top:0}
+#header h1{float:left;margin:49px 0 0 50px}
+#header .txt{overflow:hidden;float:left;width:calc(100vw - 188px);margin:59px 0 0 51px;font-size:16px;color:#000;text-transform:uppercase}
+#header h1+.txt{width:calc(100vw - 320px)}
+.menu_button{clear:both;position:fixed;right:56px;top:46px;overflow:hidden;width:40px;height:40px;border:2px solid #000;text-align:center;background:#fff;z-index:20}
+.menu_button:before,.menu_button:after{position:absolute;left:11px;top:50%;content:'';display:block;width:14px;height:2px;background:#000;-ms-transition:all 0.1s 0.2s ease, transform 0.1s ease;-moz-transition:all 0.1s 0.2s ease, transform 0.1s ease;-o-transition:all 0.1s 0.2s ease, transform 0.1s ease;-webkit-transition:all 0.1s 0.2s ease, transform 0.1s ease;transition:all 0.1s 0.2s ease, transform 0.1s ease}
+.menu_button:before{margin-top:-5px}
+.menu_button:after{margin-top:4px}
+.menu_button.on:before{margin-top:-1px;-ms-transform:rotate(45deg);-moz-transform:rotate(45deg);-o-transform:rotate(45deg);-webkit-transform:rotate(45deg);transform:rotate(45deg);-ms-transition:all 0.1s ease-out, transform 0.1s 0.2s ease;-moz-transition:all 0.1s ease-out, transform 0.1s 0.2s ease;-o-transition:all 0.1s ease-out, transform 0.1s 0.2s ease;-webkit-transition:all 0.1s ease-out, transform 0.1s 0.2s ease;transition:all 0.1s ease-out, transform 0.1s 0.2s ease}
+.menu_button.on:after{margin-top:-1px;-ms-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-o-transform:rotate(-45deg);-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-ms-transition:all 0.1s ease-out, transform 0.1s 0.2s ease;-moz-transition:all 0.1s ease-out, transform 0.1s 0.2s ease;-o-transition:all 0.1s ease-out, transform 0.1s 0.2s ease;-webkit-transition:all 0.1s ease-out, transform 0.1s 0.2s ease;transition:all 0.1s ease-out, transform 0.1s 0.2s ease}
+
+.main {overflow:hidden;width:100vw;height:100vh}
+.main .control{overflow:hidden;position:fixed;right:50px;bottom:46px;padding-top:2px}
+.main .control .txt{overflow:hidden;float:left;margin:-4px 12px 0 0;vertical-align:top}
+.main .control .txt span{overflow:hidden;display:block;font-size:12px;font-weight:700}
+.main .control .txt span:first-child:after{content:'';display:block;width:1px;height:30px;margin:13px 0 12px 6px;background:#000}
+.main .control button{overflow:hidden;display:block;width:40px;height:40px;margin-top:-2px;vertical-align:top;background:#fff}
+.main #footer{position:fixed;left:50px;bottom:50px;z-index:10}
+.main #footer ul{overflow:hidden;margin-bottom:8px}
+.main #footer ul li{position:relative;overflow:hidden;float:left;padding-right:21px;font-size:14px;font-weight:700}
+.main #footer ul li:after{content:'';position:absolute;right:9px;top:4px;display:block;width:1px;height:11px;background:rgba(0,0,0,.2)}
+.main #footer ul li:last-child{padding:0}
+.main #footer ul li:last-child:after{display:none}
+.main #footer .copy{overflow:hidden;font-size:12px;font-weight:700}
+
+.sub #footer{position:absolute;left:0;bottom:0;right:0;height:590px;padding:200px 200px 0;border-top:1px solid #BDBDBD}
+.sub #footer ul{overflow:hidden;margin-bottom:19px}
+.sub #footer ul li{position:relative;overflow:hidden;float:left;padding-right:30px;font-size:20px;font-weight:700}
+.sub #footer ul li:after{content:'';position:absolute;right:14px;top:6px;display:block;width:1px;height:12px;background:rgba(0,0,0,.2)}
+.sub #footer ul li:last-child{padding:0}
+.sub #footer ul li:last-child:after{display:none}
+.sub #footer .copy{overflow:hidden;font-size:16px;font-weight:700}
+.sub #footer address{overflow:hidden; margin-top:65px; font-size:14px; color:#000; line-height:24px; font-style:normal}
+.sub #footer .conta{position:absolute;right:200px;top:198px}
+.sub #footer .conta dt{overflow:hidden;font-size:14px; color:#000}
+.sub #footer .conta dd{overflow:hidden;padding:9px 0 23px}
+.sub #footer .conta dd a{font-size:20px; font-weight:700; color:#000;}
+				
+.main #container .contents{overflow:hidden;width:100vw;height:100vh}
+.main #container .contents .txt{position:fixed;left:50px;top:160px}
+.main #container .contents .txt strong{display:block;font-weight:700;font-size:24px;color:#000}
+.main #container .contents .txt strong span{position:relative;float:left;clear:both}
+.main #container .contents .txt em{position:absolute;right:-20px;top:19px;overflow:hidden;padding:4px 8px;font-weight:700;font-size:14px;color:#fff;background:#FF0000;background:rgba(219, 16, 16, 0.9);border:1px solid #FF0000;box-shadow:-4px 4px 8px rgba(0, 0, 0, 0.25);border-radius:300px}
+.main #container .contents .txt.type2 span:last-child:after{content:'';position:absolute;right:-10px;top:-13px;display: block; width: 42px; height: 42px; background: url(../img/common/btn_red_more.png) 0 0 no-repeat; background-size:42px 42px}
+.sub #container .contents{padding-bottom:590px}
+
+.contents h2{overflow:hidden;width:100vw;margin-top:60px;text-align:center;font-size:18px;font-weight:700;color:#000}
+.contents h2 ul{overflow:hidden;margin:0 auto}
+.contents h2 ul li{position: relative; overflow:hidden; display: inline-block; padding:0 23px 0 0; font-size: 0; line-height: 0; vertical-align: top}
+.contents h2 ul li:after {content:'';position:absolute;right:9px; top:4px; display:block; width: 1px; height:16px; background: rgba(0,0,0,.2)}
+.contents h2 ul li:last-child:after {display:none}
+.contents h2 ul li a{position: relative; overflow:hidden; display:block; padding:0 2px 2px 1px; font-size:20px; color:#000; line-height: normal}
+.contents h2 ul li a.on {color: rgba(0,0,0,.2)}
+.contents h2 ul li a.on:after {content:'';position:absolute;left:0;bottom:0;width:100%;height:2px;background: rgba(0,0,0,.2)}
+.menu_box{position:fixed;left:50%;top:50%;transform:translate(-50%, -50%);-webkit-transform:translate(-50%, -50%);-moz-transform:translate(-50%, -50%);-ms-transform:translate(-50%, -50%);-o-transform:translate(-50%, -50%)}
+.menu_box .menu1{float:left;margin-right:40px}
+.menu_box .menu1 li{clear:both;position:relative;float:left;padding-right:55px}
+.menu_box .menu1 li a{overflow:hidden;font-size:100px;font-weight:700;color:#000}
+.menu_box .menu1 li em{position:absolute;right:0;top:-29px;overflow:hidden;display:block;height:100px;padding:0 33px;font-size:60px;font-weight:700;color:#fff;line-height:100px;background:rgba(219, 16, 16, 0.9);border:1px solid #FF0000;box-shadow:-4px 4px 8px rgba(0, 0, 0, 0.3);border-radius:100px}
+.menu_box .menu2{overflow:hidden;width:300px;margin-top:30px}
+.menu_box .menu2 li{overflow:hidden;padding-bottom:12px;font-size:20px; font-weight:700; color:#bdbdbd}
+.menu_box .menu2 li a{overflow:hidden; font-size:36px; font-weight:700; color:#000}
+.menu_box .menu2 li:first-child{margin-bottom:50px;padding-bottom:29px;border-bottom:1px solid #000}
+.menu_box .menu2 li:nth-child(2){margin-bottom:20px}
+.port_tab {position:fixed;left:0;top:50%;overflow:hidden;transform:translateY(-50%);-webkit-transform:translateY(-50%);-moz-transform:translateY(-50%);-ms-transform:translateY(-50%);-o-transform:translateY(-50%); z-index: 20}
+.port_tab li {overflow:hidden; margin-top:-50px}
+.port_tab li a {overflow: hidden; font-size:200px; font-weight:700; color:rgba(255,255,255,0); -webkit-text-stroke: 1px black}
+.port_tab li:first-child a {margin-top:0;color:#000}
+.port_list {position:fixed;left:260px;top:50%; width:100%; font-size:0; line-height:0; white-space:nowrap;transform:translateY(-50%);-webkit-transform:translateY(-50%);-moz-transform:translateY(-50%);-ms-transform:translateY(-50%);-o-transform:translateY(-50%)}
+.port_list li {display: inline-block; margin-right:60px}
+.port_list li a { position: relative;  display: block}
+.port_list li span {position: absolute; left:0; bottom:0; z-index:10; font-size:36px; line-height:normal; color: #bdbdbd; text-decoration: underline; opacity:0}
+.port_list li a img{transition:all .5s ease-in-out; -webkit-transition:all .5s ease-in-out; -moz-transition:all .5s ease-in-out; -o-transition:all .5s ease-in-out; -ms-transition:all .5s ease-in-out}
+.port_list li a:hover img {transform: scale( 0.9, 0.9 ); transform-origin:50% 50%; }
+.port_list li a:hover span {opacity:1; transition:all .5s ease-in-out; -webkit-transition:all .5s ease-in-out; -moz-transition:all .5s ease-in-out; -o-transition:all .5s ease-in-out; -ms-transition:all .5s ease-in-out}
+.blogo {overflow:hidden; width:1008px; margin:214px auto 0}
+.office_mov {position:relative;overflow:hidden; min-width:1920px; margin-top:-218px; text-align: center}
+.office_mov .obj {position: relative; left:-50%;transform:translateX(50%);-webkit-transform:translateX(50%);-moz-transform:translateX(50%);-ms-transform:translateX(50%);-o-transform:translateX(50%)}
+*{--responsive:calc((var(--min-font) * 1px) + (var(--max-font) - var(--min-font)) * ((100vw - 359px) / (1920 - 359)));/* Ranges from 421px to 1199px */}
+.about_txt1 {position:relative;overflow:hidden;margin:-80px 0 0 10vw;font-size:var(--responsive);--max-font:130;--min-font:80; font-weight:200;z-index:20; white-space:nowrap}
+.about_txt2 {overflow:hidden; margin-top:400px; white-space:nowrap;font-size:0; line-height:0}
+.about_txt2 li {overflow:hidden; display:inline-block; margin-right:290px}
+.about_txt2 li strong {overflow:hidden; display: block; margin-bottom:41px; font-weight:700; font-size:24px; line-height:normal}
+.about_txt2 li span {overflow: hidden; display: block; font-size:42px; line-height:normal}
+.about_txt3 {position:relative;overflow:hidden;padding:20px 0 155px; margin:380px 0 0 10vw}
+.about_txt3 p{font-size:var(--responsive);--max-font:160;--min-font:90;font-weight:700}
+.about_txt3 p span{position:relative; display:inline-block; vertical-align: top}
+.about_txt3 p span em{position: absolute; right:-42px; top:-8px; overflow: hidden; display:block; width: auto; min-width:100px; height:100px; padding:0 32px; line-height:100px; background: rgba(219, 16, 16, 0.9);border: 1px solid rgba(219, 16, 16, 0.9);box-shadow: -4px 4px 8px rgba(0, 0, 0, 0.3);border-radius: 100px; z-index: 10; font-size:60px; font-weight:700; color: #fff; text-align: center}
+.about_txt3 strong{position:absolute; left:29vw; bottom:0; overflow: hidden; font-size:20px; line-height:34px; font-weight:700; z-index:20}
+
+/* 200115 추가 시작 */
+.award_txt{overflow:hidden;width:1070px;margin:280px auto 0}
+.award_txt .tit{overflow:hidden;float:left;width:516px;margin-top:-20px;color:#000;font-family:'Roboto';font-size:50px;font-weight:400;line-height:82px}
+.award_txt .desc{overflow:hidden}
+.award_txt .desc p{overflow:hidden;color:#000;font-family:'Noto Sans KR';font-size:32px;font-weight:200;line-height:50px}
+.award_txt .desc p + p{margin-top:62px}
+/* 200115 추가 끝 */
+
+.award{overflow:hidden;}
+.award .logo{overflow:hidden; width: 1000px; margin:410px auto;}
+.award .logo li{overflow:hidden; float:left; width:250px; height: 114px; margin-bottom:96px; display:-webkit-flex; display:flex;-webkit-align-items: center;align-items: center;-webkit-justify-content: center;justify-content: center; text-align: center}
+.award .logo li.other{overflow:hidden; clear:both}
+.award .alist {overflow:hidden; width:52vw; margin:0 auto 0}
+.award .alist dt {position:relative;overflow:hidden;margin:30px 0 100px; font-size:18px;font-weight:700; text-align: center}
+.award .alist dt:after{content:'';position:absolute;left:50%;top:10px;width:100px;height:2px;margin-left:-50px;background:#DB1010}
+.award .alist dd {overflow:hidden; font-size:var(--responsive);--max-font:35;--min-font:20;}
+.award .alist dd strong {overflow:hidden;display:block; margin-bottom:10px; font-weight:700}
+.award .alist dd span {overflow:hidden;display:block; margin-bottom:70px; line-height:var(--responsive);--max-font:80;--min-font:50; font-weight:400}
+.award .more_view {position: relative; z-index: 10; overflow:hidden;display:block;width:100%;height:681px;margin:-750px auto 0;background: rgba(255, 255, 255, 0.71);background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.71) 0%, rgba(255,255,255,1) 52.8%, rgba(255,255,255,1) 100%);background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.71)), color-stop(52.8%, rgba(255,255,255,1)), color-stop(100%, rgba(255,255,255,1)));background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.71) 0%, rgba(255,255,255,1) 52.8%, rgba(255,255,255,1) 100%);background: -o-linear-gradient(top, rgba(255, 255, 255, 0.71) 0%, rgba(255,255,255,1) 52.8%, rgba(255,255,255,1) 100%);background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.71) 0%, rgba(255,255,255,1) 52.8%, rgba(255,255,255,1) 100%);background: linear-gradient(to bottom, rgba(255, 255, 255, 0.71) 0%, rgba(255,255,255,1) 52.8%, rgba(255,255,255,1) 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff', GradientType=0 );}
+.award .more_view span {overflow: hidden; display: block; margin:500px 0 38px; text-align: center; font-size:36px; color: #000}
+.award .more_view em  {overflow: hidden; display: block; width:34px; margin: 0 auto}
+
+.client {overflow: hidden; background: #000}
+.client .client_txt1 {position:relative;overflow:hidden;padding:20px 0 80px; margin:380px 0 0 10vw}
+.client .client_txt1 p{font-size:var(--responsive);--max-font:160;--min-font:90;font-weight:700; color: #fff}
+.client .client_txt1 p span{position:relative; display:inline-block; vertical-align: top}
+.client .client_txt1 p span em{position: absolute; right:-42px; top:-8px; overflow: hidden; display:block; width: auto; min-width:100px; height:100px; padding:0 32px; line-height:100px; background: rgba(219, 16, 16, 0.9);border: 1px solid rgba(219, 16, 16, 0.9);box-shadow: -4px 4px 8px rgba(0, 0, 0, 0.3);border-radius: 100px; z-index: 10; font-size:60px; font-weight:700; color: #fff; text-align: center}
+.client .client_txt1 strong{position:absolute; bottom:0; overflow: hidden; font-size:24px; line-height:40px; font-weight:700; z-index:20; color: #fff}
+.client .client_txt1 strong:nth-child(5){left:24vw}
+.client .client_txt1 strong:nth-child(6){left:38.5vw}
+.client .client_lst{overflow:hidden;}
+.client .client_lst{overflow:hidden; width: 1000px; margin:410px auto;}
+.client .client_lst li{overflow:hidden; float:left; width:250px; height: 114px; margin-bottom:96px; display:-webkit-flex; display:flex;-webkit-align-items: center;align-items: center;-webkit-justify-content: center;justify-content: center; text-align: center}
+.client .client_lst li img {-webkit-filter: grayscale(100%);filter: grayscale(100%)}
+
+/* 200115 추가 시작 */
+.business_txt{overflow:hidden;width:1070px;margin:400px auto 0}
+.business_txt .tit{overflow:hidden;float:left;width:516px;margin-top:-18px;color:#000;font-family:'Roboto';font-size:50px;font-weight:400;line-height:80px}
+.business_txt .desc{overflow:hidden}
+.business_txt .desc p{overflow:hidden;color:#000;font-family:'Noto Sans KR';font-size:32px;font-weight:200;line-height:50px}
+.business_txt .desc p + p{margin-top:62px}
+/* 200115 추가 끝 */
+
+.go_expr {overflow: hidden; padding:370px 0; text-align: center}
+.go_expr a {overflow: hidden; display: inline-block; margin: 0 auto}
+.go_expr a strong {position:relative; overflow: hidden; display: block; padding:46px 0 0 0; font-size:100px; font-weight:700; color: #000}
+.go_expr a strong em {position: absolute; left:90px; top: 0; display:block; width: auto; min-width:100px; height:100px; padding:0 32px; line-height:100px; background: rgba(219, 16, 16, 0.9);border: 1px solid rgba(219, 16, 16, 0.9);box-shadow: -4px 4px 8px rgba(0, 0, 0, 0.3);border-radius: 100px; z-index: 10; font-size:60px; font-weight:700; color: #fff; text-align: center}
+.go_expr a span {position:relative; overflow: hidden; display: block; padding:13px 0 0 0; margin:0 0 0 -70px;font-size:20px; font-weight: 700; color: #000}
+.go_expr a span:after {content:'';position:absolute; right:122px; top:6px; width:46px; height: 34px; background: url(../img/about/ico_arrowr1.png) 0 0 no-repeat}
+/* office ~ article */
+.office{overflow:hidden;position:relative;margin:30px 0 400px}
+.office p{overflow:hidden;width:100%;font-size:100px;font-weight:700;letter-spacing:-3px}
+.office p:nth-of-type(1){position:absolute;top:0;left:240px}
+.office p:nth-of-type(2){position:absolute;top:102px;left:240px}
+.office .slide{overflow:hidden;margin:167px 0 165px}
+.office span{position:absolute;bottom:0;left:240px;font-size:20px;line-height:30px;writing-mode: vertical-rl}
+.arti{overflow:hidden;margin:0 320px 0 0}
+.arti dl{overflow:hidden;position:relative;margin:0 0 190px 240px}
+.arti dl dt{display:block;overflow:hidden;font-size:180px;font-weight:700}
+.arti dl dd{overflow:hidden;margin:68px 0 0;color:#333;font-size:42px;line-height:58px;letter-spacing:2px}
+.arti dl dd.link{position:absolute;bottom:9px;right:0}
+.arti dl dd.link a{display:block;overflow:hidden;position:relative;padding:0 77px 0 0;color:#828282;font-size:20px;line-height:50px;letter-spacing:0}
+.arti dl dd.link a::after{content:'';position:absolute;top:8px;right:0;width:46px;height:34px;background:url(../img/about/ico_arrowr2.png) 0 0 no-repeat;background-size:46px 34px}
+.arti .arti_cont{overflow:hidden}
+.arti .arti_cont ul{overflow:hidden}
+.arti .arti_cont ul li{overflow:hidden;padding:100px 0 100px 240px;border-top:1px solid #E0E0E0}
+.arti .arti_cont ul li a{display:block;overflow:hidden;position:relative}
+.arti .arti_cont ul li strong{display:block;overflow:hidden;width:350px;min-height:100px;color:#333;font-size:32px;line-height:50px;font-weight:700;letter-spacing:2px}
+.arti .arti_cont ul li p{overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;width:700px;margin:43px 0 0;color:#000;font-size:20px;line-height:40px;text-overflow:ellipsis}
+.arti .arti_cont ul li em{position:absolute;top:0;right:0}
+.go_cont{overflow:hidden;margin:400px 0 400px;text-align:center}
+.go_cont a{display:inline-block;overflow:hidden}
+.go_cont a strong{display:block;overflow:hidden;position:relative;padding:30px 0 8px;color:#000;font-size:100px;font-weight:700}
+.go_cont a strong em{overflow:hidden;position:absolute;top:0;left:50%;transform:translateX(-50%);width:150px;height:100px;padding:0 45px;border:1px solid rgba(219, 16, 16, 0.9);background:rgba(219, 16, 16, 0.9);box-shadow:-4px 4px 8px rgba(0, 0, 0, .3);border-radius:300px}
+.go_cont a strong em img{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.go_cont a span{display:block;overflow:hidden;position:relative;margin:0 0 0 20px;color:#000;font-size:20px;font-weight:700;line-height:34px;text-align:left}
+.go_cont a span::after{content:'';position:absolute;top:0;right:18px;width:46px;height:34px;background:url(../img/about/ico_arrowr2.png) 0 0 no-repeat;background-size:46px 34px}
+
+@media screen and (max-width:1024px) /* Mobile */{
+	.award .logo{width: 750px}
+	.client .client_lst{width: 750px}	
+}
+
+
+/* contact */
+.contact_tit{margin-bottom:380px}
+.contact_tit h3{margin:340px 0 0 -70px;font-size:300px;line-height:307px;font-weight:700}
+.contact_tit h3 span{color:red}
+.contact_info{overflow:hidden;width:950px;margin:0 auto}
+.contact_info ul li{overflow:hidden;display:inline-block;margin-left:145px;font-size:30px;line-height:44px}
+.contact_info ul li:first-child{margin-left:0}
+.contact_info ul li a{display:block;margin-top:48px;color:#000}
+.contact_info dl{overflow:hidden;margin:100px 0 0}
+.contact_info dl dt{margin:24px 0 2px;color:#000;font-size:14px;line-height:24px}
+.contact_info dl dt:first-child{margin:0 0 2px}
+.contact_info dl dd a{color:#000;font-size:20px;font-weight:700;line-height:24px}
+.contact_input{margin:0 0 305px}
+.contact_input .input_wrap{width:1000px;margin:415px auto 0;border:1px solid #d0d0d0;border-radius:10px;background:#333437;color:#fff;box-shadow:0 50px 50px rgba(0,0,0,.3),inset 0 3px 0 rgba(255,255,255,.2)}
+.contact_input .input_wrap form fieldset{border:0}
+.contact_input .input_wrap form fieldset .input_tit{position:relative;padding:31px 50px 27px;border-bottom:1px solid #4f4f4f}
+.contact_input .input_wrap form fieldset .input_tit:before{content:'';display:inline-block;position:absolute;top:33px;left:50px;width:24px;height:24px;background:#fa5c57;border-radius:100%}
+.contact_input .input_wrap form fieldset .input_tit h4{font-size:24px;text-align:center}
+.contact_input .input_wrap form fieldset ul{overflow:hidden;padding:0 50px}
+.contact_input .input_wrap form fieldset ul li{padding:16px 0 11px;border-top:1px solid #4f4f4f;font-size:24px;color:#828282}
+.contact_input .input_wrap form fieldset ul li:first-child{border-top:0}
+.contact_input .input_wrap form fieldset ul li label:after{content:':';display:inline-block;margin:0 7px}
+.contact_input .input_wrap form fieldset ul li input{width:88%;color:#828282;vertical-align:top;}
+.contact_input .input_wrap form fieldset ul li p{color:#828282}
+.contact_input .input_wrap form fieldset textarea{border-top:1px solid #4f4f4f;padding:38px 48px;width:100%;height:340px;font-size:24px;line-height:28px;color:#828282;resize:none}
+.contact_input .input_wrap form fieldset textarea::placeholder{color:#4f4f4f}
+.contact_input .input_wrap form fieldset .btn_wrap{padding:20px 50px;border-top:1px solid #4f4f4f}
+.contact_input .input_wrap form fieldset .btn_wrap button{padding:17px 55px;background:#3e83d7;border-radius:10px;color:#fff;font-size:24px;line-height:16px}
+.contact_input .input_wrap form fieldset .btn_wrap label{overflow:hidden;float:right;width:50px;height:50px;background:url(../img/contact/ico_ellipse.png) center right no-repeat;background-size:24px 26px;text-indent:-9999px;cursor:pointer}
+.contact_input .input_wrap form fieldset .btn_wrap input{overflow:hidden;position:absolute;width:1px;height:1px;padding:0;margin:-1px;clip:rect(0,0,0,0);border:0}
+.contact_select{overflow:hidden;width:1100px;margin:0 auto;text-align:center}
+.contact_select h4{padding:0 0 41px;border-bottom:1px solid #bdbdbd;font-size:20px;line-height:16px}
+.contact_select fieldset{margin:20px 0 0;border:0}
+.contact_select fieldset:after{content:'';display:block;clear:both}
+.contact_select fieldset input{display:none}
+.contact_select fieldset label{float:left;width:260px;margin:20px 0 0 20px;cursor:pointer}
+.contact_select fieldset input+label{display:block;padding:21px 0;border:1px solid #e0e0e0;border-radius:200px;text-align:center;color:#828282;font-size:20px;line-height:16px}
+.contact_select fieldset label:nth-child(8n+3){margin-left:0}
+.contact_select fieldset input:checked+label{border:1px solid #3567a4;background:#3e83d7;color:#fff}
+.contact_next{overflow:hidden;margin:400px auto 375px;text-align:center}
+.contact_next a{display:inline-block;position:relative;padding:30px 0;color:#000}
+.contact_next a .tag{position:absolute;top:0;left:84px;padding:12px 40px;border-radius:300px;background:rgba(255,0,0,.9);color:#fff;font-size:60px;font-weight:600}
+.contact_next a span{display:block;font-size:100px;font-weight:600}
+.contact_next a em{position:relative;display:inline-block;margin:12px 0 0 -74px;font-size:20px;font-weight:600;line-height:34px}
+.contact_next a em:after{content:'';display:inline-block;position:absolute;top:0;right:-77px;width:46px;height:34px;background:url(../img/contact/ico_rectangle.png) top left no-repeat;background-size:46px 34px}
+
+/* news */
+.sub .news_title{position:relative;margin:319px 0 0 -70px}
+.sub .news_title h3{font-size:300px;font-weight:700}
+.sub .news_title strong{position:absolute;top:55px;left:654px;height:98px;padding:0 55px;border:1px solid #F00;border-radius:300px;background-color:rgba(219, 16, 16, 0.9);color:#FFF;font-size:60px;font-weight:700;line-height:100px;box-shadow:0 4px 5px rgba(0, 0, 0, 0.25)}
+.sub .news_contents{width:1140px;margin:350px auto 196px}
+.sub .news_contents::after{content:"";display:block;clear:both}
+.sub .news_contents li{float:left;width:300px;margin:0 120px 200px 0}
+.sub .news_contents li:nth-child(3n){margin-right:0}
+.sub .news_contents li a{display:block;width:100%}
+.sub .news_contents li p{width:280px;margin:61px 0 0 20px;color:#333;font-size:24px;line-height:1.66;letter-spacing:1px;text-align:left;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;word-break:keep-all}
+/******news_브라우저 넓이따라 li 간격 넓어지는 형태(li>a>p를 li>a>span으로 수정필요)
+.sub .news_title{position:relative;margin:319px 0 0 -70px}
+.sub .news_title h3{font-size:300px;font-weight:700}
+.sub .news_title strong{position:absolute;top:55px;left:654px;height:98px;padding:0 55px;border:1px solid #F00;border-radius:300px;background-color:rgba(219, 16, 16, 0.9);color:#FFF;font-size:60px;font-weight:700;line-height:100px;box-shadow:0 4px 5px rgba(0, 0, 0, 0.25)}
+.sub .news_contents{overflow:hidden;clear:both;width:100%;margin:350px auto 196px;text-align:center}
+.sub .news_contents li{float:left;width:33.3%}
+.sub .news_contents li a{display:inline-block}
+.sub .news_contents li a span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;width:280px;margin:61px 0 0 20px;color:#333;font-size:24px;line-height:1.6;text-align:left;text-overflow:ellipsis;word-break:keep-all}
+******/
+
+/* recruit */
+.recruit_top_cont{overflow:hidden;position:relative;height:1572px}
+.recruit_top_cont .hr_cont{position:absolute;left:50%;top:0;width:800px;height:1572px;margin-left:-400px}
+.recruit_top_cont .hr_cont .tt{overflow:hidden;margin-top:60px;color:#000;font-family:'Roboto';font-size:18px;font-weight:700;text-align:center}
+.recruit_top_cont .hr_cont .img_wrap{position:absolute;top:0;left:0;z-index:10;width:100%;text-align:center}
+.recruit_top_cont .hr_cont .img_wrap .btn_hr{position:absolute;top:294px;right:-37px;z-index:20;width:300px;height:130px;padding:0 156px 0 61px;border-radius:200px;background:rgba(219,16,16,0.9);color:#fff;font-family:Roboto;font-weight:bold;font-size:32px;line-height:37px;text-align:left}
+.recruit_top_cont .hr_cont .img_wrap .btn_hr:after{content:'';position:absolute;top:50%;right:65px;width:18px;height:12px;margin-top:-3px;background:url(./../img/hiring/ico_bottom.png) 0 0 no-repeat;background-size:18px 12px}
+.recruit_free_tt{width:1000px;margin:300px auto 0}
+.recruit_free_tt p{overflow:hidden;float:left;width:445px;color:#000;font-size:42px}
+.recruit_free_tt dl{overflow:hidden}
+.recruit_free_tt dl dt{overflow:hidden;margin-bottom:50px;color:#000;font-size: 32px;font-weight:700;line-height:50px}
+.recruit_free_tt dl dd{overflow:hidden;margin-top:44px;color:#4F4F4F;font-size:32px;line-height:46px}
+.recruit_img_hr1{overflow:hidden;height:800px;margin-top:391px;background:url(./../img/hiring/img_hiring1.png) center bottom no-repeat;background-size:cover}
+.recruit_txt_hr1{overflow:hidden;width:1000px;margin:200px auto 0}
+.recruit_txt_hr1 ul li{overflow:hidden;padding:200px 0;border-bottom:1px solid #BDBDBD}
+.recruit_txt_hr1 ul li:first-child{padding-bottom:250px}
+.recruit_txt_hr1 ul li:last-child{border-bottom:0}
+.recruit_txt_hr1 ul li p{overflow:hidden;float:left;width:445px;padding:3px 0 0 8px;color:#333;font-size:50px;font-weight:300;line-height:72px}
+.recruit_txt_hr1 ul li dl{overflow:hidden;padding-left:8px}
+.recruit_txt_hr1 ul li dl dt{overflow:hidden;margin-bottom:50px;color:#333;font-size:32px;font-weight:700;line-height:50px}
+.recruit_txt_hr1 ul li dl dd{overflow:hidden;margin-top:30px;color:#4F4F4F;font-size:32px;font-weight:400;line-height:50px}
+.recruit_img_hr2{overflow:hidden;height:1080px;margin-top:200px;background:url(./../img/hiring/img_hiring2.png) center center no-repeat;background-size:cover}
+.recruit_txt_hr2{overflow:hidden;width:1000px;margin:200px auto 0}
+.recruit_txt_hr2 ul li{padding:200px 0;border-bottom:1px solid #BDBDBD}
+.recruit_txt_hr2 ul li:last-child{border-bottom:0}
+.recruit_txt_hr2 ul li em{display:block;overflow:hidden;padding-top:3px;color:#333;font-size:50px;font-weight:300;line-height:72px;text-align:center}
+.recruit_txt_hr2 ul li p{overflow:hidden;margin-top:50px;color:#4F4F4F;font-size:32px;font-weight:400;line-height:50px;text-align:center}
+.recruit{overflow:hidden;width:1000px;margin:0 auto;margin-top:200px}
+.recruit .field{overflow:hidden;float:left;width:300px}
+.recruit .field ul li{margin-bottom:71px;padding:17px 0 0 6px}
+.recruit .field ul li p{color:#000;font-size:28px;font-weight:700;line-height:33px}
+.recruit .field ul li p span{display:inline-block;position:relative}
+.recruit .field ul li p span:after{content:'';position:absolute;right:-29px;top:-18px;width:40px;height:40px;border-radius:100%;background:rgba(219, 16, 16, 0.9);box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);color:#fff;font-family:'Roboto';font-size:20px;font-weight:700;line-height:40px;text-align:center}
+.recruit .field ul li.consult p span:after{content:'1'}
+.recruit .field ul li.plan p span:after{content:'2'}
+.recruit .field ul li.verbal p span:after{content:'2'}
+.recruit .field ul li.design p span:after{content:'4'}
+.recruit .field ul li.develop p span:after{content:'1'}
+.recruit .field ul li a{display:block;color:#4F4F4F;font-size:26px;font-weight:400;line-height:50px}
+.recruit .field ul li p + a{margin-top:30px}
+.recruit .requirement{overflow:hidden;position:relative;padding-bottom:400px}
+.recruit .requirement .noti_cont{overflow:hidden;display:none;margin-bottom:56px}
+.recruit .requirement .noti_cont:target{display:block}
+.recruit .requirement .tit{display:block;overflow:hidden;padding-left:6px;color:#000;font-family:'Roboto';font-size:50px;font-weight:700;line-height:59px}
+.recruit .requirement .cont{overflow:hidden;margin-top:55px;padding-left:8px}
+.recruit .requirement .cont p{overflow:hidden;color:#000;font-size:24px;font-weight:700;line-height:50px}
+.recruit .requirement .cont > li{margin-bottom:50px}
+.recruit .requirement .cont .info_tt li{overflow:hidden;color:#4F4F4F;font-size:24px;font-weight:400;line-height:50px;word-break:keep-all}
+.recruit .requirement .cont .info_tt li p{overflow:hidden;color:#4F4F4F;font-size:24px;font-weight:400;line-height:50px;word-break:keep-all}
+.recruit .requirement .apply_form{overflow:hidden;width:420px;margin-left:8px}
+.recruit .requirement .apply_form ul li{overflow:hidden;margin-bottom:20px}
+.recruit .requirement .apply_form ul li div{float:left;width:200px}
+.recruit .requirement .apply_form ul li div:last-child{margin-left:20px}
+.recruit .requirement .apply_form ul li em{display:block;overflow:hidden;color:#4F4F4F;font-size:16px;font-weight:700;line-height:23px}
+.recruit .requirement .apply_form ul li input{width:100%;height:60px;padding:0 20px;border:1px solid #BDBDBD;border-radius:4px;background:#fff;color:#000;font-size:16px;font-weight:400;line-height:60px}
+.recruit .requirement .apply_form ul li span{display:block;position:relative}
+.recruit .requirement .apply_form ul li em + span{margin-top:9px}
+.recruit .requirement .apply_form ul li textarea{overflow:hidden;width:100%;height:150px;padding:20px;border:1px solid #BDBDBD;border-radius:4px;background:#fff;color:#000;font-size:16px;font-weight:400;line-height:23px}
+.recruit .requirement .apply_form ul li label{position:absolute;left:20px;top:20px;right:20px;z-index:20;color:#828282;font-size:16px;line-height:23px}
+.recruit .requirement .apply_form ul li textarea.on+label{display:none}
+.recruit .requirement .apply_form ul li.filebox div{overflow:hidden;position:relative;margin-top:0}
+.recruit .requirement .apply_form ul li.filebox input[type="file"]{overflow:hidden;width:100%;padding:0;border:0}
+.recruit .requirement .apply_form ul li.filebox label{display: block;overflow: hidden;position:absolute;left:0;top:0;z-index:20;width:100%;height:60px;border:1px solid #333;border-radius:4px;background:#fff;color:#333;font-size:16px;font-weight:400;line-height:60px;text-align:center}
+.recruit .requirement .apply_form ul li button{width:100%;height:60px;border:1px solid #C9C9C9;border-radius:4px;background:#ECECEC;color:#fff;font-size:16px;font-weight:400}
+

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+</head>
+<body>
+
+
+
+<div class="wrap">
+    <div id="id1">
+        <div class="classN">
+            <div id="inner1">inner1</div>
+        </div>
+        <div class="classN">
+            <div id="inner2">inner2</div>
+        </div>
+        <div class="classN">
+            <div id="inner3">inner3</div>
+        </div>
+    </div>
+</div>
+
+
+<button id="btn"></button>
+
+
+<script>
+
+var inner2 = document.querySelector('#inner2');
+var btn = document.querySelector('#btn')
+
+const closeParent = (target, query) => target.parentElement.querySelector(query) ? target : closeParent(target.parentElement , query);
+
+const onceEvent = (el, eventName , action) => {
+    const fn = (e) => {
+        action(e);
+        el.removeEventListener(eventName , fn);
+    }
+    el.addEventListener(eventName , fn);
+}
+
+const removeElement = (element) => {
+    typeof element === 'string' && ( element = document.querySelector(element));
+    element.parentElement.removeChild(element);
+}
+
+
+closeParent(inner2 , '.classN');
+
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+
+<style>
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.polygon {
+    width: 100vw;
+    height: 40vh;
+    border: 1px solid #d3d;
+    background-color: #dda;
+    position: relative;
+    clip-path: polygon(0 50vh, 100% 0,100% 50vh,0 100%);
+}
+.content {
+    /* background-color: #d3d; */
+}
+
+#test {
+    width: 100vw;
+    height: 250px;
+    position: fixed;
+    /* opacity: 0.1; */
+
+    top: 0; left: 0%;
+    /* background-color: #d3d; */
+    border: 1px solid #d3d;
+    transform : rotate(-23.5deg)
+}
+</style>
+</head>
+<body>
+
+<div id="wrap">
+    <div class="polygon">
+        <div class="content">dd</div>
+    </div>
+    <!-- <div class="polygon">
+        <div class="content"></div>
+    </div> -->
+
+    <div id="test">
+        
+    </div>
+
+
+</div>
+<script></script>
+</body>
+</html>

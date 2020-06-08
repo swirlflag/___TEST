@@ -1,0 +1,27 @@
+[
+    {
+        "title"     : "FXNT 프로토타입 2",
+        "text"      : "FXNT 프로토타입 시안. 사선으로 사진이 갈라져서 합치는 슬라이드를 만들었다.",
+        "date"      : "200214",
+        "link"      : "https://plus-ex.com/_test/js/fxnt_2/index.html"
+    }
+
+    ,
+
+    {
+        "title"     : "FXNT 프로토타입 1",
+        "text"      : "FXNT 프로토타입 시안. 마우스에 반응하거나 스크롤에 skew되는 동작을 만들었다.",
+        "date"      : "200214",
+        "link"      : "https://plus-ex.com/_test/js/fxnt_1/index.html"
+    }
+
+    ,
+
+    {
+        "title"     : "구슬 행성",
+        "text"      : "준비된 이미지와 css를 사용하여 마스크 구슬 행성을 만들었습니다.",
+        "date"      : "200226",
+        "link"      : "https://plus-ex.com/_test/js/bangul/maskplanet/index.html"
+    }
+
+]

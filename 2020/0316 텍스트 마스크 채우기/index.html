@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<style>
+* {
+        margin: 0;
+        padding: 0;
+        font-size: 300px;
+        font-weight: 900;
+        line-height: 1em;
+}
+span {
+    display: inline-block !important;
+}
+
+
+
+@keyframes hey {
+    0% {
+        height: 0
+    }
+    100% {
+        height: 100%
+    }
+}
+
+#text {
+    /* border: 1px solid #000; */
+    position: relative;
+}
+
+.unit {
+    color: transparent ;
+    position: relative;
+}
+.fill {
+    border: 1px solid #000;
+    color: #000;
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+}
+
+.fill-outer {
+    border: 1px solid #000;
+    position: absolute;
+    width: 100%; height: 100%;
+    bottom: 0;
+    overflow: hidden;
+    animation: hey 1s ease-in-out infinite alternate;
+
+}
+.fill-inner {
+    position: absolute;
+    bottom: 0; left: 0;
+    background-color: #ddd;
+}
+
+</style>
+
+
+</head>
+<body>
+    <div id="text">
+        <span class="unit">
+            A
+            <span class="fill">
+                <span class="fill-outer">
+                    <span class="fill-inner">
+                        A
+                    </span>
+                </span>
+            </span>
+        </span>
+    </div>
+</body>
+</html>

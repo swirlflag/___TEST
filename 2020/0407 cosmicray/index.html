@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset */
+        *{margin:0;padding:0}
+        li{list-style:none;}
+        ul li{display:inline-block;max-width:400px}
+        ul li svg{width:100%;height:100%}
+        path, circle{stroke:#0aff4e;fill:transparent}
+
+        .shape__item.n3 path{opacity:0}
+        .shape__item.n3 path:nth-of-type(1){stroke-dasharray:412;stroke-dashoffset:412;animation:  8s cubic-bezier(0.5, 1, 0.89, 1) both}
+        .shape__item.n3 path:nth-of-type(2){stroke-dasharray:536;stroke-dashoffset:536;animation:  8s 200ms cubic-bezier(0.5, 1, 0.89, 1) both}
+        .shape__item.n3 path:nth-of-type(3){stroke-dasharray:618;stroke-dashoffset:618;animation:  8s 400ms cubic-bezier(0.5, 1, 0.89, 1) both}
+        .shape__item.n3 path:nth-of-type(4){stroke-dasharray:686;stroke-dashoffset:686;animation:  8s 600ms cubic-bezier(0.5, 1, 0.89, 1) both}
+        .shape__item.n3 path:nth-of-type(5){stroke-dasharray:733;stroke-dashoffset:733;animation:  8s 800ms cubic-bezier(0.5, 1, 0.89, 1) both}
+        .shape__item.n3 path:nth-of-type(6){stroke-dasharray:775;stroke-dashoffset:775;animation:  8s 800ms cubic-bezier(0.5, 1, 0.89, 1) both}
+
+        /* shape 3 */
+
+        @keyframes draw {
+            0%{stroke-dashoffset:100%;}
+            12.5%, 50%{stroke-dashoffset:0}
+            62.5%, 100%{stroke-dashoffset:100%;}
+        }
+        @keyframes drawPath{
+            0%{stroke-dashoffset:412;opacity:0}
+            12.5%, 50%{stroke-dashoffset:0;opacity:1}
+            62.5%, 100%{stroke-dashoffset:412;opacity:0}
+        }
+        @keyframes drawPath2{
+            0%{stroke-dashoffset:536;opacity:0}
+            12.5%, 50%{stroke-dashoffset:0;opacity:1}
+            62.5%, 100%{stroke-dashoffset:536;opacity:0}
+        }
+        @keyframes drawPath3{
+            0%{stroke-dashoffset:618;opacity:0}
+            12.5%, 50%{stroke-dashoffset:0;opacity:1}
+            62.5%, 100%{stroke-dashoffset:618;opacity:0}
+        }
+        @keyframes drawPath4{
+            0%{stroke-dashoffset:686;opacity:0}
+            12.5%, 50%{stroke-dashoffset:0;opacity:11}
+            62.5%, 100%{stroke-dashoffset:686;opacity:0}
+        }
+        @keyframes drawPath5{
+            0%{stroke-dashoffset:733;opacity:0}
+            12.5%, 50%{stroke-dashoffset:0;opacity:1}
+            62.5%, 100%{stroke-dashoffset:733;opacity:0}
+        }
+
+    </style>
+    
+</head>
+<body>
+    <ul>
+        <li class="shape__item n3">
+            <svg width="430.16" height="423.47" viewBox="0 0 430.16 423.47">
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,39.93c54.24,0,98.2-8.43,98.2-18.82s-44-18.82-98.2-18.82-98.2,8.43-98.2,18.82S161.61,39.93,215.84,39.93Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,59c71.85,0,130.1-8.43,130.1-18.82s-58.25-18.82-130.1-18.82S85.74,29.74,85.74,40.13,144,59,215.84,59Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,78c83.27,0,150.78-8.43,150.78-18.82S299.11,40.33,215.84,40.33,65.06,48.76,65.06,59.15,132.57,78,215.84,78Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,97c92.82,0,168.06-8.43,168.06-18.82S308.66,59.36,215.84,59.36,47.78,67.79,47.78,78.18,123,97,215.84,97Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,116c99.38,0,180-8.42,180-18.82s-80.57-18.82-180-18.82S35.89,86.81,35.89,97.2,116.46,116,215.84,116Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,135c105.29,0,190.64-8.43,190.64-18.82S321.13,97.4,215.84,97.4,25.2,105.83,25.2,116.22,110.55,135,215.84,135Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,154.07c109.62,0,198.48-8.43,198.48-18.82s-88.86-18.82-198.48-18.82S17.36,124.86,17.36,135.25,106.22,154.07,215.84,154.07Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,173.09c112.08,0,202.94-8.43,202.94-18.82s-90.86-18.82-202.94-18.82S12.9,143.88,12.9,154.27,103.76,173.09,215.84,173.09Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,192.11c114.25,0,206.86-8.43,206.86-18.82s-92.61-18.82-206.86-18.82S9,162.9,9,173.29,101.6,192.11,215.84,192.11Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,211.14c116,0,210-8.43,210-18.82s-94-18.82-210-18.82-210,8.43-210,18.82S99.85,211.14,215.84,211.14Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,230.16c117.68,0,213.08-8.43,213.08-18.82s-95.4-18.82-213.08-18.82S2.76,201,2.76,211.34,98.16,230.16,215.84,230.16Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,250.55c116,0,210-8.43,210-18.82s-94-18.82-210-18.82-210,8.43-210,18.82S99.85,250.55,215.84,250.55Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,269.57c114.25,0,206.86-8.43,206.86-18.82s-92.61-18.82-206.86-18.82S9,240.36,9,250.75,101.6,269.57,215.84,269.57Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,288.6c112.08,0,202.94-8.43,202.94-18.82S327.92,251,215.84,251,12.9,259.39,12.9,269.78,103.76,288.6,215.84,288.6Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,307.62c109.62,0,198.48-8.43,198.48-18.82S325.46,270,215.84,270,17.36,278.41,17.36,288.8,106.22,307.62,215.84,307.62Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,326.64c105.29,0,190.64-8.43,190.64-18.82S321.13,289,215.84,289,25.2,297.43,25.2,307.82,110.55,326.64,215.84,326.64Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,345.67c99.38,0,180-8.43,180-18.82S315.22,308,215.84,308,35.89,316.45,35.89,326.85,116.46,345.67,215.84,345.67Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,364.69c92.82,0,168.06-8.42,168.06-18.82s-75.24-18.82-168.06-18.82S47.78,335.48,47.78,345.87,123,364.69,215.84,364.69Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,383.71c83.27,0,150.78-8.43,150.78-18.82s-67.51-18.82-150.78-18.82S65.06,354.5,65.06,364.89,132.57,383.71,215.84,383.71Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,402.74c71.85,0,130.1-8.43,130.1-18.82s-58.25-18.82-130.1-18.82-130.1,8.43-130.1,18.82S144,402.74,215.84,402.74Z" transform="translate(-0.76 -0.29)"/>
+                <path stroke-width="4" vector-effect="non-scaling-stroke" d="M215.84,421.76c54.24,0,98.2-8.43,98.2-18.82s-44-18.82-98.2-18.82-98.2,8.43-98.2,18.82S161.61,421.76,215.84,421.76Z" transform="translate(-0.76 -0.29)"/>
+            </svg>
+        </li>
+
+    </ul>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            var el = document.querySelectorAll('.n3 path');
+
+            [...el].forEach((target) => {
+                console.log(target.getTotalLength())
+            })
+
+        })
+    </script>
+</body>
+</html>

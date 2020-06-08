@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+</head>
+<body>
+
+
+<p>
+    Plus eXperience - Curiosity + Inquisitive X Empathetic + Creatively Rational X Long-Lasting + Optimal X Articulate + Intuitive X Consistency Plus eXperience - Curiosity + Inquisitive X Empathetic + Creatively Rational X Long-Lasting + Optimal X Articulate + Intuitive X Consistency Plus eXperience - Curiosity + Inquisitive X Empathetic + Creatively Rational X Long-Lasting + Optimal X Articulate + Intuitive X Consistency Plus eXperience - Curiosity + Inquisitive X Empathetic + Creatively Rational X Long-Lasting + Optimal X Articulate + Intuitive X Consistency
+</p>
+
+
+<style>
+
+
+
+body {
+    overflow: hidden;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+p{
+    margin-left: 10%;
+    margin-top: 10%;
+    width: 100%;
+    font-size: 20px;
+    /* white-space: nowrap; */
+}
+span{
+    /* border: 1px solid #000; */
+    display: inline-block;
+}
+
+</style>
+
+
+<script>
+
+function replaceChar(origString, replaceChar, index) {
+    let firstPart = origString.substr(0, index);
+    let lastPart = origString.substr(index + 1);
+    let newString = firstPart + replaceChar + lastPart;
+    return newString;
+}
+
+const p = document.querySelector('p');
+
+const words = p.innerText.split(' ');
+
+const action = () => {
+    p.innerText = '';
+
+    let result = ''
+    for(let i = 0; i < words.length; ++i){
+        const word = words[i];
+        result += `<span data-length="${word.length}">${word}&nbsp;</span>`
+    }
+
+    p.innerHTML = result;
+
+    const items = p.querySelectorAll('span');
+
+    for(let i =0; i< items.length; ++i){
+        const item = items[i];
+        item.style.width = getComputedStyle(item).width;
+    }
+
+    var repeat = () => {
+        setTimeout(() => {
+            for(let i = 0; i < items.length; ++i){
+                const item = items[i];
+                const originLength = item.getAttribute('data-length');
+                if(originLength <= 0){
+                    continue;
+                }
+                const string = replaceChar(item.innerText, '&nbsp;', originLength - 1);
+                item.setAttribute('data-length' , originLength - 1 );
+                item.innerHTML = string;
+            }
+            repeat();
+        },35)
+    }
+
+    repeat();
+
+
+}
+
+action();
+
+
+
+// console.log(result);
+
+</script>
+</body>
+</html>

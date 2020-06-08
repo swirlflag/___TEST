@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>fxnt 기술테스트</title>
+
+<style>
+
+html {
+    /* overflow: scroll; */
+    /* overflow-x :hidden; */
+    overflow-x: hidden;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+#wrap {
+    width: 100vw !important;
+    height: 5000px;
+    /* background-color: #ddd; */
+    /* border: 10px solid #d3d; */
+    position: relative;
+    transform: skewX(-23.5deg);
+    transform-origin: top right;
+    /* background: linear-gradient(330deg, rgba(0,0,0,1) 0%, rgba(255,0,24,1) 100%); */
+    /* border: 1px solid #000; */
+}
+
+#wrap > * {
+    /* transform: skew(23.5deg); */
+}
+
+.line {
+    /* border: 1px solid #000;     */
+    /* width: 200px;  height: 200px; */
+    height: 200px;
+    /* background-color: #eee; */
+    margin-bottom: 100px;
+    /* border: 1px solid #000; */
+    display: block;
+}
+
+.box {
+    background-color: dodgerblue;
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    top: 0;
+    z-index: 10;
+}
+
+.line:nth-child(3n-1){
+    text-align: center;
+}
+.line:nth-child(3n){
+    text-align: right;
+}
+
+
+
+
+</style>
+</head>
+<body>
+
+<div id="wrap">
+    <div class="line"><div class="box" id="test"></div></div>
+    <div class="line"><div class="box"></div></div>
+    <div class="line"><div class="box"></div></div>
+    <div class="line"><div class="box"></div></div>
+    <div class="line"><div class="box"></div></div>
+    <div class="line"><div class="box"></div></div>
+    <div class="line"><div class="box"></div></div>
+    <div class="line"><div class="box"></div></div>
+    <div class="line"><div class="box"></div></div>
+    <div class="line"><div class="box"></div></div>
+    <div class="line"><div class="box"></div></div>
+    <div class="line"><div class="box"></div></div>
+    <div class="line"><div class="box"></div></div>
+    <div class="line"><div class="box"></div></div>
+    <div class="line"><div class="box"></div></div>
+    <div class="line"><div class="box"></div></div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.3/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
+
+
+
+<script src="./dx_loopManager.js"></script>
+<script src="./dx_easePack.js"></script>
+<script>
+
+
+const manager = new DX_loopManager();
+const dxe = new DX_easeBase();
+manager.register(dxe);
+
+const controller = new ScrollMagic.Controller();
+
+const Follow = class {
+    constructor(options) {
+        this.target = options.target;
+        this.startY = parseInt(getComputedStyle(this.target).top);
+        this.targetY = this.startY;
+        this.startSkewY = 0;
+        this.targetSkewY = this.startSkewY;
+    }
+
+    speed       = 0.07;
+    maxSkewY    = 23.5;
+    direction   = 1;
+    useSkew     = true;
+
+    hit (value) {
+        this.targetY += value;
+        this.targetSkewY += value * 0.05 * this.direction;
+        if(this.targetSkewY > this.maxSkewY){
+            this.targetSkewY = this.maxSkewY
+        }else if(this.targetSkewY < this.maxSkewY * -1){
+            this.targetSkewY = this.maxSkewY * -1;
+        }
+    }
+
+    draw () {
+        this.targetY += (this.startY - this.targetY) * this.speed;
+        if(this.targetY < 0.01){
+            this.targetY = 0;
+        }
+
+        let transformString = ``;
+        transformString += `translateY(${this.targetY}px)`;
+
+        if(this.useSkew){
+            this.targetSkewY += (this.startSkewY - this.targetSkewY) * this.speed;
+            transformString += ` skewY(${this.targetSkewY}deg)`
+
+            if(this.targetSkewY < 0.01){
+                this.targetSkewY = 0;
+            }
+        }
+
+        this.target.style.transform = transformString;
+    }
+
+}
+
+
+
+const scrollSectionSkew = () => {
+    const wrap = document.querySelector('#wrap');
+
+    new ScrollMagic.Scene({
+        triggerElement : wrap,
+        duration : wrap.offsetHeight,
+        triggerHook : 0.5,
+    })
+    .on('progress' , (e) => {
+        const wrapW = wrap.offsetWidth;
+        const wrapH = wrap.offsetHeight;
+        const r = wrapH/wrapW;
+        const v = (wrapW * r * Math.tan(23.5 * Math.PI/180) );
+        const value = `translateX(${e.progress * v}px) skewX(-23.5deg)`;
+        wrap.style.transform = value;
+    })
+    .addTo(controller);
+};
+
+const scrollElementSkew = () => {
+    const boxs = document.querySelectorAll('.box');
+
+    const followObjArray = [];
+
+    const loop = () => {
+        followObjArray.forEach((obj) => {
+            obj.draw();
+        });
+    }
+
+    [...boxs].forEach((box) => {
+        const o = new Follow({target : box});
+        followObjArray.push(o);
+    });
+
+    prevScrollY = 0;
+    nowScrollY = 0;
+
+    window.addEventListener('scroll', function(e) {
+		prevScrollY = nowScrollY;
+		nowScrollY = window.scrollY;
+		var interval = nowScrollY - prevScrollY;
+
+		for(var i = 0; i < followObjArray.length; i++){
+			var obj = followObjArray[i];
+			obj.hit(interval);
+		}
+	});
+
+    manager.register(loop);
+}
+
+const init = () => {
+
+    scrollSectionSkew();
+    // scrollElementSkew();
+
+}
+
+window.addEventListener('DOMContentLoaded' , init);
+
+
+
+
+</script>
+</body>
+</html>

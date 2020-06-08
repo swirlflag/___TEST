@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script> -->
+<title>Document</title>
+<style>
+* {
+    font-family: sans-serif;
+    padding: 0; margin: 0;
+    font-weight: bold;
+    letter-spacing: -0.03em;
+    font-size: 18px;
+}
+i {
+    font-weight: normal;
+    color: #aaa;
+}
+#explane {
+    margin: 100px;
+    font-weight: normal;
+}
+.border {
+    border: 3px dashed #000;
+}
+#target-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px; height: 150px;
+    margin: 100px;
+    box-sizing: border-box;
+    background-color: #eee;
+    position : relative;
+
+}
+#target-1.red {
+    background-color: rgb(255, 101, 101);
+    color: #fff;
+}
+#target-1.opacity {
+    opacity: 0.3;
+}
+#target-1.radius {
+    border-radius: 30px;
+}
+.target-2 {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 100px;
+    margin-bottom: 20px;
+    width: 150px;
+    height: 60px;
+    box-sizing: border-box;
+    background-color: #eee;
+}
+.target-2.blue {
+    background-color: rgb(93, 93, 255);
+    color: #fff;
+    border: 1px solid #fff;
+}
+#exam-3{
+    position: relative;
+    display: block;
+    width: 150px; height: 150px;
+    display: inline-block;
+    margin: 100px;
+    overflow: hidden;
+}
+#target-3 {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0; left: 0;
+    width: 150px; height: 150px;
+    background-color: #333;
+    color: #fff;
+    z-index: 2;
+}
+#target-4 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 150px; height: 150px;
+    top: 0; left: 0;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+#target-4.green{
+    border: none;
+    background-color: rgb(62, 194, 124);
+    color: #fff;
+}
+</style>
+</head>
+<body>
+
+<div id="explane">
+    다음과 같은 제이쿼리 코드가 동작하도록 만들어주세요.
+    <br>
+    <br><i>스크립트 태그를 제외한 다른 영역은 기입하지 마세요.</i>
+    <br>
+    <br>1.
+    <br><b>$('#target-1').removeClass('border');</b>
+    <br>
+    <br>2.
+    <br><b>$('#target-1').css('left','200px');</b>
+    <br>
+    <br>3.
+    <br><b>$('#target-1').addClass('red radius');</b>
+    <br>
+    <br>4.
+    <br><b>$('.target-2').removeClass('border').addClass('blue');</b>
+    <br>
+    <br>5.
+    <br><b>$('.target-2').css({ 'left' : 100 , 'margin-top' : '-15px',})</b>
+    <br>
+    <br>6.
+    <br><b>$('#target-3').fadeOut(() => $('#target-4').addClass('green'));</b>
+</div>
+
+<div id="exam-1">
+    <div id="target-1" class="border">#target-1</div>
+</div>
+
+<div id="exam-2">
+    <div class="target-2 border">.target-2</div>
+    <div class="target-2 border">.target-2</div>
+    <div class="target-2 border">.target-2</div>
+</div>
+
+<div id="exam-3">
+    <div id="target-3">#target-3</div>
+    <div id="target-4">#target-4</div>
+</div>
+
+<script>
+
+// 출제하면서 만들어본 정답인데 어차피 절대로 완벽하지가 않습니다.
+// 애초에 완벽하게 만들기 어려운 기능이라 변별력이 있을것 같습니다.
+// 하지만 과제 도달(구문 실행)까지는 어렵지 않을거라고 생각합니다 !
+
+function $$(selector) {
+    this.el = document.querySelectorAll(selector);
+}
+
+$$.prototype.addClass = function(className){
+    if(typeof className === 'string') {
+        const classNames = className.split(' ');
+        for(let el of this.el) {
+            classNames.map((name) => el.classList.add(name));
+        };
+    };
+    return this;
+}
+
+$$.prototype.removeClass = function(className){
+    if(typeof className === 'string') {
+        const classNames = className.split(' ');
+        for(let el of this.el) {
+            classNames.map((name) => el.classList.remove(name));
+        };
+    };
+    return this;
+}
+
+$$.prototype.css = function(prop,value){
+    let modify = {};
+    if(typeof prop === 'string') {
+        modify[prop] = value;
+    }else {
+        modify = prop;
+    };
+    const modifyKey = Object.keys(modify);
+    for(let el of this.el) {
+        modifyKey.map((p,i) => {
+            let v = modify[modifyKey[i]];
+                v = isNaN(+v) ? v : v + 'px';
+            el.style[p] = v;
+        });
+    };
+    return this;
+};
+
+$$.prototype.fadeOut = function(callback){
+    for(let el of this.el) {
+        let op = getComputedStyle(el)['opacity'] || el.style.opacity || 1;
+        const paint = (target) => {
+            op = op - 0.016;
+            if(op > 0){
+                el.style.opacity = op;
+                requestAnimationFrame(paint);
+            }else{
+                el.style.opacity = 0;
+                el.style.display = 'none';
+                callback && callback();
+            };
+        };
+        requestAnimationFrame(paint);
+    };
+    return this;
+};
+
+const $ = (selector) => new $$(selector);
+
+</script>
+</body>
+</html>

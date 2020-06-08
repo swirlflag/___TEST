@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+<title>Document</title>
+<style>
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    /* font-family: 'Roboto', sans-serif; */
+}
+#wrap {
+    overflow-y: hidden;
+    font-weight: 900;
+    overflow:hidden;
+
+}
+
+#control {
+    display: none;
+    position: fixed;
+    width: 300px;
+    height: 200px;
+    background-color: rgba(255,255,255,0.8);
+    border: 1px solid #aaa;
+
+    top: 0; right: 0;
+    font-size: 16px !important;
+}
+
+#control input {
+    width: 50px;
+}
+
+#wrap .line {
+    line-height: 1em;
+    box-sizing: border-box;
+}
+#wrap .line .marquee{
+    flex-shrink: 0;
+}
+
+#c-go {
+    padding: 10px;
+    width: 100px;
+}
+
+.line .marquee:nth-child(1) {
+    /* background-color: #ddd; */
+}
+
+.line .marquee:nth-child(2) {
+    /* background-color: #ddd; */
+}
+
+</style>
+</head>
+<body>
+
+<div id="wrap">
+</div>
+
+<div id="control">
+    <input type="text" id="c-index"><span>인덱스</span> <br>
+    <input type="text" id="c-ratio"><span>커질 비율 (default : 1) </span> <br>
+    <input type="text" id="c-duration"><span>재생시간</span> <br>
+    <button id="c-go">ㄱ</button>
+</div>
+
+<script src="dx_easePack.js"></script>
+<script src="script.js"></script>
+
+<script>
+
+
+
+
+const wrap = document.getElementById('wrap');
+
+
+const initApp = () => {
+
+    // addStringLine('HELLO');
+    // addStringLine('WORLD');
+    // addStringLine('plusx');
+    // render(wrap);
+    // const controler = new Lines(wrap);
+
+};
+
+const go = document.querySelector('#c-go');
+const controlIndex = document.querySelector('#c-index');
+const controlRatio = document.querySelector('#c-ratio');
+const controlDuration = document.querySelector('#c-duration');
+
+
+go.addEventListener('click', () => {
+
+    console.log(controlIndex.value,controlRatio.value,controlDuration.value)
+    stage.setFontSize(controlIndex.value, controlRatio.value, controlDuration.value);
+})
+
+window.addEventListener('DOMContentLoaded' , initApp);
+
+const stage = new CreateStage({
+
+    stage : wrap,
+
+    lines : [
+
+        {
+            word : 'HELLO',
+            speed : 3,
+        }
+        ,
+        {
+            word : 'WE ARE',
+            speed : 2,
+            direction : true,
+        }
+        ,
+        {
+            word : 'CREATIVE',
+            speed : 1,
+        }
+        ,
+        {
+            word : 'DESIGN',
+            speed : 1,
+            direction : true,
+        }
+        ,
+        {
+            word : 'STUDIO',
+            speed : 1,
+        }
+        ,
+        {
+            word : 'PLUS X',
+            speed : 2,
+            direction : true,
+        }
+
+    ],
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

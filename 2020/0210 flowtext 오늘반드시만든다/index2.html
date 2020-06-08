@@ -1,0 +1,148 @@
+<html>
+<head>
+<!-- <script type="text/javascript" src="./cotton/inc/js/jquery-1.11.2.min.js"></script> -->
+<script
+  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+  crossorigin="anonymous"></script>
+
+<script language="javascript">
+
+	function winSize(){
+	    var size = {
+    		width : window.innerWidth || document.body.clientWidth,
+    		height : window.innerHeight || document.body.clientHeight
+		}
+		return size;
+	}
+
+	var cx , cy, cz;
+
+	var canvasMouseX = 0;
+	var canvasMouseY = 0;
+
+    window.addEventListener("resize", function(event) {
+	    cx = winSize().width / 2;
+	    cy = winSize().height / 2;
+	});
+
+	Math.radians = function(degrees) {
+    	return degrees * Math.PI / 180;
+	};
+
+
+	function init(){
+	    cx = winSize().width / 2;
+	    cy = winSize().height / 2;
+
+		mainLoop();
+	}
+
+	var a = 0;
+	var v = 25;
+	var xr = 300;
+	var yr = 100;
+	var spd = 4;
+
+
+	function draw(){
+        const moon = document.querySelector('#moon');
+
+		var ar = Math.radians(a);
+		var vr = Math.radians(v);
+		var tx = Math.cos(ar) * xr;
+		var ty = Math.sin(ar) * yr;
+
+		var txx = cx + tx * Math.cos(vr) + ty * Math.sin(vr)
+		var tyy = cy - tx * Math.sin(vr) + ty * Math.cos(vr)
+
+        moon.style.top = tyy - 40 +'px';
+        moon.style.left = txx - 40 + 'px';
+
+		var ts = 70 + Math.sin(Math.radians(a))*30
+		// obj.css('font-size', ts);
+
+        const value = ts/100;
+
+        moon.style.transform = `scale(${value})`;
+
+        // console.log(,);
+
+        const mx = Math.round(0.01*txx);
+
+
+        if(mx < 3){
+            moon.style.zIndex = -1;
+        }else if(mx > 6){
+            moon.style.zIndex = 10;
+        }
+
+
+		a += spd;
+		// v += 0;
+
+	}
+
+
+	// Loop
+	var mainLoop = function (){
+		requestAnimationFrame(mainLoop);
+		draw();
+	}
+
+	window.onload = function(){
+		init();
+	}
+
+</script>
+</head>
+<style>
+*{margin: 0;padding: 0}
+body{
+    background-color: rgb(11, 7, 37);
+}
+.fullsize{border : 0px solid #000; box-sizing : border-box}
+
+#earth {
+    position : absolute;
+    width: 250px; height: 250px;
+    transform :translate(-50% , -50%);
+    border-radius: 1000em;
+    top : 50%;
+    left : 50%;
+    background: #3566d1;
+
+    box-shadow: inset 10px 10px 5px rgba(237, 251, 255, 0.8);
+    /* background: -moz-linear-gradient(-45deg,  #52b152 0%, #52b152 0%, #b4ddb4 23%, #52b152 48%, #008a00 67%, #005700 82%, #002400 86%, #008a00 100%);
+    background: -webkit-linear-gradient(-45deg,  #52b152 0%,#52b152 0%,#b4ddb4 23%,#52b152 48%,#008a00 67%,#005700 82%,#002400 86%,#008a00 100%);
+    background: linear-gradient(135deg,  #52b152 0%,#52b152 0%,#b4ddb4 23%,#52b152 48%,#008a00 67%,#005700 82%,#002400 86%,#008a00 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#52b152', endColorstr='#008a00',GradientType=1 ); */
+
+}
+
+#moon {
+    position : absolute;
+    top: 0;
+    left : 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 100em;
+    background-color: #fff;
+    box-shadow: 0 0 50px rgba(255, 251, 0, 1);
+}
+
+#wrap {
+    border: 1px solid #000;
+}
+</style>
+<body>
+
+
+<div id="wrap">
+    <p id="earth"></p>
+    <p id="moon"></p>
+</div>
+
+
+</body>
+</html>

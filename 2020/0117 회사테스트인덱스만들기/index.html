@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+<title>WELCOME TO DX</title>
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,400,700|Roboto:100,400,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+*{
+    margin: 0; padding: 0;
+    letter-spacing: -0.055em;
+}
+.fw-b {
+    font-weight: bold;
+}
+body {
+    font-family: 'Roboto','Noto Sans KR', sans-serif;
+    /* text-align: center; */
+    background-color: #111;
+    color: #fff;
+}
+a {
+    text-decoration: none;
+}
+
+h1 {
+    /* border: 1px solid #000; */
+    display: inline-block;
+    font-weight: lighter;
+    width: 400px;
+    height: 200px;
+    font-size: 0;
+    color: transparent;
+    background-image: url(./logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    /* filter: brightness(0.5); */
+}
+
+#wrap{
+    margin: 0 auto;
+    max-width: 1600px;
+    padding: 100px;
+}
+
+header#header {
+    padding-top: 100px;
+    border-bottom: 1px solid #aaa;
+    font-size: 24px;
+}
+
+header .welcome {
+    margin-top: 40px;
+    font-family: 'Press Start 2p','Noto Sans KR', sans-serif;
+    /* letter-spacing: -3px; */
+}
+
+header .howmany {
+    font-size: 16px;
+    margin-top: 100px;
+    margin-bottom: 20px;
+}
+
+
+h1 {
+    font-size: 80px;
+    letter-spacing: normal;
+}
+#list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap : 80px;
+
+    margin: 80px 0;
+}
+.item {
+    font-size: 14px;
+    display: inline-block;
+    box-sizing: border-box;
+    position: relative;
+}
+
+
+.item:nth-child(2n-1){
+    /* margin-left: 0; */
+}
+.item:nth-child(2n){
+    /* margin-right: 0; */
+}
+
+.item-title{
+    font-weight: bold;
+    font-size: 24px;
+}
+.item-text {
+    margin-top: 40px ;
+    margin-bottom: 60px;
+    word-break: keep-all;
+}
+.item-date {
+    opacity: 0.3;
+}
+
+.item-links {
+    margin-top: 10px;
+    position: absolute; bottom: 0%;
+}
+.item-link {
+    /* border: 1px solid #000; */
+    color: #fff;
+    font-weight: bold;
+    background-color: #0080ffbd;
+    border-radius: 10px;
+    padding: 7px 20px;
+    letter-spacing: 0;
+    margin-right: 10px;
+    font-size: 15px;
+}
+
+.item-link:hover {
+    background-color: #0080ff;
+}
+
+
+
+
+
+@media screen and (max-width : 1600px) {
+    #list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+@media screen and (max-width : 1100px) {
+    #list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width : 768px) {
+
+    h1 {
+        width: 80vw;
+    }
+    header > p {
+        font-size: 5vw;
+    }
+
+    #list {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    #wrap{
+        padding: 20px;
+    }
+}
+
+</style>
+</head>
+<body>
+    <div id="wrap">
+        <header id="header">
+            <h1>Plus X</h1>
+            <p class="welcome">Welcome! to<br>Team DX Test Page</p>
+
+            <div class="howmany">
+                현재 <span class="fw-b"></span>개의 테스트 페이지가 있습니다.
+            </div>
+        </header>
+        <div id="list"></div>
+    </div>
+
+<script>
+
+
+let mydata = [
+
+]
+
+const list = document.querySelector('#list');
+
+const init = (data) => {
+
+    data.forEach((item) => {
+
+        const itemWrap = document.createElement('div');
+        const title = document.createElement('div');
+        const author = document.createElement('div');
+        const date = document.createElement('div');
+        const text = document.createElement('div');
+        const links = document.createElement('div');
+        const link_1 = document.createElement('a');
+        const link_2 = document.createElement('a');
+
+        itemWrap.classList.add('item');
+        title.classList.add('item-title');
+        author.classList.add('item-author');
+        date.classList.add('item-date');
+        text.classList.add('item-text');
+        links.classList.add('item-links');
+        link_1.classList.add('item-link');
+        link_2.classList.add('item-link');
+
+        title.innerText = item.title;
+        author.innerText = item.author;
+
+        if(item.date){
+            const yy = item.date.slice(0,2);
+            const mm = item.date.slice(2,4);
+            const dd = item.date.slice(4,6);
+            date.innerText = `20${yy}년 ${mm}월 ${dd}일`;
+        }
+
+        text.innerText = item.text;
+        link_1.innerText = "바로가기";
+        link_2.innerText = "새탭에서 열기";
+
+        links.appendChild(link_1);
+        links.appendChild(link_2);
+        link_1.setAttribute('href' , item.link);
+        link_2.setAttribute('href' , item.link);
+        link_2.setAttribute('target' , '_blank');
+
+        itemWrap.appendChild(title);
+        itemWrap.appendChild(author);
+        itemWrap.appendChild(date);
+        itemWrap.appendChild(text);
+        itemWrap.appendChild(links);
+
+        list.appendChild(itemWrap);
+
+    });
+
+    const howmany = document.querySelector('.howmany > span');
+    howmany.innerText = data.length;
+}
+
+const authorList = {
+    dangpa : '김기현',
+    bangul : '마승현',
+};
+let count =  0;
+
+const authorEntris = Object.entries(authorList);
+
+authorEntris.forEach(([key,value],i) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET" , encodeURI(`./data/${key}.json`) , true);
+    xhr.onreadystatechange = () => {
+        if(xhr.readyState == 4 && xhr.status == 200){
+            let thisdata = JSON.parse(xhr.response).map((item) => {
+                const finishItem = item;
+                finishItem.author = value;
+                return finishItem;
+            }) ;
+
+            mydata = [...mydata , ...thisdata];
+            if(++count >= authorEntris.length){
+                mydata = mydata.sort((a,b) => {return b.date - a.date});
+                init(mydata);
+            }
+        }
+    }
+    xhr.send();
+})
+
+</script>
+</body>
+</html>

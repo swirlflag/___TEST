@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+
+<style>
+
+*{
+    padding: 0;
+    margin: 0;
+}
+#wrap {
+    /* perspective: 500px; */
+}
+
+.header {
+    width: 100%; height: 100%;
+    /* background-color: #aaa; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+    position: fixed;
+}
+.header-background {
+    position: fixed;
+    width: 100%; height: 100%;
+    background-image: url(./img/space_back.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    top: 0; left: 0%;
+}
+
+nav {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    background-color: transparent;
+    padding: 50px;
+    box-sizing: border-box;
+}
+
+.logo-nav {
+    width: 150px; height: 40px;
+    background-image: url(./img/logo_top.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.logo-main {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+
+.logo-main-img{
+    width: 704px; height: 190px;
+    background-image: url(./img/logo_big_basic.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.shop-menu {
+    width: 234px;height: 12px;
+    background-image: url(./img/shopmenu.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#section {
+    width: 100vw;
+    display: block;
+    position: relative;
+    z-index: 2000;
+    color: #fff !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.flyimg {
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.flyimg img{
+    height: auto;
+    position: relative;
+}
+
+.flyimg-1 {
+    z-index: 100;
+    top: 50%;
+    transform :translateY(-50%);
+}
+
+.flyimg-2 {
+    top: 100vh;
+}
+.flyimg-2 img{
+    left: 300px;
+}
+.flyimg-3 {
+    top: calc(100vh + 1000px);
+}
+.flyimg-3 img{
+    left: -400px;
+}
+.flyimg-4 {
+    top: calc(100vh + 2000px);
+}
+.flyimg-4 img{
+    left: 400px;
+}
+.flyimg-5 {
+    top: calc(100vh + 3000px);
+}
+.flyimg-5 img {
+    left: -400px;
+}
+
+.flyimg-6 {
+    top: calc(100vh + 3700px);
+}
+.flyimg-6 img{
+    left: 400px;
+}
+
+.flyimg-7 {
+    z-index: 100;
+    top: calc(100vh + 5000px);
+}
+.flyimg-7 img{
+    left: -500px;
+}
+
+.flyimg-8 {
+    top: calc(100vh + 6000px);
+}
+.flyimg-8 img{
+    left: 400px;
+}
+.flyimg-9 {
+    z-index: 100;
+    top: calc(100vh + 7000px);
+    margin-bottom: 50vh;
+}
+
+
+
+
+
+
+</style>
+</head>
+<body>
+    <div id="wrap">
+
+        <nav>
+            <div class="logo-nav"></div>
+            <div class="shop-menu"></div>
+        </nav>
+
+        <div class="logo-main">
+            <div class="logo-main-img"></div>
+        </div>
+
+        <div class="header-background"></div>
+
+        <div class="flyimg flyimg-1">
+            <img src="img/img_08.png" >
+        </div>
+        <div class="flyimg flyimg-2">
+            <img src="img/img_01.png" >
+        </div>
+        <div class="flyimg flyimg-3">
+            <img src="img/img_02.png" >
+        </div>
+        <div class="flyimg flyimg-4">
+            <img src="img/img_0.png" >
+        </div>
+        <div class="flyimg flyimg-5">
+            <img src="img/img_04.png" >
+        </div>
+        <div class="flyimg flyimg-6">
+            <img src="img/img_05.png" >
+        </div>
+        <div class="flyimg flyimg-7">
+            <img src="img/img_06.png" >
+        </div>
+        <div class="flyimg flyimg-8">
+            <img src="img/img_07.png" >
+        </div>
+        <div class="flyimg flyimg-9">
+            <img src="img/img_03.png" >
+        </div>
+
+        <footer></footer>
+
+    </div>
+
+
+</body>
+
+
+<script>
+
+
+	//////////////////////////////////////////////////
+	// Follow Class
+	//////////////////////////////////////////////////
+
+    class ManObj {
+        constructor () {
+
+        }
+    }
+
+	class FollowObj {
+		constructor(target){
+			this.obj = target;
+			this.startPositionY = parseInt(getComputedStyle(target).top);
+			this.targetPositionY = this.startPositionY;
+			this.startSkewY = 0;
+			this.targetSkewY = this.startSkewY;
+			this.followSpd = 0.1;
+			this.maxSkewY = 23.5;
+		}
+		pushInterval(val){
+			this.targetPositionY += val;
+			this.targetSkewY += val * 0.05;
+			if(this.targetSkewY > this.maxSkewY){
+				this.targetSkewY = this.maxSkewY
+			}else if(this.targetSkewY < this.maxSkewY * -1){
+				this.targetSkewY = this.maxSkewY * -1;
+			}
+		}
+		draw(){
+
+			this.targetPositionY += (this.startPositionY - this.targetPositionY) * this.followSpd;
+			this.obj.style.top = this.targetPositionY + 'px';
+
+			this.targetSkewY += (this.startSkewY - this.targetSkewY) * this.followSpd;
+			this.obj.style.transform = `skewY(${this.targetSkewY}deg)`;
+		}
+	}
+
+
+	// Loop
+	var mainLoop = function (){
+		requestAnimationFrame(mainLoop);
+		for(var i = 0; i < followObjArray.length; i++){
+			var obj = followObjArray[i];
+			obj.draw();
+		}
+	}
+
+	// Scroll Event
+	var nowScrollY = 0;
+	var prevScrollY = 0;
+
+	window.addEventListener('scroll', function(e) {
+		prevScrollY = nowScrollY;
+		nowScrollY = window.scrollY;
+		var interval = nowScrollY - prevScrollY;
+
+		for(var i = 0; i < followObjArray.length; i++){
+			var obj = followObjArray[i];
+			obj.pushInterval(interval);
+		}
+	});
+
+
+	// Add Object
+	var followObjArray = [];
+
+	function addObject(){
+		// // obj1
+		// var el_obj1 = document.getElementById('obj1');
+		// var obj1 = new FollowObj(el_obj1);
+		// followObjArray.push(obj1);
+
+		// // obj2
+		// var el_obj2 = document.getElementById('obj2');
+		// var obj2 = new FollowObj(el_obj2);
+		// followObjArray.push(obj2);
+
+
+        const targetImages = document.querySelectorAll('.flyimg img');
+
+        [...targetImages].forEach((img,idx) => {
+
+            let obj = null;
+            obj = new FollowObj(img);
+            // if(idx === 7 ){
+            //     // obj = new ManObj(img);
+            // }else {
+
+            // }
+
+            followObjArray.push(obj);
+
+        });
+
+
+
+	}
+
+	// onLoad
+	window.onload = function(){
+
+
+		addObject();
+
+		mainLoop();
+
+
+        (function() {
+            const box = document.querySelector(".logo-main-img");
+
+            // 창 가로 세로 크기 구하기, 중심점은 각각 나누기 2
+            // 나중에 윈도우 말고 outer 기준으로 수정
+
+            let cx = window.innerWidth / 2;
+            let cy = window.innerHeight / 2;
+
+            window.addEventListener("resize", () => {
+                cx = window.innerWidth / 2;
+                cy = window.innerHeight / 2;
+            });
+
+            // 마우스 거리 구하기
+            let dx = 0 ;
+            let dy = 0;
+
+            let tx = 0;
+            let ty = 0;
+
+            const ratio = 0.05;
+
+            window.addEventListener("mousemove", e => {
+                dx = (e.clientX - cx) * ratio;
+                dy = (e.clientY - cy) * ratio;
+            });
+
+            let trackX = 0;
+            let trackY = 0;
+
+            const render = () => {
+
+                trackX = trackX +  ((dx - trackX) * 0.1);
+                trackY = trackY +  ((dy - trackY) * 0.1);
+
+                box.style.transform = `rotateX(${-trackY}deg) rotateY(${trackX}deg)`;
+
+                requestAnimationFrame(render);
+
+            }
+            requestAnimationFrame(render);
+        })();
+	}
+
+
+</script>
+</html>
+
+
+
+
+
+
+
+

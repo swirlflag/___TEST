@@ -1,0 +1,16 @@
+var se = document.scrollingElement;
+var bg = document.querySelector('.main_bg');
+var bgHeight = bg.offsetHeight;
+window.addEventListener('scroll' , () => {
+    if(bgHeight - window.innerHeight < se.scrollTop){
+        bg.style.position   = 'fixed';
+        bg.style.top        = 'unset';
+        bg.style.bottom     = 0;
+        bg.style.right      = 0;
+    }else {
+        bg.style.position = 'relative';
+    }
+})
+
+
+var se=document.scrollingElement,bg=document.querySelector(".main_bg"),bgHeight=bg.offsetHeight;window.addEventListener("scroll",()=>{bgHeight-window.innerHeight<se.scrollTop?(bg.style.position="fixed",bg.style.top="unset",bg.style.bottom=0,bg.style.right=0):bg.style.position="relative"});

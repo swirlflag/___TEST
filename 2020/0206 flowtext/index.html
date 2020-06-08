@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+
+        #wrap {
+            line-height: 1em;
+            overflow: hidden;
+        }
+
+        .marquee:nth-child(2){
+            background-color: #d3d;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="wrap"></div>
+
+    <script>
+
+
+        const target = document.querySelector('#target');
+
+        const splitText = (target) => {
+            const text = target.innerText;
+            target.innerText = '';
+            for(let i = 0; i < text.length; ++i){
+                const newEl = document.createElement('span');
+                newEl.style.display = 'inline-block';
+                newEl.innerText = text[i];
+                target.appendChild(newEl);
+            }
+        }
+
+        // splitText(target);
+
+        const wrap = document.querySelector('#wrap');
+
+        const test = class {
+
+            constructor() {
+
+            }
+
+            // checkArray = [];
+
+            appendElement = (parents , option) => {
+
+                const newElement = document.createElement(option.tagName);
+
+                newElement.innerText = option.innerText;
+
+                for(let [k, v] of Object.entries(option.style)){
+                    newElement.style[k] = v;
+                }
+
+                parents.appendChild(newElement)
+            }
+
+        }
+
+
+        const useTest = new test();
+
+        let winW = window.innerWidth;
+        let winH = window.innerHeight;
+
+        const lineTextSetting = (line) => {
+            const texts = line.querySelectorAll('span');
+            const textStyle = getComputedStyle(texts[0]);
+            const textValue = texts[0].innerText;
+            const textSize = [parseInt(textStyle['width']) , parseInt(textStyle['height'])];
+            [...texts].forEach((text) => text.remove());
+
+            const wordLength = Math.ceil(winW/textSize[0])
+
+            const calcEl = document.createElement('span');
+            calcEl.classList.add('calc');
+            calcEl.innerText = wordLength*2;
+
+            line.innerHTML = '';
+
+            for(let i = 0; i < 2; ++i){
+
+                const marquee = document.createElement('div');
+                marquee.classList.add('marquee');
+
+                for(let i = 0; i < wordLength*2; ++i){
+
+                    const wordText = document.createElement('span');
+                    wordText.classList.add('word');
+                    wordText.innerText = textValue;
+
+                    marquee.appendChild(wordText);
+                }
+
+                line.appendChild(marquee)
+            }
+
+            line.appendChild(calcEl);
+
+        }
+
+        // const el_line = document.querySelectorAll('.line');
+        // [...el_line].forEach((line) => {
+        //     lineTextSetting(line);
+        // })
+
+        // lineTextSetting(el_line[0]);
+
+        // window.addEventListener('resize' , () => {
+        //     winW = window.innerWidth;
+        //     winH = window.innerWidth;
+        //     [...el_line].forEach((line) => {
+        //         lineTextSetting(line);
+        //     })
+        // });
+
+        const MainPlain = class {
+
+            constructor(){
+
+            }
+
+            lineArray = new Array();
+
+        }
+
+        const MainText = class extends MainPlain{
+            constructor({parent}) {
+                super()
+                this.parent = parent;
+            }
+
+
+            addLine = (option) => {
+                const el_parent = this.parent;
+                el_parent.style.fontSize = `${window.innerHeight/(this.lineArray.length+1)}px`;
+
+                const el_line = document.createElement('div');
+                el_line.style.display = 'flex';
+                el_line.classList.add('line');
+
+                const el_calcSpan = document.createElement('span');
+                el_calcSpan.style.display = 'inline-block';
+                el_calcSpan.innerText = option.word;
+
+                el_line.appendChild(el_calcSpan);
+                el_parent.appendChild(el_line);
+
+                const textWidth     = Math.ceil(getComputedStyle(el_calcSpan)['width'].split('px')[0]);
+                const wordLength    = Math.ceil(window.innerWidth / textWidth);
+
+                el_line.removeChild(el_calcSpan);
+
+                for(let i = 0 ; i < 2; ++i){
+                    const el_marquee = document.createElement('div');
+                    el_marquee.classList.add('marquee');
+                    el_marquee.style.display = 'inline-flex';
+                    el_line.appendChild(el_marquee);
+
+                    for(let j = 0; j < wordLength; ++j){
+                        const el_word = document.createElement('span');
+                        el_word.style.display = 'inline-block';
+                        el_word.innerText = option.word;
+                        el_marquee.appendChild(el_word);
+                    }
+
+                }
+
+                this.lineArray.push(el_line);
+            }
+
+        }
+
+
+        const wrap_el = document.querySelector('#wrap');
+        const mainTextControler = new MainText({
+            parent : wrap_el,
+        });
+
+        mainTextControler.addLine({
+            word : 'HELLO',
+        })
+        mainTextControler.addLine({
+            word : 'Document',
+        })
+        mainTextControler.addLine({
+            word : 'PlusX',
+        })
+
+
+
+    </script>
+</body>
+</html>

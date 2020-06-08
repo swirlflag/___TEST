@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+<h1>Contrary to popular belief, Lorem Ipsum is not simply random text. It ha</h1>
+    <script>
+  const flipTextAppear = (
+    {
+        target          = null,
+        answerText      = target.innerText,
+        flipCount       = 10,
+        minFlipCount    = flipCount ,
+        maxFlipCount    = flipCount + 1,
+        filpMatch       = false,
+        flipInterval    = 10,
+        nextInterval    = 40 ,
+        beforeCharacter = '',
+        callBack        = null,
+        flipAction      = null,
+        flipActionArg   = {},
+        center          = false ,
+        centerElement   = target,
+    }
+) => {
+    if(!target){return}
+    const dommy                 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    // const dommy                 = 'abcdefghijklmnopqrstuvwxyz';
+    const dommyLength           = dommy.length;
+    const answerLength          = answerText.length;
+    const answerColor           = getComputedStyle(target)['color'];
+    const originWidth           = target.offsetWidth;
+    const averageWidth          = originWidth/(answerLength);
+    const parentWidth           = parseInt(getComputedStyle(centerElement.parentElement)['width']);
+
+    let textPointer             = 0;
+    let endCount                = 0;
+
+    target.innerText            = null;
+
+    answerText.split('').map((realText, idx) => {
+        const span  = document.createElement('span');
+        span.style.display          = 'inline-block';
+        span.style.verticalAlign    = 'top';
+        span.innerText              = beforeCharacter;
+        target.appendChild(span);
+    });
+
+    const flip = (targetSpan, idx) => {
+        if(!targetSpan){return};
+        if(center){
+            centerElement.style.marginLeft = (parentWidth - averageWidth * (idx + 1))/2 + 'px'
+        }
+
+        setTimeout(() => {
+            let flipCount = 0;
+            const correctText = answerText[idx] === ' ' ?  '&nbsp;' : answerText[idx];
+            const singleFlip = setInterval(() => {
+
+                flipAction && flipAction({targetSpan,target, ...flipActionArg});
+
+                ++flipCount;
+                const randomText = dommy[Math.floor(Math.random() * dommyLength)];
+                targetSpan.innerHTML = randomText;
+
+                // const rgbValue = 255 - ((flipCount / maxFlipCount) * 255);
+                // targetSpan.style.color  = `rgb(${rgbValue},${rgbValue} , ${rgbValue})`;
+                const opacityValue =  ((flipCount / maxFlipCount));
+                targetSpan.style.opacity = opacityValue;
+
+                if(flipCount < minFlipCount){return}
+
+                if(flipCount >= maxFlipCount || (filpMatch && randomText === correctText)){
+                    targetSpan.innerHTML = correctText;
+                    targetSpan.style.color  = answerColor;
+                    clearInterval(singleFlip);
+                    if(answerLength === ++endCount){
+                        target.innerHTML = answerText;
+                        if(center){
+                            centerElement.style.marginLeft = (parentWidth - centerElement.offsetWidth)/2 + 'px'
+                        }
+                        callBack && callBack();
+                    }
+                }
+
+            }, flipInterval);
+            flip(target.children[++textPointer], ++idx);
+        },nextInterval);
+    };
+
+    flip(target.children[textPointer], 0);
+}
+
+
+const h1 = document.querySelector('h1');
+flipTextAppear({
+    target : h1,
+    // beforeCharacter : '+',
+    // flipInterval : 20,
+    // nextInterval : 40,
+})
+    </script>
+</body>
+</html>

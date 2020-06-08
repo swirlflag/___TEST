@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+    }
+#wrap1 {
+    width: 100%;
+    height: 200px;
+    border: 1px solid #d3d;
+}
+
+.logo-plusx {
+    width: 100%; height: 100%;
+    background-color: #ddd;
+    object-fit: contain;
+    display: flex;
+}
+
+.logo-plusx .draw-plus {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    background-color: #3d3;
+}
+
+.logo-plusx .draw-plus span{
+    display: inline-block;
+    border: 1px solid #000;
+    
+}
+
+.logo-plusx .draw-x {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    background-color: #d3d;
+}
+
+</style>
+</head>
+
+<body>
+<div id="wrap1">
+    <div class="logo-plusx">
+        <div class="draw-plus">
+            <span></span>
+            <span></span>
+        </div>
+        <div class="draw-x">
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

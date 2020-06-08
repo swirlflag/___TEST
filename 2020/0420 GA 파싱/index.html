@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+</head>
+<body>
+
+
+<script>
+
+const stringToObject = (string) => {
+    let result = {};
+
+    let catchProp = '';
+    let catchValue = '';
+
+    let state = false;
+
+    for(let i = 0; i < string.length; ++i){
+        const nowChar = string[i];
+        if(state){
+            if(nowChar === ' ' || nowChar === '\n'){
+                result = {
+                    ...result,
+                    [catchProp] : catchValue,
+                }
+                catchProp = '';
+                catchValue = '';
+                state = !state;
+                continue;
+            }
+            catchValue += nowChar;
+        }else {
+            if(nowChar === ':'){
+                state = !state;
+                continue;
+            }
+            catchProp += nowChar;
+        };
+    };
+
+    return result;
+
+}
+
+var string =
+`total: 1833389
+today: 2456
+`;
+
+console.log(stringToObject(string));
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

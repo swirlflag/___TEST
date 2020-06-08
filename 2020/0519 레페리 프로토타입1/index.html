@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="texts">
+
+    <div id="type-3" class="type">
+        <div class="background">
+            <!-- <span></span>
+            <span></span>
+            <span></span>
+            <span></span> -->
+        </div>
+        <div class="text">
+            TENSE
+        </div>
+    </div>
+</div>
+
+<div id="controls">
+
+    <div class="numberinput">
+        <span>배경 중첩 갯수</span>
+        <input type="number" id="number-1" min="1" value="1">
+    </div>
+
+    <div class="selectbox">
+        <span>배경 mix</span>
+        <select id="select-1">
+            <option value="normal">normal</option>
+            <option value="multiply">multiply</option>
+            <option value="overlay">overlay</option>
+            <option value="darken">darken</option>
+            <option value="lighten">lighten</option>
+            <option value="color-dodge">color-dodge</option>
+            <option value="color-burn">color-burn</option>
+            <option value="hard-light">hard-light</option>
+            <option value="soft-light">soft-light</option>
+            <option value="difference">difference</option>
+            <option value="exclusion">exclusion</option>
+            <option value="hue">hue</option>
+            <option value="saturation">saturation</option>
+            <option value="color">color</option>
+            <option value="luminosity">luminosity</option>
+        </select>
+    </div>
+    <div class="selectbox">
+        <span>텍스트 mix</span>
+        <select id="select-2">
+            <option value="normal">normal</option>
+            <option value="multiply">multiply</option>
+            <option value="overlay">overlay</option>
+            <option value="darken">darken</option>
+            <option value="lighten">lighten</option>
+            <option value="color-dodge">color-dodge</option>
+            <option value="color-burn">color-burn</option>
+            <option value="hard-light">hard-light</option>
+            <option value="soft-light">soft-light</option>
+            <option value="difference">difference</option>
+            <option value="exclusion">exclusion</option>
+            <option value="hue">hue</option>
+            <option value="saturation">saturation</option>
+            <option value="color">color</option>
+            <option value="luminosity">luminosity</option>
+        </select>
+    </div>
+
+    <button id="start">START</button>
+
+</div>
+
+
+<script src="script.js"></script>
+<script>
+
+
+
+const myLiveGradient = new liveGradient();
+
+const background        = document.querySelector('#type-3 .background');
+const textTarget        = document.querySelector('#type-3 .text')
+
+
+
+const number_1  = document.querySelector('#controls #number-1');
+const select_1  = document.querySelector('#controls #select-1');
+const select_2  = document.querySelector('#controls #select-2');
+const start     = document.querySelector('#controls #start');
+
+select_1.addEventListener('change' , (e) => {
+    const backgroundSpan    = document.querySelectorAll('#type-3 .background span');
+    [...backgroundSpan].forEach((span) => {
+        span.style.mixBlendMode = select_1.value
+    })
+})
+
+select_2.addEventListener('change' , (e) => {
+    textTarget.style.mixBlendMode = select_2.value
+});
+
+start.addEventListener('click' , () => {
+    background.innerHTML = ""
+    + (() => {
+        let result = ""
+        for(let i = 0; i < number_1.value; ++i){
+            result +=  "<span></span>"
+        }
+        return result;
+    })()
+    ;
+    const backgroundSpan    = document.querySelectorAll('#type-3 .background span');
+
+    [...backgroundSpan].forEach((span) => {
+        span.style.mixBlendMode = select_1.value
+    })
+
+    myLiveGradient.add(backgroundSpan);
+
+});
+
+myLiveGradient.add(textTarget,true);
+
+</script>
+</body>
+</html>

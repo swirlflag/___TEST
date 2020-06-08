@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+</head>
+<body>
+
+
+<script>
+
+let ordered = [10,17,19,22,22,22,29,29,37,41,59,59,59];
+
+const result = (ordered,findValue) => {
+    let start       = 0;
+    let end         = ordered.length;
+    let leng        = end - start;
+    let point       = Math.ceil((end-start)/2);
+    let pointValue  = ordered[point];
+    while(pointValue !== findValue){
+        if(pointValue < findValue){
+            start = Math.ceil(leng/2) + start;
+        }else {
+            end = end - Math.ceil(leng/2);
+        }
+        leng = end - start;
+        point = Math.ceil(start + (leng)/2);
+        pointValue = ordered[point];
+        if(pointValue === findValue){
+            while(ordered[point+1] === findValue){
+                ++point;
+            }
+        }
+    };
+    return point;
+}
+
+result(ordered,59);
+
+</script>
+</body>
+</html>

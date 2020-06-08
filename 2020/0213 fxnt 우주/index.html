@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+
+<style>
+
+@font-face {
+    font-family: "HelveticaNeue";
+    src: url("./HelveticaNeue-Bold.otf");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "HelveticaNeue";
+    src: url("./HelveticaNeue-BoldItalic.otf");
+    font-style: italic;
+    font-weight: bold;
+}
+@font-face {
+    font-family: "HelveticaNeue";
+    src: url("./HelveticaNeue-MediumItalic.otf");
+    font-style: italic;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "AkzidenzGrotesk";
+    src: url("./AkzidenzGrotesk-MediumExtended 2.otf");
+    font-weight: normal;
+}
+
+
+
+*{
+    font-family: "HelveticaNeue";
+    padding: 0;
+    margin: 0;
+}
+#wrap {
+    /* perspective: 500px; */
+}
+
+
+.header {
+    width: 100%; height: 100%;
+    /* background-color: #aaa; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+    position: fixed;
+}
+
+@keyframes brightness {
+    0% {
+        filter : brightness(1);
+    }
+
+    50% {
+        filter : brightness(1.8);
+    }
+
+    100% {
+        filter : brightness(1);
+    }
+}
+
+.header-background {
+    animation: brightness 5s ease infinite;
+    position: fixed;
+    width: 100%; height: 100%;
+    background-image: url(./img/Space_background_02.png);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    top: 0; left: 0%;
+}
+
+nav {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    background-color: transparent;
+    padding: 50px;
+    box-sizing: border-box;
+}
+
+.logo-nav {
+    width: 150px; height: 40px;
+    background-image: url(./img/logo_top.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.logo-main {
+    width: 100vw;
+    height: 100vh;
+    /* position: fixed; */
+    position: absolute;
+    z-index: 101111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+
+.logo-main-img{
+    top: 0;
+    position: relative;
+    width: 704px; height: 190px;
+    background-image: url(./img/logo_big_basic.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.logo-main-text {
+    font-family: "AkzidenzGrotesk" , sans-serif !important;
+    font-weight: bold;
+    font-size: 120px;
+    color: #fff;
+    text-align: center;
+    z-index: 1000;
+    white-space: nowrap;
+    position: relative;
+    top: 0;
+}
+
+.logo-main-text span{
+    font-family: "AkzidenzGrotesk" , sans-serif !important;
+    display: inline-block;
+    margin: 0 calc(16.6vw - 1em);
+}
+
+.shop-menu {
+    width: 234px;height: 12px;
+    background-image: url(./img/shopmenu.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#section {
+    width: 100vw;
+    display: block;
+    position: relative;
+    z-index: 2000;
+    color: #fff !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.flyimg {
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+    width: 100vw;
+    justify-content: center;
+}
+
+.flyimg .text{
+    /* border: 1px solid #fff; */
+
+}
+
+.flyimg .text p{
+    line-height: 1em;
+    position: relative;
+    top: 0;
+    text-align: left;
+    display: inline-block;
+    color: #fff;
+    font-style: italic;
+    font-size: 120px;
+    font-weight: bold;
+}
+
+.flyimg .text p .word{
+    top: 0;
+    display: block;
+    position: relative;
+}
+
+.flyimg img{
+    height: auto;
+    position: relative;
+}
+
+.flyimg-1 {
+    z-index: 100;
+    top: 50%;
+    transform :translateY(-25%);
+}
+.flyimg-1 img{
+    filter : brightness(1.3);
+    /* animation: brightness 10s ease infinite; */
+}
+
+.flyimg-2 {
+    top: calc(200vh);
+}
+.flyimg-2 img{
+    left: 400px;
+}
+.flyimg-3 {
+    top: calc(200vh + 1000px);
+    z-index: 100;
+}
+.flyimg-3 img{
+    left: -400px;
+}
+.flyimg-4 {
+    top: calc(200vh + 2000px);
+}
+.flyimg-4 img{
+    left: 400px;
+}
+.flyimg-5 {
+    top: calc(200vh + 3000px);
+    z-index: 100;
+}
+.flyimg-5 img {
+    left: -400px;
+}
+
+.flyimg-6 {
+    top: calc(200vh + 3700px);
+}
+.flyimg-6 img{
+    left: 400px;
+}
+
+.flyimg-7 {
+    z-index: 100;
+    top: calc(200vh + 5000px);
+}
+.flyimg-7 img{
+    left: -500px;
+}
+
+.flyimg-8 {
+    top: calc(200vh + 5500px);
+}
+.flyimg-8 img{
+    left: 400px;
+}
+
+
+.flyimg-9 {
+    z-index: 100;
+    top: calc(200vh + 7500px);
+    margin-bottom: 30vh;
+    z-index: 1;
+}
+
+
+.stroke {
+    -webkit-text-stroke: 0.008em #fff;
+    color: transparent;
+}
+
+
+</style>
+</head>
+<body>
+
+    <div id="wrap">
+
+        <nav>
+            <div class="logo-nav"></div>
+            <div class="shop-menu"></div>
+        </nav>
+
+        <div class="logo-main">
+            <!-- <div class="logo-main-img"></div> -->
+            <div class="logo-main-text">
+                <span>F</span>
+                <span>X</span>
+                <span>N</span>
+                <span>T</span>
+            </div>
+        </div>
+
+        <div class="header-background"></div>
+
+        <div class="flyimg flyimg-1">
+            <img src="img/img_08.png" >
+
+            <div class="text">
+                <p style="font-size : 30px; text-align: center; line-height:2.4em; font-weight: normal; top: 30vh">
+                    <span class="word">I had thought</span>
+                    <span class="word">out this sentence, </span>
+                    <span class="word">at first </span>
+                    <span class="word">it had been a small </span>
+                    <span class="word">part of myself. </span>
+                </p>
+            </div>
+
+        </div>
+        <div class="flyimg flyimg-2">
+            <img src="img/img_01.png" >
+            <div class="text">
+                <p style="left : 490px; top : -70px">
+                    <span class="word" style="left : 0px">Nothing </span>
+                    <span class="word" style="left : 140px; top: 10px;">is fixed </span>
+                    <span class="word" style="left : -180px">Forever</span>
+                </p>
+            </div>
+        </div>
+        <div class="flyimg flyimg-3">
+            <img src="img/img_02.png" >
+            <div class="text">
+                <p style="left : -440px; top: -70px">
+                    <span class="word">Existence</span>
+                    <span class="word" style="left : 200px">Precede</span>
+                    <span class="word" style="left: -110px">Essence</span>
+                </p>
+            </div>
+        </div>
+        <div class="flyimg flyimg-4">
+            <img src="img/img_0.png" >
+            <!-- <div class="text">
+                <p>
+                    <span class="word">out</span>
+                    <span class="word">this sentence,</span>
+                </p>
+            </div> -->
+        </div>
+        <div class="flyimg flyimg-5">
+            <img src="img/img_04.png" >
+            <!-- <div class="text">
+                <p>
+                    <span class="word">at first</span>
+                </p>
+            </div> -->
+        </div>
+        <div class="flyimg flyimg-6">
+            <img src="img/img_05.png" >
+            <!-- <div class="text">
+                <p>
+                    <span class="word">it had</span>
+                    <span class="word">been a small</span>
+                </p>
+            </div> -->
+        </div>
+        <div class="flyimg flyimg-7">
+            <img src="img/img_06.png" >
+            <!-- <div class="text">
+                <p>
+                    <span class="word">part of</span>
+                    <span class="word">myself.</span>
+                </p>
+            </div> -->
+        </div>
+
+        <div class="flyimg flyimg-8">
+            <img src="img/img_07.png" >
+            <div class="text">
+                <p style="font-size :14vw !important; line-height: 1.2em; top: 200px;">
+                    <span class="word stroke">Nothing </span>
+                    <span class="word stroke" style="left :-25vw">is fixed </span>
+                    <span class="word" style="left :28vw">Forever</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="flyimg flyimg-9">
+            <img src="img/img_03.png" >
+        </div>
+
+        <footer></footer>
+
+    </div>
+
+
+</body>
+
+
+<script>
+
+
+	Math.radians = function(degrees) {
+    	return degrees * Math.PI / 180;
+	};
+
+	//////////////////////////////////////////////////
+	// Follow Class
+	//////////////////////////////////////////////////
+
+    class ManObj {
+        constructor (target) {
+			this.obj = target;
+			this.startPositionY = parseInt(getComputedStyle(target).top);
+			this.targetPositionY = this.startPositionY;
+			this.followSpd = 0.1;
+
+			this.waveVal = 0;
+			this.waveSpd = 2;
+			this.rotVal = 0;
+			this.rotSpd = 0.5;
+        }
+
+		pushInterval(val){
+			this.targetPositionY += val;
+		}
+
+        draw(){
+			this.targetPositionY += (this.startPositionY - this.targetPositionY) * this.followSpd;
+
+			this.obj.style.top = this.targetPositionY + Math.cos(Math.radians(this.waveVal)) * 50 + 'px';
+			this.waveVal += this.waveSpd;
+
+			this.rotVal += this.rotSpd;
+			var tr = -5 + Math.cos(Math.radians(this.rotVal)) * 6;
+			this.obj.style.transform = `rotate(${tr}deg)`
+        }
+    }
+
+	class FollowObj {
+		constructor(target , options){
+			this.obj = target;
+			this.startPositionY = parseInt(getComputedStyle(target).top);
+			this.targetPositionY = this.startPositionY;
+			this.startSkewY = 0;
+			this.targetSkewY = this.startSkewY;
+			this.followSpd = 0.1;
+			this.maxSkewY = 23.5;
+			this.direction = 1;
+            this.useSkew = true;
+
+            if(options){
+                if(options.followSpd){
+                    this.followSpd = options.followSpd;
+                }
+            }
+		}
+		pushInterval(val){
+			this.targetPositionY += val;
+
+			this.targetSkewY += val * 0.05 * this.direction;
+			if(this.targetSkewY > this.maxSkewY){
+				this.targetSkewY = this.maxSkewY
+			}else if(this.targetSkewY < this.maxSkewY * -1){
+				this.targetSkewY = this.maxSkewY * -1;
+			}
+		}
+		draw(){
+			this.targetPositionY += (this.startPositionY - this.targetPositionY) * this.followSpd;
+			this.obj.style.top = this.targetPositionY + 'px';
+
+            if(this.useSkew){
+                this.targetSkewY += (this.startSkewY - this.targetSkewY) * this.followSpd;
+			    this.obj.style.transform = `skewY(${this.targetSkewY}deg)`;
+            }
+
+		}
+	}
+
+
+	// Loop
+
+	let trackX = 0;
+	let trackY = 0;
+
+	var mainLoop = function (){
+
+		requestAnimationFrame(mainLoop);
+		for(var i = 0; i < followObjArray.length; i++){
+			var obj = followObjArray[i];
+			obj.draw();
+		}
+
+		trackX = trackX +  ((dx - trackX) * 0.1);
+		trackY = trackY +  ((dy - trackY) * 0.1);
+
+		// const box = document.querySelector(".logo-main-img");
+		// box.style.transform = `rotateX(${trackY}deg) rotateY(${-trackX}deg)`;
+	}
+
+	// Scroll Event
+	var nowScrollY = 0;
+	var prevScrollY = 0;
+
+	window.addEventListener('scroll', function(e) {
+		prevScrollY = nowScrollY;
+		nowScrollY = window.scrollY;
+		var interval = nowScrollY - prevScrollY;
+
+		for(var i = 0; i < followObjArray.length; i++){
+			var obj = followObjArray[i];
+			obj.pushInterval(interval);
+		}
+	});
+
+
+	// Add Object
+	var followObjArray = [];
+
+	function addObject(){
+
+        const targetImages = document.querySelectorAll('.flyimg img');
+
+        [...targetImages].forEach((img,idx) => {
+
+            let obj = null;
+
+            if(idx == 0 || idx == 8){
+				obj = new ManObj(img);
+	            if(idx == 0){
+					img.style.transform = `rotate(${50}deg)`
+	            }
+            }else{
+	            obj = new FollowObj(img);
+
+	            if(idx == 2 || idx == 4 || idx == 6){
+	            	obj.direction = -1;
+	            }
+            }
+
+            followObjArray.push(obj);
+
+        });
+
+        const flyTexts = document.querySelectorAll('.flyimg .text p');
+
+        [...flyTexts].forEach((text,idx) => {
+
+            const words = text.querySelectorAll('.word');
+
+            words.forEach((word, idx) => {
+                const obj =  new FollowObj(word, {
+                    followSpd : 0.1 - (0.01 * idx)
+                });
+
+                obj.useSkew = false
+                followObjArray.push(obj);
+            })
+
+        });
+
+        const mainLogo = document.querySelector('.logo-main-text');
+
+        logoObj = new FollowObj(mainLogo , {
+            followSpd : 0.1
+        });
+
+        logoObj.useSkew = false;
+        followObjArray.push(logoObj);
+
+	}
+
+    let dx = 0 ;
+    let dy = 0;
+
+
+	 function initEvent(){
+		// 창 가로 세로 크기 구하기, 중심점은 각각 나누기 2
+		// 나중에 윈도우 말고 outer 기준으로 수정
+
+		let cx = window.innerWidth / 2;
+		let cy = window.innerHeight / 2;
+
+		window.addEventListener("resize", () => {
+			cx = window.innerWidth / 2;
+			cy = window.innerHeight / 2;
+		});
+
+		// 마우스 거리 구하기
+
+		let tx = 0;
+		let ty = 0;
+
+		const ratio = 0.05;
+
+		window.addEventListener("mousemove", e => {
+			dx = (e.clientX - cx) * ratio;
+			dy = (e.clientY - cy) * ratio;
+		});
+	 }
+
+    const backScroll = () => {
+        const full = document.scrollingElement.scrollHeight;
+        const back = document.querySelector(".header-background");
+        window.addEventListener('scroll' , () => {
+            const now = document.scrollingElement.scrollTop;
+            back.style.backgroundPositionY = now/full * 10 + '%';
+        })
+    }
+
+	// onLoad
+	window.onload = function(){
+		addObject();
+        // backScroll();
+		initEvent();
+		mainLoop();
+	}
+
+</script>
+</html>
+
+
+
+
+
+
+
+

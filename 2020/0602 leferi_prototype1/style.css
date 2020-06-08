@@ -1,0 +1,91 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+/* @keyframes {
+
+} */
+
+html {
+    width: 100vw;
+    overflow-x: hidden;
+}
+html ,body {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    background-color: #000;
+}
+
+#wrap {
+    width: 100%;
+    height: 100%;
+    /* border: 1px solid #d3d; */
+}
+.section {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    height: 150%;
+    position: relative;
+    /* overflow: hidden; */
+}
+
+.section_title {
+    position: sticky;
+    position: -webkit-sticky;
+    display: block;
+    font-size: calc(10px + 1.3vw);
+    color: #fff;
+    top: 50%;
+    left: 0;
+    transform : translateY(-50%);
+    letter-spacing: 1em;
+    z-index: 9999;
+    text-align: center;
+    text-shadow: 0px 0px 0.1em rgba(255,255,255,0.7);
+}
+.section_title strong{
+    font-weight: 900;
+}
+.section_title span{
+    font-weight: 100;
+}
+.titletext {
+    color: #fff;
+    display: inline-block;
+}
+.section_particle {
+    position: sticky;
+    /* position: absolute; */
+    width: 100%; height: 100%;
+    top: 0;
+    /* border: 1px solid #d3d; */
+}
+.particle_item {
+    position: absolute;
+    display: inline-block;
+}
+.particle_itemshape {
+    width: 100%; height: 100%;
+    position: relative;
+    display: inline-block;
+    color: rgb(231, 133, 255)
+    /* box-shadow: 5px 0 5vw #000; */
+}
+
+
+.type-circle .particle_itemshape{
+    border-radius: 99999%;
+}
+.type-oval .particle_itemshape{
+    transform: skew(21deg);
+    border-radius: 9999%
+}
+.type-diamond .particle_itemshape{
+    transform: rotate(45deg);
+}
+.type-circle .particle_itemshape{
+    border-radius: 99999%;
+}
+
+

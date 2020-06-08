@@ -1,0 +1,271 @@
+[
+    {
+        "title"     : "공과 중력",
+        "text"      : "공이 통통 튀는 중력을 구현한 예제",
+        "date"      : "200207",
+        "link"      : "https://plus-ex.com/_test/js/ball.html"
+    }
+
+    ,
+
+    {
+        "title"     : "화면에 표시되는 카드",
+        "text"      : "스크롤에 따른 현재 화면에 들어온 카드들 계산하는 예제. (visible된 카드가 선명)",
+        "date"      : "191118",
+        "link"      : "https://plus-ex.com/_test/js/card.html"
+    }
+
+    ,
+
+    {
+        "title"     : "두개의 SAMPLE 텍스트",
+        "text"      : "호를 그리는 움직임 easing이 들어간 예제",
+        "date"      : "200224",
+        "link"      : "https://plus-ex.com/_test/js/common_util_sample.html"
+    }
+
+    ,
+
+    {
+        "title"     : "흩어지는 큐브1",
+        "text"      : "캔버스에서 마우스 움직임에 따라 정육면체의 선이 회전하는 아트워크",
+        "date"      : "191007",
+        "link"      : "https://plus-ex.com/_test/js/cube.html"
+    }
+
+    ,
+
+    {
+        "title"     : "흩어지는 큐브2",
+        "text"      : "캔버스에서 마우스 움직임에 따라 정육면체의 선이 회전하는 아트워크 (보라색)",
+        "date"      : "191007",
+        "link"      : "https://plus-ex.com/_test/js/cube_.html"
+    }
+
+    ,
+
+    {
+        "title"     : "진동하는 점",
+        "text"      : "마우스 움직임에 따라 진동하는 점들을 구현한 아트워크",
+        "date"      : "191113",
+        "link"      : "https://plus-ex.com/_test/js/force.html"
+    }
+
+    ,
+
+    {
+        "title"     : "진동하는 면",
+        "text"      : "마우스 움직임에 따라 진동하는 큐브들을 표현한 아트워크",
+        "date"      : "191113",
+        "link"      : "https://plus-ex.com/_test/js/force2.html"
+    }
+
+    ,
+
+    {
+        "title"     : "해파리 다리 그리기",
+        "text"      : "랜덤하게 해파리 재료가 되는 다리가 그려지는 예제",
+        "date"      : "191007",
+        "link"      : "https://plus-ex.com/_test/js/legs.html"
+    }
+
+    ,
+
+    {
+        "title"     : "해파리 다리 그리기2",
+        "text"      : "랜덤하게 해파리 재료가 되는 다리가 그려지는 예제",
+        "date"      : "191007",
+        "link"      : "https://plus-ex.com/_test/js/legs.html"
+    }
+
+    ,
+
+    {
+        "title"     : "오색 해파리",
+        "text"      : "마우스 반응성이 있는 칼라풀한 해파리 한마리~",
+        "date"      : "191019",
+        "link"      : "https://plus-ex.com/_test/js/legs_line.html"
+    }
+
+    ,
+
+    {
+        "title"     : "해파리들",
+        "text"      : "해파리객체들이 랜덤 생성되는 예제",
+        "date"      : "191007",
+        "link"      : "https://plus-ex.com/_test/js/legs_line2.html"
+    }
+
+    ,
+
+    {
+        "title"     : "해파리들 2",
+        "text"      : "해파리객체들이 랜덤 생성되는 예제 (배경사진 사용)",
+        "date"      : "191007",
+        "link"      : "https://plus-ex.com/_test/js/legs_line3.html"
+    }
+
+    ,
+
+    {
+        "title"     : "+x로고 아트워크",
+        "text"      : "플러스엑스 로고를 이용해 그려내고 회전시키는 2.5d 아트워크 . 검은 배경에 복제 ",
+        "date"      : "200108",
+        "link"      : "https://plus-ex.com/_test/js/plusx2.html"
+    }
+
+    ,
+
+    {
+        "title"     : "+x로고 오브제",
+        "text"      : "플러스엑스 로고를 이용해 그려내고 회전시키는 2.5d 오브제. 하얀 배경에 단독",
+        "date"      : "200108",
+        "link"      : "https://plus-ex.com/_test/js/plusx_ci.html"
+    }
+
+    ,
+
+    {
+        "title"     : "행성",
+        "text"      : "행성의 궤도를 2.5d로 표현한 스크립트 예제",
+        "date"      : "2002011",
+        "link"      : "https://plus-ex.com/_test/js/revo/index.html"
+    }
+
+    ,
+
+    {
+        "title"     : "스크롤 - 순차적인 트래킹",
+        "text"      : "스크롤을 주르륵 순차적으로 따라오는 오브젝트들",
+        "date"      : "2002011",
+        "link"      : "https://plus-ex.com/_test/js/scrollevent.html"
+    }
+
+    ,
+
+    {
+        "title"     : "스크롤 - 시바견 skew",
+        "text"      : "스크롤 방향에 따라 skew되는 귀여운 시바견",
+        "date"      : "2002012",
+        "link"      : "https://plus-ex.com/_test/js/scrollskew.html"
+    }
+
+    ,
+
+    {
+        "title"     : "보라색 세탁공",
+        "text"      : "랜덤하게 배치된 점들로 이루어진 공을 표현한 예제",
+        "date"      : "191007",
+        "link"      : "https://plus-ex.com/_test/js/sort.html"
+    }
+
+    ,
+
+    {
+        "title"     : "텍스트 플립",
+        "text"      : "3가지의 플립되는 텍스트 표현 예제",
+        "date"      : "191007",
+        "link"      : "https://plus-ex.com/_test/js/text.html"
+    }
+
+    ,
+
+    {
+        "title"     : "텍스트 타이핑 플립",
+        "text"      : "텍스트가 타이핑되며 들어오는 2가지 예제",
+        "date"      : "191007",
+        "link"      : "https://plus-ex.com/_test/js/text2.html"
+    }
+
+    ,
+
+    {
+        "title"     : "텍스트 타이핑 플립",
+        "text"      : "텍스트가 타이핑되며 들어오는 2가지 예제",
+        "date"      : "191007",
+        "link"      : "https://plus-ex.com/_test/js/text2.html"
+    }
+
+    ,
+
+    {
+        "title"     : "세로형 라인 아트워크",
+        "text"      : "세로형 디스플레이에 전시 가능한 아트워크 ",
+        "date"      : "191030",
+        "link"      : "https://plus-ex.com/_test/js/wave.html"
+    }
+
+    ,
+
+    {
+        "title"     : "세로형 라인 아트워크2",
+        "text"      : "세로형 디스플레이에 전시 가능한 아트워크 ",
+        "date"      : "191030",
+        "link"      : "https://plus-ex.com/_test/js/wave2.html"
+    }
+
+    ,
+
+    {
+        "title"     : "ETIQA 시퀀스",
+        "text"      : "에티카 모델로 만든 시퀀스. 마우스 좌우 드래그에 가속도를 적용하였다.",
+        "date"      : "191216",
+        "link"      : "https://plus-ex.com/_test/js/360/index.html"
+    }
+
+    ,
+
+    {
+        "title"     : "Plus Object 프로토타입 4가지",
+        "text"      : "플러스 오브젝트 프로토타입 4가지 버전.",
+        "date"      : "200214",
+        "link"      : "https://plus-ex.com/_test/js/object/pt1.html"
+    }
+
+    ,
+
+    {
+        "title"     : "Plus Object 프로토타입 - 선",
+        "text"      : "플러스 오브젝트 프로토타입 의 선 버전",
+        "date"      : "200131",
+        "link"      : "https://plus-ex.com/_test/js/object/pt2.html"
+    }
+
+    ,
+
+    {
+        "title"     : "Plus Object 프로토타입 - 면",
+        "text"      : "플러스 오브젝트 프로토타입 의 면 버전",
+        "date"      : "191226",
+        "link"      : "https://plus-ex.com/_test/js/object/pt3.html"
+    }
+
+    ,
+
+    {
+        "title"     : "Plus Object 프로토타입 - 입방체",
+        "text"      : "플러스 오브젝트 프로토타입 의 정육면체 버전",
+        "date"      : "191226",
+        "link"      : "https://plus-ex.com/_test/js/object/pt4.html"
+    }
+
+    ,
+
+    {
+        "title"     : "원형 붓",
+        "text"      : "p5를 이용한 원형 붓 그리기",
+        "date"      : "191113",
+        "link"      : "https://plus-ex.com/_test/js/p5/index.html"
+    }
+
+    ,
+
+    {
+        "title"     : "고정 아트워크의 스크롤",
+        "text"      : "뒤의 아트워크는 고정한 상태로 스크롤 영역이 생기는 예제",
+        "date"      : "191013",
+        "link"      : "https://plus-ex.com/_test/js/scroll-frame/index.html"
+    }
+
+
+]

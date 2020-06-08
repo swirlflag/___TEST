@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+</head>
+<style>
+    button {
+  border: 0;
+  background: linear-gradient(
+    to bottom,
+    #444,
+    #111
+  );
+  border-radius: 10px;
+  padding: 10px 30px 12px;
+  outline: 0;
+  display: inline-block;
+  width: 200px;
+  text-align: left;
+}
+button:hover, button:active {
+  background: black;
+}
+button svg {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+button span {
+  font-size: 22px;
+  position: relative;
+  top: 4px;
+  color: white;
+}
+
+
+body {
+  padding: 20px;
+  text-align: center;
+}
+</style>
+<body>
+
+    <button id="button">
+
+  <svg viewBox="0 0 194.6 185.1">
+
+    <polygon fill="#FFD41D" points="97.3,0 127.4,60.9 194.6,70.7 145.9,118.1 157.4,185.1 97.3,153.5 37.2,185.1 48.6,118.1 0,70.7 67.2,60.9">
+
+      <animate id="animation-to-check" begin="indefinite" fill="freeze" attributeName="points" dur="500ms" to="110,58.2 147.3,0 192.1,29 141.7,105.1 118.7,139.8 88.8,185.1 46.1,156.5 0,125 23.5,86.6 71.1,116.7"/>
+
+      <animate id="animation-to-green" begin="indefinite" fill="freeze" attributeName="fill" dur="500ms" to="#53B848"></animate>
+
+      <animate id="animation-to-star" begin="indefinite" fill="freeze" attributeName="points" dur="500ms" to="97.3,0 127.4,60.9 194.6,70.7 145.9,118.1 157.4,185.1 97.3,153.5 37.2,185.1 48.6,118.1 0,70.7 67.2,60.9"/>
+
+      <animate id="animation-to-yellow" begin="indefinite" fill="freeze" attributeName="fill" dur="500ms" to="#FFD41D"></animate>
+
+    </polygon>
+
+  </svg>
+
+  <span id="button-text">Save</span>
+
+</button>
+
+
+<script>
+var icon = document.getElementById("button"),
+    buttonText = document.getElementById("button-text"),
+    animationToCheck = document.getElementById("animation-to-check"),
+    animationToGreen = document.getElementById("animation-to-green"),
+    animationToStar = document.getElementById("animation-to-star"),
+    animationToYellow = document.getElementById("animation-to-yellow");
+
+button.addEventListener('click', function() {
+
+  if (button.classList.contains("saved")) {
+    button.classList.remove("saved");
+    animationToStar.beginElement();
+    animationToYellow.beginElement();
+    buttonText.innerHTML = "Save";
+  } else {
+    button.classList.add("saved");
+    animationToCheck.beginElement();
+    animationToGreen.beginElement();
+    buttonText.innerHTML = "Saved!";
+  }
+
+}, false);
+</script>
+</body>
+</html>

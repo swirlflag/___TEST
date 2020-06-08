@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+
+<style>
+    body{
+        background-color: #333;
+    }
+    svg{position:absolute;top:30%;left:40%;width:300px; background: dodgerblue}
+    path{stroke:#fff;stroke-width:10;fill:transparent}
+</style>
+</head>
+<body>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+    <path/>
+</svg>
+
+<script src="dx_LoopManager.js"></script>
+<script src="dx_easePack.js"></script>
+
+<script>
+const loopManager = new DX_loopManager();
+const dxe = new DX_easeBase();
+
+let pathd = [
+    [ 'M' , 0 ,0],
+    [ 'L' , 1000 ,0] ,
+    [ 'L' , 1000 ,500] ,
+    [ 'L' , 1000 ,500] ,
+    [ 'L' , 0 ,500] ,
+    [ 'L' , 0 ,500] ,
+    [ 'L' , 0 ,0] ,
+]
+
+const layer = document.querySelector('#Layer_1');
+const layerPath = document.querySelector('#Layer_1 path');
+
+const testDraw = () => {
+    layerPath.setAttribute('d' , pathd.map(v => v.join(' ')).join(' '));
+}
+
+loopManager.register(dxe);
+loopManager.register(testDraw);
+
+dxe.addEase({
+    start : 500,
+    end : 1000,
+    duration : 1000,
+    ease : 'inOutCubic',
+    frameFunction: (eo) => {
+        pathd[4][2] = eo.updateValue;
+    }
+});
+
+setTimeout(() => {
+    dxe.addEase({
+        start : 500,
+        end : 1000,
+        duration : 1000,
+        ease : 'inOutCubic',
+        frameFunction: (eo) => {
+            pathd[3][2] = eo.updateValue;
+        }
+    });
+},150)
+
+
+
+
+
+
+</script>
+</body>
+</html>

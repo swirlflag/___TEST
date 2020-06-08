@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+
+
+	Math.radians = function(degrees) {
+    	return degrees * Math.PI / 180;
+	};
+
+	class treeBlock {
+		constructor(index, size, x, y){
+			this.index = index;
+			this.size = size;
+			this.x = x;
+			this.y = y;
+			this.array = [];
+
+			var nexIdx = index + 1;
+			var nexSize = size / 2;
+
+			if(nexIdx <= depth){
+				var rand = Math.floor(Math.random() * 2);
+				if(this.index == 2){
+					rand = Math.floor(Math.random() * 3);
+				}
+				if(rand > 0 || this.index == 1){
+					for(var i = 0; i < 4; i++){
+						var tx = this.x + i % 2 * nexSize;
+						var ty = this.y + Math.floor(i / 2) * nexSize;
+						var block = new treeBlock(nexIdx, nexSize, tx, ty);
+						this.array.push(block);
+					}
+				}
+			}
+		}
+
+		draw(){
+			if(this.array.length > 0){
+				for(var i = 0; i < this.array.length; i++){
+					var block = this.array[i];
+					block.draw();
+				}
+			}else{
+				ctx.fillStyle = '#4e4d50'
+				ctx.fillRect(this.x, this.y, this.size, this.size);
+
+
+				var rand = Math.floor(Math.random() * 2);
+				if(rand == 0){
+					return;
+				}
+
+				var colors = ['#FFFFFF', '#CCEFF6', '#FF7A85', '#CCEFF6', '#FF7A85', '#FEEBB5'];
+				var randColor = Math.floor(Math.random() * colors.length);
+
+				var randShape = Math.floor(Math.random() * 5);
+
+				if(randShape == 0){
+					var cx = this.x + this.size / 2 
+					var cy = this.y + this.size / 2
+					ctx.beginPath();
+					ctx.moveTo(this.x + this.size, cy);
+					ctx.lineWidth = 10;
+					ctx.strokeStyle = colors[randColor];
+					ctx.arc(cx, cy, this.size / 2 - 5, 0, Math.PI * 2, true);
+					ctx.closePath();
+					ctx.stroke();
+				}else if(randShape == 1){
+					ctx.beginPath();
+					ctx.moveTo(this.x + 5, this.y + 5);
+					ctx.lineWidth = 10;
+					ctx.strokeStyle = colors[randColor];
+					ctx.lineTo(this.x + this.size - 5, this.y + 5);
+					ctx.lineTo(this.x + this.size - 5, this.y + this.size - 5);
+					ctx.lineTo(this.x + 5, this.y + this.size - 5);
+					ctx.lineTo(this.x + 5, this.y + 5);
+					ctx.closePath();
+					ctx.stroke();
+				}else if(randShape == 2){
+					ctx.fillStyle = colors[randColor];
+					ctx.fillRect(this.x, this.y, this.size, this.size);
+				}else if(randShape == 3){
+					var cx = this.x + this.size / 2 
+					var cy = this.y + this.size / 2
+					ctx.beginPath();
+					ctx.moveTo(this.x + this.size, cy);
+					ctx.fillStyle = colors[randColor];
+					ctx.arc(cx, cy, this.size / 2 - 5, 0, Math.PI * 2, true);
+					ctx.closePath();
+					ctx.fill();
+				}else if(randShape == 4){
+					var lineDir = Math.floor(Math.random() * 2);
+
+					ctx.beginPath();
+					if(lineDir == 0){
+						ctx.moveTo(this.x + 5, this.y + 5);
+					}else if(lineDir == 1){
+						ctx.moveTo(this.x + this.size - 5, this.y + 5);
+					}
+					ctx.lineWidth = 10;
+					ctx.strokeStyle = colors[randColor];
+					if(lineDir == 0){
+						ctx.lineTo(this.x + this.size - 5, this.y + this.size - 5);
+					}else if(lineDir == 1){
+						ctx.lineTo(this.x + 5, this.y + this.size - 5);
+					}
+					ctx.closePath();
+					ctx.stroke();
+				}
+			}
+		}
+	}
+
+
+	var canvas;
+	var size = 600;
+	var ctx;
+	var depth = 5;
+	var block;
+    var refresh = null;
+
+	window.onload = function(){
+		canvas = document.getElementById('canvas');
+		canvas.width = size;
+		canvas.height = size;
+		ctx = canvas.getContext('2d');
+		draw();
+
+        refresh = document.getElementById('refresh');
+        refresh.addEventListener('click', draw);
+        const depth4 = document.getElementById('depth4');
+        depth4.addEventListener('click', () => {depth = 4});
+        const depth5 = document.getElementById('depth5');
+        depth5.addEventListener('click', () => {depth = 5});
+        const depth6 = document.getElementById('depth6');
+        depth6.addEventListener('click', () => {depth = 6});
+        const depths = document.getElementsByClassName('depth');
+        [...depths].forEach((depth) => {
+            depth.addEventListener('click',(e) => {
+                [...depths].forEach((button) => button.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                draw();
+            });
+        });
+
+	}
+
+	function draw(){
+		block = new treeBlock(1, size, 0, 0);
+		block.draw();
+	}
+
+</script>
+
+<style>
+body{height:100vh;display:flex;justify-content:center;align-items:center; background-color: #222;}
+#wrap{width:800px;height:800px;display:flex;justify-content:center;align-items:center;position:relative}
+#canvas{width:100%;height:100%}
+.buttons{position:absolute;top:0;right:calc(100% + 40px);display:flex;flex-direction:column}
+.buttons button{background-color:#fff;padding:10px 40px;color:#000;font-size:14px;font-weight:700;display:inline-block;outline:none;border:none;cursor:pointer;transition:all 200ms ease;border-radius:10px;margin-bottom:20px}
+#refresh{margin-bottom:100px;background-color:#5597ee;color:#fff}
+.buttons button:active{background-color:#ccc!important}
+.depth.active{background-color:#e75d5d;color:#fff}
+
+</style>
+</head>
+<body>
+<div id="wrap">
+    <canvas id="canvas"></canvas>
+    <div class="buttons">
+        <button id="refresh">refresh</button>
+        <button id="depth4" class="depth">4&nbsp;depth</button>
+        <button id="depth5" class="depth active">5&nbsp;depth</button>
+        <button id="depth6" class="depth">6&nbsp;depth</button>
+    </div>
+</div>
+
+</body>
+</html>

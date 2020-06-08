@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    background: white;
+}
+</style>
+<script>
+
+
+	Math.radians = function(degrees) {
+    	return degrees * Math.PI / 180;
+	};
+
+	class treeBlock {
+		constructor(index, size, x, y){
+			this.index = index;
+			this.size = size;
+			this.x = x;
+			this.y = y;
+			this.array = [];
+
+			var nexIdx = index + 1;
+			var nexSize = size / 2;
+
+			if(nexIdx <= depth){
+				var rand = Math.floor(Math.random() * 2);
+				if(rand == 0 || this.index == 1){
+					for(var i = 0; i < 4; i++){
+						var tx = this.x + i % 2 * nexSize;
+						var ty = this.y + Math.floor(i / 2) * nexSize;
+						var block = new treeBlock(nexIdx, nexSize, tx, ty);
+						this.array.push(block);
+					}
+				}
+			}
+		}
+
+		draw(){
+			if(this.array.length > 0){
+				for(var i = 0; i < this.array.length; i++){
+					var block = this.array[i];
+					block.draw();
+				}
+			}else{
+
+				var r = Math.floor(Math.random() * 255);
+				var g = Math.floor(Math.random() * 255);
+				var b = Math.floor(Math.random() * 255);
+
+				ctx.beginPath();
+				ctx.fillStyle = 'rgba('+ r +', '+ g +', '+ b +', 1)';
+				ctx.fillRect(this.x, this.y, this.size, this.size);
+				ctx.closePath();
+
+				console.log(this.index, this.x, this.y, this.size);
+			}
+		}
+	}
+
+
+	var canvas;
+	var size = 800;
+	var ctx;
+	var depth = 2;
+
+	/*
+	ctx.moveTo(dx, dy)
+	ctx.strokeStyle = 'rgba(255, 0, 0, 1)';
+	ctx.lineWidth = 1;
+	ctx.lineTo(dx2, dy2)
+	ctx.stroke()
+	*/
+
+	window.onload = function(){
+		canvas = document.getElementById('canvas');
+		canvas.style.width = size + 'px';
+		canvas.style.height = size + 'px';
+		ctx = canvas.getContext('2d');
+	/*
+		var block = new treeBlock(1, 50, 0, 0);
+		block.draw();
+	*/
+
+        ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+        ctx.fillRect(10, 10, 200, 100);
+	}
+
+</script>
+
+<style>
+#canvas {
+    /* width: 500px; height: 500px; */
+}
+</style>
+</head>
+<body>
+<canvas id="canvas" style="position:absolute; border : 2px solid #ff0000; top: 100px; left: 100px;"></canvas>
+</body>
+</html>

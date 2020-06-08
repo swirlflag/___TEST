@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<style>
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: rgb(4, 15, 31);
+}
+#wrap {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+#earth {
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    border-radius: 100em;
+    background-color: rgb(14, 60, 121);
+    box-shadow: inset 7px 7px 10px rgb(255, 253, 240)
+}
+#moon {
+    position: absolute;
+    width: 58px;
+    height: 58px;
+    border-radius: 100em;
+    background-color: #fff;
+    box-shadow: 0 0 40px rgb(213, 255, 28);
+}
+</style>
+</head>
+<body>
+
+<div id="wrap">
+    <div id="earth"></div>
+    <div id="moon"></div>
+</div>
+
+<script>
+
+const earth = document.querySelector('#earth');
+const moon = document.querySelector('#moon');
+
+function winSize(){
+    var size = {
+        width : window.innerWidth || document.body.clientWidth,
+        height : window.innerHeight || document.body.clientHeight
+    }
+    return size;
+}
+
+var cx , cy, cz;
+
+var canvasMouseX = 0;
+var canvasMouseY = 0;
+
+window.addEventListener("resize", function(event) {
+    cx = winSize().width / 2;
+    cy = winSize().height / 2;
+});
+
+Math.radians = function(degrees) {
+    return degrees * Math.PI / 180;
+};
+
+function init(){
+    cx = winSize().width / 2;
+    cy = winSize().height / 2;
+
+    moon.style.top = cy + 'px';
+    moon.style.left = cy + 'px';
+
+    mainLoop();
+}
+
+var a = 0;
+var v = 30;
+var xr = 200;
+var yr = 50;
+var spd = 2.5;
+
+const tsRatio = 70;
+
+let isMoonFront = true;
+
+function draw(){
+    var ar = Math.radians(a);
+    var vr = Math.radians(v);
+    var tx = Math.cos(ar) * xr;
+    var ty = Math.sin(ar) * yr;
+
+    var txx = cx + tx * Math.cos(vr) + ty * Math.sin(vr)
+    var tyy = cy - tx * Math.sin(vr) + ty * Math.cos(vr)
+
+
+    moon.style.top = tyy + 'px';
+    moon.style.left = txx + 'px';
+
+    var ts = tsRatio + Math.sin(Math.radians(a))*30
+
+    moon.style.transform = `scale(${ts/100})`;
+
+    if(Math.round(ts) > 85){
+        moon.style.zIndex = 10;
+    }else {
+        moon.style.zIndex = -1;
+    }
+
+    a += spd;
+    v += 0;
+}
+
+
+// Loop
+var mainLoop = function (){
+    requestAnimationFrame(mainLoop);
+    draw();
+}
+
+window.onload = function(){
+    init();
+}
+
+</script>
+
+</body>
+</html>

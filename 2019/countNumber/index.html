@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+<title>Document</title>
+<style>
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
+.text {
+    font-size: 40px;
+    line-height: 1em;
+    padding: 20px 40px;
+    font-weight: bold;
+    /* border: 1px solid #000; */
+    margin: 20px;
+    display: inline-block;
+}
+#t1 {
+    display: inline-block;
+}
+
+.belt{
+    /* border: 1px solid #000; */
+    /* text-shadow: 0 2px 2px rgba(0,0,0,0.2) , 0 -2px 2px rgba(0,0,0,0.2); */
+}
+
+/* @keyframes slotting{
+    0% {
+        transform : translateY(0)
+    }
+    100% {
+        transform : translateY(-90%)
+    }
+} */
+
+</style>
+</head>
+<body>
+
+&nbsp;&nbsp;&nbsp;<span id="t1">87</span>&nbsp;eXperience
+<div id="t2" class="text">0000</div>
+<!-- <div id="t3" class="text">7</div>
+<div id="t4" class="text">50</div> -->
+
+
+<script>
+
+const increaseNumber = ({
+    target ,
+    number ,
+    slotInterval = 10,
+    duration = 500,
+    countNumber = 50,
+    stagger = 50,
+}) => {
+    target = typeof target === 'string' ? document.querySelector(target) : target;
+
+    const getRandomNumber = () => Math.floor(Math.random()*10);
+    let nowNumber = 0;
+
+    const makeSlotElement = (number) => {
+        const slot = document.createElement('span');
+        slot.style.display      = 'inline-block';
+        slot.style.textAlign    = 'center';
+        slot.style.opacity = 0.15;
+        slot.innerText          = number;
+        return slot;
+    }
+
+    target.innerText    = '';
+    const numberLength  = ('' + number).length;
+    let numberArray     = Array(numberLength).fill(0);
+    let slotArray       = [];
+    let digitPointer    = numberLength-1;
+
+    for(let i = 0; i < numberLength; ++i){
+        const slot = makeSlotElement(0);
+        target.append(slot);
+        slotArray.push(slot);
+    }
+
+    duration && (slotInterval = duration/number);
+    const iv = setInterval(() => {
+
+        for(let j = numberLength-1; j > -1; --j){
+            const slot      = slotArray[j];
+            if(numberArray[j] >= 9){
+                numberArray[j] = 0;
+                --digitPointer;
+            }else {
+                ++numberArray[j];
+            }
+
+            slot.innerText = numberArray[j];
+            slot.style.opacity = 1;
+
+            if(digitPointer > j - 1){
+                break;
+            }
+        }
+
+        if(Math.abs(numberArray.reduce((p, n) => p + n,'')) === number){
+            clearInterval(iv);
+            target.innerText = number;
+        }
+
+        digitPointer = numberLength-1;
+    },slotInterval);
+
+}
+
+const increaseNumber2 = ({
+    target,
+    number,
+    duration = 1000,
+}) => {
+
+    target = typeof target === 'string' ? document.querySelector(target) : target;
+    !number && (number = parseInt(target.innerText));
+
+    const increaseValue = (number/duration)*1000/60;
+
+    let numberArray                 = [];
+    let slotArray                   = [];
+    let numberZero                  = (number+'').replace(/[0-9]/gi, '0');
+    let numberLength                = (number+'').length;
+    let countNumber                 = 0;
+    let countNumberString           = numberZero;
+    let finish                      = false;
+
+    const elementSetting = () => {
+        target.innerHTML = '';
+        for(let i = 0; i < numberLength; ++i){
+            const slot = document.createElement('span');
+            slot.style.display  = 'inline-block';
+            slot.innerText      = '0';
+            slot.style.opacity  = 0.2;
+            slotArray.push(slot);
+            target.appendChild(slot);
+        };
+    };
+
+    const increaseAction = (increase = 1) => {
+        countNumber         = countNumber + increase;
+        countNumberString   = (numberZero + Math.round(countNumber));
+        countNumberString   = countNumberString.substr(countNumberString.length - numberLength,numberLength);
+        numberArray         = countNumberString.split('');
+
+        if(countNumber >= number){
+            finish = true;
+            return;
+        };
+
+        for(let i = 0; i < numberLength; ++i){
+            const slot      = slotArray[i];
+            const number    = numberArray[i];
+            if(slot.innerText !== number){
+                slot.innerText      = number;
+                slot.style.opacity  = 1;
+            }
+        };
+    };
+
+    const finishAction = () => {
+        target.innerHTML = number;
+    };
+
+    const render = () => {
+        increaseAction(increaseValue);
+        if(!finish){
+            requestAnimationFrame(render);
+        }else {
+            finishAction();
+        };
+    };
+
+    elementSetting();
+    render();
+};
+
+
+const slotMachineNumber = ({
+    target,
+    number,
+    beforeTime = 0,
+    stagger = 200,
+}) => {
+    target = typeof target === 'string' ? document.querySelector(target) : target;
+
+    const myStyle   = document.createElement('style');
+    myStyle.type    = 'text/css';
+    const keyFrame  =   `@-webkit-keyframes slotting{ 0% {-webkit-transform: translateY(0)} 100% { -webkit-transform: translateY(-90%)} }`+
+                        `@-moz-keyframes slotting{ 0% {-webkit-transform: translateY(0)} 100% {-webkit-transform: translateY(-90%)}} }`+
+                        `@keyframes slotting{ 0% {transform: translateY(0)} 100% {transform: translateY(-90%)}} }`;
+    myStyle.innerHTML = keyFrame;
+    document.getElementsByTagName('head')[0].appendChild(myStyle);
+
+    target.innerText = '';
+    const numberString  = (number+'');
+    const numberLength  = numberString.length;
+    const numberArray   = numberString.split('');
+
+    const createSlot = (realnumber,index) => {
+        const randomArray = [...Array(10).keys()].sort(() => 0.5 - Math.random());
+        const slice = randomArray.splice(randomArray.indexOf(+realnumber), 1);
+        randomArray.push(slice);
+
+        const box   = document.createElement('span');
+        const sizer = document.createElement('span');
+        const belt  = document.createElement('span');
+
+        for(let i = 0; i < 10; ++i){
+            const beltNumber = document.createElement('div');
+            beltNumber.classList.add('belt-number');
+            beltNumber.innerText = randomArray[i];
+            belt.appendChild(beltNumber);
+        }
+
+        box.style.position = 'relative';
+        box.style.overflow = 'hidden';
+        box.style.verticalAlign = 'top';
+
+        box.style.display = 'inline-block';
+        sizer.style.display = 'inline-block';
+        belt.style.display = 'flex';
+        belt.style.flexDirection = 'column';
+
+        box.classList.add('box');
+        sizer.classList.add('sizer');
+        sizer.style.visibility = 'hidden';
+        belt.classList.add('belt');
+
+        belt.style.position = 'absolute';
+        sizer.innerText = 0;
+        box.appendChild(belt);
+        box.appendChild(sizer);
+        return box;
+    }
+
+    for(let i = 0; i < numberLength; ++i){
+        const slot = createSlot(numberArray[i],i);
+        target.appendChild(slot);
+    }
+
+    const belts = target.querySelectorAll('.belt');
+    const paintActions = [];
+
+    for(let i = 0; i < numberLength; ++i){
+        let num = 0;
+        let end = belts[i].offsetHeight * 0.9;
+        let speed = 5 + Math.ceil(Math.random() * 5);
+
+        const fn = () => {
+            num = num + speed;
+            belts[i].style.transform = `translateY(-${num}px)`;
+            if(num >= end){
+                num = 0;
+            }
+        }
+        paintActions.push(fn);
+    }
+
+    const paint = () => {
+        for(let i = 0; i < paintActions.length; ++i){
+            paintActions[i]();
+        }
+        if(paintActions.length){
+            requestAnimationFrame(paint);
+        }
+    }
+    paint();
+
+    for(let i = 0; i < numberLength; ++i){
+        setTimeout(() => {
+            belts[i].style.animation = 'slotting 1s ease-out both';
+            paintActions.shift();
+        },(i * stagger) + beforeTime);
+    };
+
+    belts[numberLength-1].addEventListener('animationend' , () => {
+        target.innerText = number;
+    },{once : true})
+
+};
+
+// increaseNumber({
+//     target : '#t1',
+//     number : 30000,
+//     duration : 200,
+// });
+
+slotMachineNumber({
+    target : '#t1',
+    number : 12431451,
+    duration : 1000,
+});
+
+slotMachineNumber({
+    target : '#t2',
+    number : 123456789,
+    beforeTime : 1000,
+});
+
+
+
+// slotMachineNumber({
+//     target : $('#test'),
+//     number : 1234,
+//     beforeTime : 1000,
+// });
+
+</script>
+</body>
+</html>

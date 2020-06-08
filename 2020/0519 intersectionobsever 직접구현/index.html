@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<style>
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#wrap {
+    width: 90vw;
+    margin-left: 5vw;
+    margin-top: 5vw;
+    border: 1px solid #eee;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#wrap div {
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+    font-weight: bold;
+    color: #fff;
+    vertical-align: top;
+    opacity: 0.3;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    transform: translateX(-50px);
+}
+.hey{
+    width: 130px; height: 100px;
+    background-color: rgb(51, 119, 221);
+    margin-right: 40vw;
+    margin-top: 1vw;
+}
+
+.ho{
+    width: 100px; height: 120px;
+    background: rgb(25, 197, 160);
+    margin-right: 30vw;
+    margin-top: 5vw;
+}
+.hi{
+    width: 90px; height: 170px;
+    background-color: rgb(240, 116, 107);
+    margin-right: 25vw;
+    margin-top: 4vw;
+
+}
+.hello {
+    width: 200px; height: 90px;
+    background-color: rgb(240, 173, 29);
+    margin-right: 41vw;
+    margin-top: 2vw;
+}
+
+.visible {
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+}
+</style>
+</head>
+<body>
+
+
+<div id="wrap">
+</div>
+
+<script>
+
+
+
+
+"use strict";
+
+function _createForOfIteratorHelper(o) {
+    if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+        if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) {
+            var i = 0;
+            var F = function F() {};
+            return {
+                s: F,
+                n: function n() {
+                    if (i >= o.length) return { done: true };
+                    return { done: false, value: o[i++] };
+                },
+                e: function e(_e) {
+                    throw _e;
+                },
+                f: F,
+            };
+        }
+        throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    }
+    var it,
+        normalCompletion = true,
+        didErr = false,
+        err;
+    return {
+        s: function s() {
+            it = o[Symbol.iterator]();
+        },
+        n: function n() {
+            var step = it.next();
+            normalCompletion = step.done;
+            return step;
+        },
+        e: function e(_e2) {
+            didErr = true;
+            err = _e2;
+        },
+        f: function f() {
+            try {
+                if (!normalCompletion && it.return != null) it.return();
+            } finally {
+                if (didErr) throw err;
+            }
+        },
+    };
+}
+
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for (var i = 0, arr2 = new Array(len); i < len; i++) {
+        arr2[i] = arr[i];
+    }
+    return arr2;
+}
+
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+
+function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+}
+
+var randomOne = function randomOne() {
+    for (var _len = arguments.length, arr = new Array(_len), _key = 0; _key < _len; _key++) {
+        arr[_key] = arguments[_key];
+    }
+
+    return !arr.length ? Math.random() > 0.5 : arr[Math.floor(Math.random() * arr.length)];
+};
+
+var iterElements = function iterElements(elList, callBack) {
+    for (var i = 0, leng = elList.length; i < leng; ++i) {
+        callBack(elList[i], i);
+    }
+};
+
+var IO = /*#__PURE__*/ (function () {
+    function IO() {
+        var _this = this;
+
+        _classCallCheck(this, IO);
+
+        this.observeList = new Set();
+        window.addEventListener("scroll", function (e) {
+            _this.detected(e);
+        });
+        this.detected();
+    }
+
+    _createClass(IO, [
+        {
+            key: "detected",
+            value: function detected(e) {
+                var wy = window.scrollY;
+                var wh = window.innerHeight;
+
+                var _iterator = _createForOfIteratorHelper(this.observeList),
+                    _step;
+
+                try {
+                    for (_iterator.s(); !(_step = _iterator.n()).done; ) {
+                        var value = _step.value;
+                        var element = value.element,
+                            visible = value.visible,
+                            unvisible = value.unvisible;
+
+                        if (element.offsetTop < wy + wh && element.offsetTop + element.offsetHeight > wy) {
+                            visible(element);
+                        } else {
+                            unvisible(element);
+                        }
+                    }
+                } catch (err) {
+                    _iterator.e(err);
+                } finally {
+                    _iterator.f();
+                }
+            },
+        },
+        {
+            key: "observe",
+            value: function observe(element, visible, unvisible) {
+                var length = element.length || 1;
+
+                for (var i = 0; i < length; ++i) {
+                    var target = element[i] || element;
+                    var item = {
+                        element: target,
+                        visible: visible,
+                        unvisible: unvisible,
+                    };
+
+                    if (this.observeList.has(item)) {
+                        return;
+                    } else {
+                        this.observeList.add(item);
+                    }
+                }
+            },
+        },
+    ]);
+
+    return IO;
+})();
+
+var wrap = document.getElementById("wrap");
+var randomWords = ["hey", "ho", "hi", "hello"];
+var myIO = new IO();
+
+var randomSay = function randomSay() {
+    var say = randomOne.apply(void 0, randomWords);
+    var el_say = document.createElement("div");
+    el_say.innerText = say;
+    el_say.classList.add(say);
+    return el_say;
+};
+
+var repeatSay = function repeatSay() {
+    var repeat = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 5;
+
+    for (var i = 0; i < repeat; ++i) {
+        var el_say = randomSay();
+        wrap.appendChild(el_say);
+        myIO.observe(
+            el_say,
+            function (target) {
+                target.classList.add("visible");
+            },
+            function (target) {
+                target.classList.remove("visible");
+            }
+        );
+    }
+};
+
+repeatSay(100);
+
+
+
+</script>
+</body>
+</html>

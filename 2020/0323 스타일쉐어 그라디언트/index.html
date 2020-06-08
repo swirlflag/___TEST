@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,700&display=swap" rel="stylesheet">
+<style>
+
+body{
+    height: 100vh;
+background: rgb(69,69,69);
+background: radial-gradient(circle, rgba(100,100,100,1) 0%, rgba(23,23,23,1) 100%);}
+*{
+    margin: 0; padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.card {
+    width: 290px;
+    display: inline-block;
+    margin: 0 auto;
+    border-radius: 40px;
+    margin-left: 50%;
+    transform: translate(-50%,50%);
+    box-shadow: 5px 5px 30px rgba(255,255,255,0.15);
+
+
+    display: inline-flex;
+    justify-content: space-between;
+
+    padding: 130px 70px 50px 70px;
+    overflow: hidden;
+    margin-bottom: 50px;
+}
+
+.back {
+    position: absolute;
+    width: 100%; height: 100%;
+    top: 0; left: 0;
+    z-index: 1;
+    /* filter:  contrast(160%) brightness(120%); */
+
+ /* lighten, overlay, screen, multiply */
+ /* screen, lighten, overlay, multiply */
+ /* lighten, screen, overlay, multiply */
+
+    /* background-blend-mode: lighten, screen, overlay, multiply  !important; */
+    background-blend-mode: overlay !important;
+
+}
+
+.backdot {
+    position: absolute;
+    z-index: 1;
+    width: 100%; height: 100%;
+    border-radius: 100%;
+    filter: blur(10px);
+}
+.backdot:nth-child(1) {
+    width: 100%; height: 100%;
+    top: -20%; left: -20%;
+    background: radial-gradient(circle, #D0D9F2 0%, rgba(255,255,255,0) 60%);
+}
+.backdot:nth-child(2) {
+    top: -20%; right: -20%;
+    background: radial-gradient(circle, #022059 0%, rgba(255,255,255,0) 60%);
+}
+.backdot:nth-child(3) {
+    bottom: -20%; left: -20%;
+    background: radial-gradient(circle, #898C3A 0%, rgba(255,255,255,0) 60%);
+}
+.backdot:nth-child(4) {
+    bottom: -20%; right: -20%;
+    background: radial-gradient(circle, #D9A86C 0%, rgba(255,255,255,0) 60%);
+}
+
+.card .psa {
+    width: 100px; height: 100px;
+    border-radius:200%;
+    overflow: hidden;
+    /* position: relative; */
+    z-index: 10;
+}
+
+.card .psa img{
+    width: 100%; height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+.card .content {
+    /* position: relative; */
+    z-index: 10;
+    color: #fff;
+    mix-blend-mode: difference;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.name {
+    font-size: 20px;
+}
+.tag , .ki {
+    font-weight: 300;
+}
+.card .content .number {
+    font-weight: 300;
+}
+.card .content .nvalue {
+    font-weight: 700;
+}
+.hanmadi ,  .nick{
+    font-size: 12px;
+}
+#myimage {
+    display: none;
+}
+
+#colorbox {
+    border: 1px solid #fff;
+    /* width: 500px; height: 100px; */
+    position: fixed;top: 50px; left: 0;
+    border: 1px solid #fff;
+    display: flex;
+    flex-direction: column;
+}
+#colorbox .box {
+    display: inline-block;
+    width: 100px !important;
+    height: 30px;
+}
+</style>
+
+</head>
+<body>
+
+
+
+<div class="wrap">
+
+    <div class="card" id="card1">
+        <div class="back"></div>
+        <div class="psa">
+            <img src="./11.jpeg" alt="">
+        </div>
+        <div class="content">
+            <span class="name">브로디</span>
+            <br>
+            <span class="tag">@hello</span>
+            <span class="ki">182</span>
+            <br>
+            <span class="number n1">팔로워 <span class="nvalue">61</span></span>
+            <span class="number n2">팔로잉 <span class="nvalue">89</span></span>
+            <span class="number n3">스타일 <span class="nvalue">23</span></span>
+            <br><br>
+            <span class="hanmadi">스쉐 시작해봄</span>
+            <br>
+            <span class="nick">insta__brodyy</span>
+        </div>
+    </div>
+
+    <div class="card" id="card2">
+        <div class="back">
+            <!-- <div class="backdot"></div>
+            <div class="backdot"></div>
+            <div class="backdot"></div>
+            <div class="backdot"></div> -->
+        </div>
+        <div class="psa">
+            <img src="./11.jpeg" alt="">
+        </div>
+        <div class="content">
+            <span class="name">브로디</span>
+            <br>
+            <span class="tag">@hello</span>
+            <span class="ki">182</span>
+            <br>
+            <span class="number n1">팔로워 <span class="nvalue">61</span></span>
+            <span class="number n2">팔로잉 <span class="nvalue">89</span></span>
+            <span class="number n3">스타일 <span class="nvalue">23</span></span>
+            <br><br>
+            <span class="hanmadi">스쉐 시작해봄</span>
+            <br>
+            <span class="nick">insta__brodyy</span>
+        </div>
+    </div>
+
+    <div class="card" id="card3">
+        <div class="back">
+        </div>
+        <div class="psa">
+            <img src="./11.jpeg" alt="">
+        </div>
+        <div class="content">
+            <span class="name">브로디</span>
+            <br>
+            <span class="tag">@hello</span>
+            <span class="ki">182</span>
+            <br>
+            <span class="number n1">팔로워 <span class="nvalue">61</span></span>
+            <span class="number n2">팔로잉 <span class="nvalue">89</span></span>
+            <span class="number n3">스타일 <span class="nvalue">23</span></span>
+            <br><br>
+            <span class="hanmadi">스쉐 시작해봄</span>
+            <br>
+            <span class="nick">insta__brodyy</span>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div id="colorbox">
+
+</div>
+
+<!-- <input type="file" id="file"> -->
+<img src="./5.jpeg" alt="" id="myimage">
+<!-- <canvas id="mycanvas"></canvas> -->
+
+
+<script src="script.js"></script>
+<script>
+
+const randomOne = (...arr) => arr[Math.floor(Math.random() * arr.length)];
+
+const blendModeList = [
+    // "normal",
+    "multiply",
+    "screen",
+    "overlay",
+    // "difference",
+    // "darken",
+    "lighten",
+    // "color-dodge",
+    // "saturation",
+    // "color",
+    // "luminosity"
+]
+
+
+const upload = (target , rgb) => {
+
+    const obj = {
+        rgb,
+        target,
+        back            : target.querySelector('.back'),
+        gradient        : [] ,
+        blendMode       : [] ,
+        angles          : [] ,
+        startPercents   : [] ,
+        endPercents     : [] ,
+        circlePosition  : [0,0],
+    };
+
+    for(let i = 0; i < rgb.length-1; ++i){
+        const [r,g,b]       = obj.rgb[i];
+        const [nr,ng,nb]    = obj.rgb[i+1] || [r,g,b];
+
+        // const dir = randomOne( 'linear-gradient' , "radial-gradient");
+
+        const dir = "linear-gradient";
+
+        const angle = Math.floor(Math.random() * 360);
+
+        const scale = 100 + Math.floor(Math.random() * 100);
+
+        // const startPercent  = Math.random() * 40;
+
+        // const endPercent = startPercent + Math.random()*40;
+
+        const startPercent = 0;
+        const endPercent = 50 + Math.random() * 100;
+
+        let str = `${dir}(${angle}deg , rgba(${r},${g},${b},1) ${startPercent}% , rgba(${nr},${ng},${nb},1) ${endPercent}%)`;
+
+        obj.angles.push(angle);
+        obj.startPercents.push(startPercent);
+        obj.endPercents.push(endPercent);
+
+        obj.gradient.push(str);
+        // obj.blendMode.push(randomOne(...blendModeList));
+    }
+
+    obj.back.style.background = obj.gradient;
+    obj.back.style.backgroundBlendMode = blendModeList.sort((a,b) => Math.random() - Math.random());
+
+    animate(obj);
+
+};
+
+const animate = (obj) => {
+
+
+    const loop = () => {
+
+        let nowGradients        = [];
+        let nowStartPercents    = [];
+        let nowEndPercents      = [];
+        let nowAngles           = [];
+
+        for(let i = 0; i < obj.rgb.length -1 ; ++i){
+            const [r,g,b] = obj.rgb[i];
+
+            const [nr,ng,nb] = obj.rgb[i+1] || [r,g,b];
+
+            const changeAngle = obj.angles[i]+0.2
+
+            let string = `linear-gradient(${obj.angles[i]}deg , rgba(${r},${g},${b},1) 0%  , rgba(${nr},${ng},${nb},1) 100%)`;
+
+            nowAngles.push(changeAngle);
+            nowGradients.push(string);
+            // nowAngles.push(obj.angles[i]+1);
+
+        }
+
+        obj.angles = nowAngles;
+        obj.gradient = nowGradients;
+
+        obj.back.style.background = obj.gradient;
+
+        requestAnimationFrame(loop);
+
+    }
+    requestAnimationFrame(loop);
+}
+
+
+const upload2 = (target , rgb) => {
+
+    const obj = {
+        rgb,
+        target,
+        back            : target.querySelector('.back'),
+        gradient        : [] ,
+        blendMode       : [] ,
+        angles          : [] ,
+        startPercents   : [] ,
+        endPercents     : [] ,
+        circlePosition  : [] ,
+        circleSpeed     : [] ,
+    };
+
+    for(let i = 0; i < obj.rgb.length; ++i){
+        const [r,g,b] = obj.rgb[i];
+        let string = '';
+        if(i === 0){
+            string = `linear-gradient(90deg , rgba(${r},${g},${b},1) 0%  , rgba(${r},${g},${b},1) 100%)`;
+        }else {
+
+            const r = Math.random() * 360;
+            const speed = 0.2 + Math.random() * 0.5;
+            const x = Math.sin(r * Math.PI/180) * 50 + 50;
+            const y = Math.cos(r * Math.PI/180) * 50 + 50;
+
+            obj.circlePosition.push(r);
+            obj.circleSpeed.push(speed)
+
+            string = `radial-gradient(ellipse at ${x}% ${y}%,rgba(${r},${g},${b},0) 0% , rgba(${r},${g},${b},1) 100%)`;
+        }
+        obj.gradient.push(string);
+    }
+
+    obj.back.style.background = obj.gradient;
+
+    animate2(obj);
+};
+
+const animate2 = (obj) => {
+
+    const loop = () => {
+
+        let nowGradients        = [];
+        let nowStartPercents    = [];
+        let nowEndPercents      = [];
+        let nowAngles           = [];
+        let nowCirclePosition   = [];
+        let nowCircleSpeed      = [];
+
+        for(let i = 0; i < obj.rgb.length; ++i){
+            let string = '';
+            const [r,g,b] = obj.rgb[i];
+
+            if(i === 0){
+                string = `linear-gradient(90deg , rgba(${r},${g},${b},1) 0%  , rgba(${r},${g},${b},1) 100%)`
+            }else {
+                const r = obj.circlePosition[i-1];
+                const speed = obj.circleSpeed[i-1];
+                const x = Math.sin( r * Math.PI / 180) * 50 + 50;
+                const y = Math.cos( r * Math.PI / 180) * 50 + 50;
+
+                nowCirclePosition.push(r+speed);
+                string = `radial-gradient(circle at ${x}% ${y}%,rgba(${r},${g},${b},0) 0% , rgba(${r},${g},${b},1) 100%)`;
+            }
+            nowGradients.push(string);
+
+        }
+
+        obj.circlePosition = nowCirclePosition;
+
+        obj.gradient = nowGradients;
+
+        obj.back.style.background = obj.gradient;
+
+        requestAnimationFrame(loop);
+    }
+
+    requestAnimationFrame(loop);
+
+}
+
+
+const myimage = document.querySelector('#myimage');
+const mycanvas = document.querySelector('#mycanvas');
+
+const getPixelMap = (url) => {
+    let result = [];
+    let img = url;
+    const w = img.width;
+    const h = img.height;
+    const canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(img,0,0,w,h);
+    const imageData = ctx.getImageData(0,0,w,h);
+    return imageData;
+}
+
+// bright,
+// muted,
+// deep,
+// blank,
+// colorful,
+// dark,
+
+var rgbPoint = extractColorFromImage(getPixelMap(myimage).data, myimage.width, myimage.height, 5, "colorful").finalColor.map(v => Object.values(v.rgb)).map(a => a.map(v => Math.round(v*255)) );
+
+// let rgba = []
+
+// rgba.push('#D0D9F2' , '#022059', '#668C14', '#898C3A' , '#D9A86C');
+// rgba.push('rgba(82,64,89,1)' , '#022059', '#668C14', '#898C3A' , '#D9A86C');
+
+// rgba = rgba.sort((a,b) => Math.random() - Math.random())
+
+
+const card1 = document.querySelector('#card1');
+const card2 = document.querySelector('#card2');
+const card3 = document.querySelector('#card3');
+
+
+upload(card1, rgbPoint);
+upload2(card2, rgbPoint);
+
+
+const colorbox = document.querySelector('#colorbox');
+rgbPoint.forEach(([r,g,b]) => {
+    const box = document.createElement('div');
+    box.classList.add('box');
+    box.style.background = `rgba(${r},${g},${b},1)`;
+    colorbox.appendChild(box);
+});
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+
+<style>
+*{
+    margin: 0; padding: 0;
+    text-align: center;
+}
+.hello {
+    width: 100px; height: 100px;
+    display: inline-block;
+    border: 1px solid #000;
+    background-color: #ddd;
+}
+.gap {
+    width: 100vw; height: 500vh;
+}
+
+.red {
+    background-color: red;
+}
+</style>
+</head>
+<body>
+
+<div id="wrap">
+    <div class="hello"></div>
+    <div class="gap"></div>
+    <div class="hello"></div>
+    <div class="gap"></div>
+    <div class="hello"></div>
+    <div class="gap"></div>
+    <div class="hello"></div>
+    <div class="gap"></div>
+    <div class="hello"></div>
+    <div class="gap"></div>
+    <div class="hello"></div>
+    <div class="gap"></div>
+    <div class="hello"></div>
+    <div class="gap"></div>
+    <div class="hello"></div>
+    <div class="gap"></div>
+</div>
+
+<script>
+
+var realOffsetTop = (el,ost = 0) => {
+    ost += el.offsetTop;
+    const pl = el.parentElement;
+    if(pl.parentElement.tagName === 'HTML'){
+        return ost;
+    }else {
+        realOffsetTop(pl,ost);
+    }
+};
+
+const ioCallback = (entries , obsever) => {
+   entries.forEach((t,i) => {
+    //    console.log(t.target);
+    //    console.log(t.intersectionRect);
+    //    console.log(t.boundingClientRect);
+    //    console.log(t.isIntersecting);
+    //    console.log(t.intersectionRatio);
+    //    console.log(t.rootBounds);
+       t.target.classList[t.isIntersecting ? 'add' : 'remove']('red')
+
+   });
+}
+const ioOption = {
+
+}
+
+const io = new IntersectionObserver(ioCallback,ioOption);
+
+const hello = document.querySelectorAll('.hello');
+
+[...hello].forEach((h) => {
+    io.observe(h);
+})
+
+
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+
+<style>
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+#wrap {
+    overflow: hidden;
+    width: 100%;height: 100vh;
+    background-color: #ddd;
+    position: relative;
+}
+
+#place {
+    position: absolute;
+    top: 0; left: 0;
+    transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: translateY(0px);
+    width: 50%; height: auto;
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ff777a+0,7db9e8+100 */
+    background: #ff777a; /* Old browsers */
+    background: -moz-linear-gradient(top,  #ff777a 0%, #7db9e8 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #ff777a 0%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #ff777a 0%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff777a', endColorstr='#7db9e8',GradientType=0 ); /* IE6-9 */
+}
+
+.block {
+    border: 1px solid #fff;
+    border-bottom: none;
+    height: 200px;
+}
+
+</style>
+</head>
+<body>
+
+<div id="wrap">
+    <div id="place">
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+    </div>
+</div>
+
+<script>
+
+
+const wrap      = document.querySelector('#wrap');
+const place     = document.querySelector('#place');
+let st = 0;
+
+window.addEventListener('wheel', (e) => {
+    console.log(e.deltaY);
+    st += e.deltaY;
+    place.style.transform = `translateY(${st}px)`;
+
+    // console.log(st);
+
+});
+
+window.addEventListener('scroll', (e) => {
+    e.preventDefault();
+});
+
+</script>
+</body>
+</html>

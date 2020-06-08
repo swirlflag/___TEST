@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+</head>
+<body>
+
+
+<!-- gradient panel -->
+<style>
+*{margin:0;padding:0}
+.wrap{width:100vw;height:100vh;display:flex;justify-content:center;align-items:center}
+.gradient-panel{width:auto;height:600px;display:inline-flex}
+.navigation{width:300px;height:100%;margin-right:50px;border:1px solid #ddd}
+.navigation .colorbox{width:100%;height:60px;display:flex}
+.navigation .colorbox .color{vertical-align:top;background-color:#ddd;border-right:1px solid #fff;display:inline-block;width:20%;display:inline-block}
+.navigation .buttonbox{margin-top:50px;width:100%;display:flex;flex-wrap:wrap}
+.navigation .buttonbox button{cursor:pointer;outline:none;border:1px solid #ddd;width:60px;height:60px;color:#aaa;font-size:30px;font-weight:700;border-bottom:8px solid rgba(0,0,0,0.5);transition:all .1s ease}
+.navigation .buttonbox button.active{border-bottom:none;height:52px;background-color:#1e90ff;color:#fff;border-color:#2278ce;border-bottom:3px solid rgba(0,0,0,0.7);transform:translateY(8px)}
+.range{margin-top:50px;font-size:30px;color:#333}
+.rangevalue{display:inline-block;margin-top:10px}
+.navigation .rangebox input{display:block;width:100%}
+input[type=range]{outline:none;-webkit-appearance:none}
+input[type=range]::-webkit-slider-runnable-track{width:100%;height:3px;cursor:pointer;background:#aaa}
+input[type=range]::-webkit-slider-thumb{border:3px solid #aaa;height:20px;width:20px;background-color:#fff;cursor:pointer;-webkit-appearance:none;margin-top:-8px}
+.view{width:600px;height:600px;position:relative}
+.view #blur-canvas{width:100%;height:100%;border:1px solid #ddd}
+.view #view-image{width:180px;height:180px;border-radius:9999px;left:50%;transform:translateX(-50%);position:absolute;bottom:10%;background-color:#eee}
+</style>
+
+<div class="wrap">
+    <div class="gradient-panel">
+        <div class="navigation">
+            <div class="colorbox">
+                <div class="color"></div>
+                <div class="color"></div>
+                <div class="color"></div>
+                <div class="color"></div>
+                <div class="color"></div>
+            </div>
+
+            <div class="buttonbox"></div>
+
+            <div class="rangebox">
+                <div class="range">
+                    <input type="range" min="0" max="100" step="1" id="range-1">
+                    <span id="value-1" class="rangevalue">-</span>
+                </div>
+                <div class="range">
+                    <input type="range" min="0" max="100" step="1" id="range-2">
+                    <span id="value-2" class="rangevalue">-</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="view">
+            <canvas id="blur-canvas"></canvas>
+            <img src="https://via.placeholder.com/180" alt="" id="view-image">
+        </div>
+    </div>
+</div>
+
+<script>
+    const buttonbox = document.querySelector('.buttonbox');
+    const viewimage = document.querySelector('#view-image');
+
+    const makebuttons = (number) => {
+        const buttonArray = [];
+        for(let i = 0; i < number; ++i){
+            const button = document.createElement('button');
+            button.innerText = i+1;
+            button.addEventListener('click', (e) => {
+                for(let i = 0; i < buttonArray.length; ++i){
+                    buttonArray[i].classList.remove('active');
+                };
+                button.classList.add('active');
+                viewimage.src = `${i}.jpg`;
+            })
+            buttonArray.push(button);
+            buttonbox.appendChild(button);
+        }
+    }
+
+    const ranges = document.querySelectorAll('.rangebox .range');
+    [...ranges].forEach((range) => {
+        const value = range.querySelector('.rangevalue');
+        const input = range.querySelector('input[type="range"]');
+        input.addEventListener('input',() => value.innerText = input.value + '%')
+    })
+
+    makebuttons(10);
+
+</script>
+
+<!-- gradient panel -->
+
+</body>
+</html>
