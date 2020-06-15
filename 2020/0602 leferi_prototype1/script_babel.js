@@ -88,8 +88,8 @@ const scrollOptions = {
     title: 'VULPUTATE',
     sectionHeight: 100,
     particleType: 'circle',
-    particleMaxsize: 30,
-    particleFrequency: 13,
+    particleMaxsize: 35,
+    particleFrequency: 15,
     particleColor: 'rgb(52, 160, 255)'
   }, {
     strong: 'DONEC',
@@ -97,7 +97,7 @@ const scrollOptions = {
     sectionHeight: 100,
     particleType: 'rect',
     particleMaxsize: 25,
-    particleFrequency: 8,
+    particleFrequency: 12,
     particleColor: 'rgb(255, 97, 163)'
   }, {
     strong: 'SUSCIPT',
@@ -105,7 +105,7 @@ const scrollOptions = {
     sectionHeight: 100,
     particleType: 'oval',
     particleMaxsize: 5,
-    particleFrequency: 50,
+    particleFrequency: 65,
     particleColor: 'rgb(226, 255, 97)'
   }, {
     strong: 'AUGUE',
@@ -113,7 +113,7 @@ const scrollOptions = {
     sectionHeight: 100,
     particleType: 'diamond',
     particleMaxsize: 8,
-    particleFrequency: 35,
+    particleFrequency: 42,
     particleColor: 'rgb(78, 255, 217)'
   }, {
     strong: 'TIRA',
@@ -121,7 +121,7 @@ const scrollOptions = {
     sectionHeight: 100,
     particleType: 'triangle',
     particleMaxsize: 15,
-    particleFrequency: 15,
+    particleFrequency: 25,
     particleColor: 'rgb(231, 133, 255)'
   }]
 };

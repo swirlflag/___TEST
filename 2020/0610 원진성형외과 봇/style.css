@@ -1,0 +1,252 @@
+
+:root {
+    --wonjinblue : #84c3ff;
+    --botheight: 34px;
+    --distance : 12px;
+
+    --inOutCubic : cubic-bezier(0.65, 0, 0.35, 1);
+    --outCubic : cubic-bezier(0.33, 1, 0.68, 1);
+    --inCubic : cubic-bezier(0.32, 0, 0.67, 0);
+
+    --outBack : cubic-bezier(.28,1.39,.24,1);
+}
+
+@keyframes maskOut{
+    0%{
+        transform :translate3d(0,0,0);
+    }
+    100%{
+        transform :translate3d(0,-100%,0);
+    }
+}
+@keyframes maskIn{
+    0%{
+        transform :translate3d(0,100%,0);
+    }
+    100%{
+        transform :translate3d(0,0,0);
+    }
+}
+
+@keyframes fadeIn{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+@keyframes fadeOut{
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+*{
+    padding: 0;
+    margin: 0;
+}
+
+#app {
+    width: 100vw;
+    height: 100vh;
+}
+#wonjinbot {
+    position: fixed;
+    bottom: 50px; right: 50px;
+    height : var(--botheight);
+    display: flex;
+    width: auto;
+    max-height : var(--botheight);
+    font-size: 12px;
+    /* color: #fff; */
+    color: #d3d;
+}
+#wonjinbot a {
+    /* color: #fff; */
+    color: #d3d;
+}
+#wonjinbot.is-open {
+    background-color: #ca1;
+}
+#wonjinbot__talk  {
+    display: inline-block;
+    width: auto; min-height : var(--botheight);
+    position: absolute;
+    right: 40px;
+    bottom: 0;
+    white-space: nowrap;
+}
+
+#wonjinbot__button {
+    display: inline;
+    position: absolute;
+    top: 0; right: 0;
+    z-index: 5;
+}
+
+#talk__background {
+    position: absolute;
+    width: 100%;
+    right: 0;bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    transform: translate3d(0,calc(100% - 34px),0);
+    transition: transform 1s ease 1s,
+                height 1s ease,
+                min-height 1s ease
+                ;
+}
+#talk__background span{
+    display: inline-block;
+    border-radius: 17px;
+    background-color: var(--wonjinblue);
+    height: 0;
+    opacity: 0.2;
+    transition: width 1s ease,
+                height 1s ease,
+                min-height 1s ease,
+                margin-top 1s ease
+                ;
+    transition-duration: 400ms;
+    transition-timing-function: var(--inOutCubic);
+}
+
+#talk__background span:nth-of-type(1){
+    height : var(--botheight);
+    opacity: 1;
+}
+
+#talk__background span.is-hide{
+    height: 0 !important;
+    min-height: 0 !important;
+}
+#talk__contents {
+    position: absolute;
+    right: 0; bottom: 0;
+}
+
+.talk__item {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+    transform: translate3d(0,calc(100% - 50px),0);
+    transition: transform 400ms linear,
+                height 400ms var(--inOutCubic),
+                bottom 400ms linear
+                ;
+}
+.talk__item.is-focus {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.talk__bubble {
+    opacity: 0.05;
+    width: auto;
+    margin-left: auto;
+    display: inline-block;
+    height: auto;
+    position: relative;
+    right: 10px;
+    bottom: 0;
+    transform: translate3d(0,26px,0);
+    transition: transform 400ms linear,
+                bottom 400ms linear,
+                margin 400ms linear
+                ;
+
+}
+.talk__title {
+    position: relative;
+    overflow: hidden;
+}
+.talk__title p{
+    height: 100%; height: 100%;
+    display: inline-block;
+    animation: maskOut 400ms var(--outCubic) forwards;
+}
+.is-focus .talk__title p{
+    animation: maskIn 400ms var(--outCubic) forwards;
+}
+
+.talk__links {
+    opacity: 0;
+    padding-top: 20px;
+    animation: fadeOut 200ms ease both;
+}
+.talk__links a{
+    display: block;
+}
+
+
+.is-open #talk__background ,
+.is-open .talk__item,
+.is-open .talk__bubble {
+    transform: translate3d(0,0,0);
+}
+
+.is-open #talk__background {
+    transition: width 1s ease,
+                height 1s ease,
+                min-height 1s ease
+                ;
+}
+.is-open #talk__background span {
+    opacity: 1;
+    margin-top: var(--distance);
+}
+.is-open #talk__background span.is-hide{
+    margin-top: 0;
+}
+
+
+.is-open .talk__bubble {
+    bottom: 10px;
+    margin-top: 32px;
+}
+.is-open .talk__links {
+    animation: fadeIn 200ms ease 350ms both;
+}
+
+.is-open #wonjinbot__button {
+    pointer-events: none;
+}
+
+
+
+
+.is-open .is-focus .talk__bubble,
+.is-focus .talk__bubble:nth-of-type(1) {
+    opacity: 1;
+}
+
+
+
+
+#wonjinbot__emoji{
+    display: inline-block;
+    background-color: var(--wonjinblue);
+    height : var(--botheight);
+    width: var(--botheight);
+    border-radius: 9999px;
+}
+
+
+
+
+
+
+
+
+
+
+
+

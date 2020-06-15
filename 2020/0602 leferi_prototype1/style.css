@@ -78,7 +78,7 @@ html ,body {
     border-radius: 99999%;
 }
 .type-oval .particle_itemshape{
-    transform: skew(21deg);
+    /* transform: skew(21deg); */
     border-radius: 9999%
 }
 .type-diamond .particle_itemshape{

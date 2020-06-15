@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+    <div id="wonjinbot">
+
+    </div>
+
+</div>
+</div>
+
+
+<script src="script.js"></script>
+
+<script>
+const DATA = [
+    [
+        {
+            title : "의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?",
+            links : [
+                {
+                    name : "1. 원진의 의료진 알아보기",
+                    href : "#"
+                }
+                ,
+                {
+                    name : "2. 원진성형외과 알아보기",
+                    href : "#"
+                }
+            ]
+        }
+
+    ]
+
+    ,
+
+    [
+        {
+            title : "원진이 추구하는 조화로운 눈에 대해 더 궁금하신가요?",
+            links : [
+                {
+                    name : "1. 눈 성형 자세히 보기",
+                    href : "#"
+                }
+                ,
+                {
+                    name : "2. 눈 성형 의료진 알아보기",
+                    href : "#"
+                }
+            ]
+        },
+        {
+            title : "상담을 진행해보시겠어요?",
+            links : [
+                {
+                    name : "카카오톡 상담",
+                    href : "#"
+                }
+                ,
+                {
+                    name : "온라인 상담",
+                    href : "#"
+                }
+                ,
+                {
+                    name : "온라인 예약",
+                    href : "#"
+                }
+
+            ]
+        },
+
+    ]
+    ,
+
+    [
+        {
+            title : "원진의 어떤 수술에 관심이 생기셨나요?",
+            links : [
+                {
+                    name : "1. 눈 성형",
+                    href : "#"
+                }
+                ,
+                {
+                    name : "2. 코 성형",
+                    href : "#"
+                }
+                ,
+                {
+                    name : "3. 안면 윤곽",
+                    href : "#"
+                }
+                ,
+                {
+                    name : "4. 양악 수술",
+                    href : "#"
+                }
+                ,
+                {
+                    name : "5. 가슴 성형",
+                    href : "#"
+                }
+            ]
+        }
+    ]
+
+]
+
+const bot = new Wonjinbot(DATA);
+
+bot.change(0);
+
+</script>
+</body>
+</html>
