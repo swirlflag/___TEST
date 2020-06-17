@@ -12,19 +12,19 @@
 
 <div id="app">
     <div id="wrap">
-        <div id="wonjinbot" class="">
+        <div id="wonjinbot">
             <div id="wonjinbot__background"></div>
             <div id="wonjinbot__contents">
                 <div class="wonjinbot__item">
-                    <div class="wonjinbot__bubble" >
+                    <div class="wonjinbot__bubble" id="test1">
                         <!-- <div class="wonjinbot__bubblecircle"></div> -->
                         <div class="wonjinbot__bubblecontent">
                             <div class="wonjinbot__title">
-                                <p>의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?2</p>
+                                <p>의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?</p>
                             </div>
                             <div class="wonjinbot__innercontents">
-                                <a href="#" target="_blank">1. 눈 성형 자세히 보기</a>
-                                <a href="#" target="_blank">2. 눈 성형 의료진 알아보기</a>
+                                <a href="#">1. 눈 성형 자세히 보기</a>
+                                <a href="#">2. 눈 성형 의료진 알아보기</a>
                             </div>
                         </div>
                         <!-- <div class="wonjinbot__bubbleloading">
@@ -33,6 +33,65 @@
                             <span></span>
                         </div> -->
                     </div>
+                    <div class="wonjinbot__bubble" id="test2">
+                        <!-- <div class="wonjinbot__bubblecircle"></div> -->
+                        <div class="wonjinbot__bubblecontent">
+                            <div class="wonjinbot__title">
+                                <p>의료진의  </p>
+                            </div>
+                            <div class="wonjinbot__innercontents">
+                                <a href="#">1. 눈 성형 자세히 보기</a>
+                                <a href="#">1. 눈 성형 자세히 보기</a>
+                                <a href="#">1. 눈 성형 자세히 보기</a>
+                                <a href="#">1. 눈 성형 자세히 보기</a>
+                                <a href="#">1. 눈 성형 자세히 보기</a>
+                                <a href="#">1. 눈 성형 자세히 보기</a>
+                            </div>
+                        </div>
+                        <!-- <div class="wonjinbot__bubbleloading">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div> -->
+                    </div>
+
+                    <div class="wonjinbot__bubble" id="test3">
+                        <!-- <div class="wonjinbot__bubblecircle"></div> -->
+                        <div class="wonjinbot__bubblecontent">
+                            <div class="wonjinbot__title">
+                                <p>의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?</p>
+                            </div>
+                            <div class="wonjinbot__innercontents">
+                                <a href="#">1. 눈 성형 자세히 보기</a>
+                            </div>
+                        </div>
+                        <!-- <div class="wonjinbot__bubbleloading">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div> -->
+                    </div>
+
+                    <div class="wonjinbot__bubble" id="test4">
+                        <!-- <div class="wonjinbot__bubblecircle"></div> -->
+                        <div class="wonjinbot__bubblecontent">
+                            <div class="wonjinbot__title">
+                                <p>의료진의 신념이 반영된 20년의 헤리티지,</p>
+                            </div>
+                            <div class="wonjinbot__innercontents">
+                                <a href="#">1. 눈 성형 자세히 보기</a>
+                            </div>
+                        </div>
+                        <!-- <div class="wonjinbot__bubbleloading">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div> -->
+                    </div>
+
+
+
+
                 </div>
             </div>
             <div id="wonjinbot__emoji"></div>
@@ -44,21 +103,37 @@
 <script src="script.js"></script>
 <script>
 
-const DATA = [
-    [
-        {
-            className : "loading",
-            title : "의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?2",
-            contents : [
-                `<a href="#" target="_blank">1. 눈 성형 자세히 보기</a>`,
-                `<a href="#" target="_blank">1. 눈 성형 의료진 알아보기</a>`,
-            ]
-        },
+const test1 = document.querySelector('#test1');
+const test2 = document.querySelector('#test2');
+const test3 = document.querySelector('#test3');
+const test4 = document.querySelector('#test4');
 
-    ]
-];
+// const DATA = [
+//     [
+//         {
+//             className : "loading",
+//             title : "의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?2",
+//             contents : [
+//                 `<a href="#" target="_blank">1. 눈 성형 자세히 보기</a>`,
+//                 `<a href="#" target="_blank">1. 눈 성형 의료진 알아보기</a>`,
+//             ]
+//         },
 
-const bot = new Wonjinbot(DATA);
+//     ]
+// ];
+
+
+const bot = new Wonjinbot();
+
+// bot.openBubble(test1);
+// bot.openBubble(test2);
+
+bot.miniBubble(test1);
+bot.miniBubble(test2);
+bot.miniBubble(test3);
+bot.miniBubble(test4);
+
+
 
 </script>
 

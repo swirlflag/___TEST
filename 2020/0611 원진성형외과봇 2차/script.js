@@ -169,7 +169,7 @@ const Wonjinbot = class {
 
         };
 
-        console.log(this.originSize)
+        // console.log(this.originSize)
     }
 
     focusing(number) {
@@ -212,11 +212,10 @@ const Wonjinbot = class {
 
         const tl = new gsap.timeline();
 
-
-        tl.to(this.el_background , 1, {width :100});
-        tl.to(this.el_background , 1, {width :200});
+        tl.to(this.el_background , 1, {width :easeBackWidth});
+        tl.to(this.el_background , 1, {width :targetWidth});
         tl.eventCallback('onComplete' , () => {
-            finishAction();
+            finishAction && finishAction();
         })
 
     }
