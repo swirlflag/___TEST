@@ -6,116 +6,123 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Document</title>
 <link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.3/gsap.min.js"></script>
 </head>
 <body>
 <div id="app">
+    <button>다음</button>
 
     <div id="wonjinbot">
 
     </div>
-
 </div>
-</div>
-
 
 <script src="script.js"></script>
 
 <script>
-const DATA = [
-    [
-        {
-            title : "의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?",
-            links : [
-                {
-                    name : "1. 원진의 의료진 알아보기",
-                    href : "#"
-                }
-                ,
-                {
-                    name : "2. 원진성형외과 알아보기",
-                    href : "#"
-                }
-            ]
-        }
+var DATA = [
+    // [
+    //     {
+    //         className : "no-open",
+    //         title : "의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?1",
+    //     },
 
-    ]
+    // ]
 
-    ,
+    // ,
 
     [
         {
-            title : "원진이 추구하는 조화로운 눈에 대해 더 궁금하신가요?",
-            links : [
-                {
-                    name : "1. 눈 성형 자세히 보기",
-                    href : "#"
-                }
-                ,
-                {
-                    name : "2. 눈 성형 의료진 알아보기",
-                    href : "#"
-                }
-            ]
-        },
-        {
-            title : "상담을 진행해보시겠어요?",
-            links : [
-                {
-                    name : "카카오톡 상담",
-                    href : "#"
-                }
-                ,
-                {
-                    name : "온라인 상담",
-                    href : "#"
-                }
-                ,
-                {
-                    name : "온라인 예약",
-                    href : "#"
-                }
-
+            className : "loading",
+            title : "의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?2",
+            contents : [
+                `<a href="#" target="_blank">1. 눈 성형 자세히 보기</a>`,
+                `<a href="#" target="_blank">1. 눈 성형 의료진 알아보기</a>`,
             ]
         },
 
     ]
-    ,
 
-    [
-        {
-            title : "원진의 어떤 수술에 관심이 생기셨나요?",
-            links : [
-                {
-                    name : "1. 눈 성형",
-                    href : "#"
-                }
-                ,
-                {
-                    name : "2. 코 성형",
-                    href : "#"
-                }
-                ,
-                {
-                    name : "3. 안면 윤곽",
-                    href : "#"
-                }
-                ,
-                {
-                    name : "4. 양악 수술",
-                    href : "#"
-                }
-                ,
-                {
-                    name : "5. 가슴 성형",
-                    href : "#"
-                }
-            ]
-        }
-    ]
+    // ,
+
+    // [
+    //     {
+    //         title : "의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?3",
+    //         contents : [
+    //             `<a href="#" target="_blank">1. 눈 성형 자세히 보기</a>`,
+    //             `<a href="#" target="_blank">1. 눈 성형 의료진 알아보기</a>`,
+    //         ]
+    //     }
+    //     ,
+    //     {
+    //         className : 'counsel',
+    //         title : "상담을 진행해보시겠어요?",
+    //         contents : [
+    //             `<a href="#" target="_blank">카카오톡 상담</a>`,
+    //             `<a href="#" target="_blank">온라인 상담</a>`,
+    //             `<a href="#" target="_blank">온라인 예약</a>`,
+    //         ]
+    //     }
+    //     ,
+
+    // ]
+
 
 ]
 
+// var DATA = [
+//     [
+//         {
+//             className : "no-open",
+//             title : "의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?1",
+//         },
+//         {
+//             className : "loading",
+//             title : "의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?2",
+//             contents : [
+//                 `<a href="#" target="_blank">1. 눈 성형 자세히 보기</a>`,
+//                 `<a href="#" target="_blank">1. 눈 성형 의료진 알아보기</a>`,
+//             ]
+//         },
+//         {
+//             title : "의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?3",
+//             contents : [
+//                 `<a href="#" target="_blank">1. 눈 성형 자세히 보기</a>`,
+//                 `<a href="#" target="_blank">1. 눈 성형 의료진 알아보기</a>`,
+//             ]
+//         },
+
+//     ]
+// ]
+
+
 const bot = new Wonjinbot(DATA);
+
+const button = document.querySelector('button');
+
+button.addEventListener('click' , () => {
+    if(bot.maxLength - 1 > bot.curerntNumber){
+        bot.change(bot.curerntNumber+1);
+    }else {
+        bot.change(0);
+    }
+});
+
+// bot.openBubbleFunction(() => {
+//     const counsel   = bot.el_focusItem.querySelector('.counsel');
+//     const nowFocus  = bot.el_focusItem;
+
+//     const condition = counsel && (!counsel.classList.contains('is-mini') && !counsel.classList.contains('is-open'));
+
+//     if(condition){
+//         setTimeout(() => {
+//             if(nowFocus === bot.el_focusItem && bot.isOpenBot){
+//                 bot.miniBubble(counsel);
+//             };
+//         },1000);
+//     };
+// });
+
 
 bot.change(0);
 

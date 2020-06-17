@@ -1,0 +1,78 @@
+:root {
+    --wonjinblue : #84c3ff;
+    --botheight: 34px;
+    --distance : 12px;
+
+    --inOutCubic : cubic-bezier(0.65, 0, 0.35, 1);
+    --outCubic : cubic-bezier(0.33, 1, 0.68, 1);
+    --inCubic : cubic-bezier(0.32, 0, 0.67, 0);
+
+    --outBack : cubic-bezier(.28,1.39,.24,1);
+}
+*{
+    margin: 0; padding: 0;
+}
+
+#wrap {
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+
+}
+
+#wonjinbot {
+    border: 1px solid #000;
+}
+
+#wonjinbot__background {
+    height: var(--botheight);
+    width: 0;
+    background-color: var(--wonjinblue);
+    background-color: dodgerblue;
+    position: absolute;
+    right: 39px; bottom: 0px;
+    border-radius: 17px;
+    transition: width 500ms ease
+                ,background-color 0ms ease 500ms
+    ;
+}
+
+#wonjinbot__contents {
+    display: flex;
+    flex-direction: column;
+}
+
+.wonjinbot__item {
+    position: absolute;
+    right: 39px;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    /* border: 1px solid #d3d; */
+    height: 0;
+    pointer-events: none;
+    margin-left: auto;
+    border-radius: 17px;
+    /* overflow: hidden; */
+    min-height : var(--botheight);
+    background-color: transparent;
+    transition: height 500ms ease ,
+                background-color 0ms ease 500ms
+    ;
+}
+
+.wonjinbot__bubble{
+    overflow: hidden;
+    height: 0px;
+    margin-top: 0;
+    border-radius: 17px;
+    transition: background-color 0ms ease 500ms
+                ,height 500ms ease
+                ,margin-top 500ms ease
+    ;
+    /* border: 1px solid #3d3; */
+    position: relative;
+    background-color: transparent;
+    margin-left: auto;
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.3/gsap.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <div id="wrap">
+        <div id="wonjinbot" class="">
+            <div id="wonjinbot__background"></div>
+            <div id="wonjinbot__contents">
+                <div class="wonjinbot__item">
+                    <div class="wonjinbot__bubble" >
+                        <!-- <div class="wonjinbot__bubblecircle"></div> -->
+                        <div class="wonjinbot__bubblecontent">
+                            <div class="wonjinbot__title">
+                                <p>의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?2</p>
+                            </div>
+                            <div class="wonjinbot__innercontents">
+                                <a href="#" target="_blank">1. 눈 성형 자세히 보기</a>
+                                <a href="#" target="_blank">2. 눈 성형 의료진 알아보기</a>
+                            </div>
+                        </div>
+                        <!-- <div class="wonjinbot__bubbleloading">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div id="wonjinbot__emoji"></div>
+
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+
+const DATA = [
+    [
+        {
+            className : "loading",
+            title : "의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?2",
+            contents : [
+                `<a href="#" target="_blank">1. 눈 성형 자세히 보기</a>`,
+                `<a href="#" target="_blank">1. 눈 성형 의료진 알아보기</a>`,
+            ]
+        },
+
+    ]
+];
+
+const bot = new Wonjinbot(DATA);
+
+</script>
+
+</body>
+</html>
+
+
