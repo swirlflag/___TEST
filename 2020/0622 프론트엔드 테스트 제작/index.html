@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+<title>Document</title>
+
+<style>
+* {
+    padding: 0; margin: 0;
+}
+html,body {
+    width: 100%;
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+}
+#app {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#title {
+    display: flex;
+    flex-direction: column;
+    font-size: 85px;
+    line-height: 0.9em;
+    letter-spacing: -0.03em;
+    color: #fff;
+}
+.title-word {
+    width: auto;
+    margin-right: auto;
+    display: inline-block;
+    padding: 0.1em;
+    border: 1px solid #d3d;
+    position: relative;
+}
+
+.title-word:nth-child(1) {
+    font-weight: 300;
+}
+.title-word:nth-child(2) {
+    letter-spacing: 0em;
+    font-weight: 700;
+}
+
+.title-image{
+    max-width : 500px;
+    border: 1px solid #3d3;
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+</style>
+</head>
+<body>
+<div id="app">
+    <div id="title">
+        <div class="title-word">
+            <p class="title-text">Creative Studio</p>
+            <img src="test1.jpeg" alt="" class="title-image">
+        </div>
+        <div class="title-word">
+            <p class="title-text">Plus X</p>
+            <img src="" alt="" class="title-image">
+        </div>
+    </div>
+</div>
+
+<script>
+
+const MouseFollowImage = class {
+
+    constructor(word) {
+        this.selecting(word);
+        this.initFunction();
+    }
+
+    selecting(word) {
+        this.el_word    = word;
+        this.el_text    = word.querySelector('.title-text');
+        this.el_image   = word.querySelector('.title-image');
+    }
+
+    mouseEnterAction() {
+
+    }
+
+    mouseMoveAction() {
+        console.log(this.el_word);
+    }
+
+    mouseLeaveAction() {
+
+    }
+
+    initFunction() {
+        this.el_text.addEventListener('mouseenter' , () => {
+            this.mouseEnterAction();
+        });
+
+        this.el_text.addEventListener('mousemove' , () => {
+            this.mouseMoveAction();
+        });
+        this.el_text.addEventListener('mouseleave' , () => {
+            this.mouseLeaveAction();
+        });
+    }
+
+}
+
+const initPage = () => {
+    const imageWords = document.querySelectorAll('.title-word');
+
+    [...imageWords].forEach((word) => {
+        new MouseFollowImage(word);
+    })
+}
+
+window.addEventListener('DOMContentLoaded' , initPage);
+</script>
+</body>
+</html>
