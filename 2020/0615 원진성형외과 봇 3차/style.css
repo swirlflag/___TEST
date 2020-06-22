@@ -7,6 +7,7 @@
     --inCubic : cubic-bezier(0.32, 0, 0.67, 0);
 
     --outBack : cubic-bezier(.28,1.39,.24,1);
+    --bdrs : 17px;
 }
 *{
     margin: 0; padding: 0;
@@ -20,27 +21,31 @@
 }
 
 #wonjinbot {
-    font-size: 12px;
+    font-size: 12px !important;
     line-height: 1em;
+    color: #fff;
+}
+
+#wonjinbot a{
+    color : inherit !important;
 }
 
 #wonjinbot__emoji {
     width: var(--botheight);
     height: var(--botheight);
-    background-color: #3d3;
+    background-color: var(--wonjinblue);
+    border-radius: 9999px;
 }
 
 #wonjinbot__background {
-    height: var(--botheight);
-    width: 4px;
+    width: 0px; height: var(--botheight);
     background-color: var(--wonjinblue);
-    background-color: rgba(120, 255, 30, 0.8);
-    box-shadow: 0 0 10px #d3d;
     position: absolute;
     right: 39px; bottom: 0;
-    z-index: 9999;
     pointer-events: none;
-
+    border-radius: var(--bdrs);
+    /* box-shadow: 0 0 10px #d3d;
+    background-color: rgba(0,0,0,0.1) !important; */
 }
 
 #wonjinbot__contents {
@@ -72,34 +77,79 @@
     right: 0;bottom: 0;
     overflow: hidden;
     box-sizing: border-box;
-    background-color: dodgerblue;
-    /* background-color: transparent; */
+    background-color: transparent;
     opacity: 0;
-    transition: background-color 0ms ease 500ms;
+    /* 말풍선이 닫힐때, 말풍선의 색이 사라지는 딜레이 */
+    /* transition: background-color 0ms ease 500ms; */
+    height: var(--botheight);
+    border-radius: var(--bdrs);
+    /* border: 1px solid #3d3; */
 }
-
+.wonjinbot__bubble.is-open{
+    /* background-color: #faa !important; */
+    /* transition: background-color 200ms ease 200ms !important ; */
+}
+.wonjinbot__bubble.is-first{
+    min-height : var(--botheight)
+}
 .is-active .wonjinbot__bubble{
-    background-color: dodgerblue;
     transition: none;
+    background-color: var(--wonjinblue);
 }
+/* .is-active .wonjinbot__item:nth-child(1) .wonjinbot__bubble{background-color: rgba(235, 115, 115, 0.5);}
+.is-active .wonjinbot__item:nth-child(2) .wonjinbot__bubble{background-color: rgba(22, 55, 241, 0.5);}
+.is-active .wonjinbot__item:nth-child(3) .wonjinbot__bubble{background-color: rgba(23, 235, 235, 0.5);}
+.is-active .wonjinbot__item:nth-child(4) .wonjinbot__bubble{background-color: rgba(190, 35, 165, 0.5);}
+.is-active .wonjinbot__item:nth-child(5) .wonjinbot__bubble{background-color: rgba(233, 211, 19, 0.5);} */
+
 
 .wonjinbot__bubble.is-appear{
     pointer-events: none;
 }
 
+.wonjinbot__bubble.type-loading.is-mini {
+    /* border: 1px solid #d3d !important; */
+}
+
 .wonjinbot__bubblecontent{
-    margin-left: 10px;
+    /* 필요한 패딩 직접 마진으로구현해야함 */
+    margin-left: 20px;
     margin-top: 10px;
     display: inline-flex;
     flex-direction:column;
+    transition: margin-top 500ms ease,
+}
+
+.is-open .wonjinbot__bubblecontent{
+    margin-top: 16px;
+}
+
+@keyframes slideInUp {
+    0%{
+        transform: translate3d(0,100%,0);
+    }
+    100% {
+        transform: translate3d(0,0,0);
+    }
 }
 
 .wonjinbot__title {
-    /* display: inline-block; */
-    /* width: auto; */
     margin-right: auto;
     margin-top: 2px;
+    /* overflow: hidden; */
+    /* opacity: 0; */
 }
+.is-focus .wonjinbot__title {
+    opacity: 1;
+    /* transition: opacity 500ms ease 500ms; */
+}
+
+.wonjinbot__title p{
+    /* position: relative; */
+    /* border: 1px solid #000; */
+    /* animation: slideInUp 500ms ease; */
+}
+
 
 .wonjinbot__innercontents {
     margin-top: 12px;
@@ -109,10 +159,51 @@
 }
 .wonjinbot__bubbleloading {
     position: absolute;
-    border: 1px solid #000;
     width: 100%; height: 100%;
     display: inline-block;
     z-index: 9999;
     right: 0; bottom: 0;
-    display: none;
+    opacity: 0;
 }
+
+.type-loading .wonjinbot__bubbleloading {
+    opacity: 1;
+}
+
+.wonjinbot__bubble.type-loading .wonjinbot__title{opacity: 0;}
+.wonjinbot__bubble.type-loading.is-open .wonjinbot__title{opacity: 1;}
+
+
+@keyframes loadingDot {
+    0%{opacity: 1;}
+    40% {opacity: 0.5;}
+    60%{opacity: 0.5;}
+    100%{opacity: 1;}
+}
+.wonjinbot__bubbleloading span{
+    position: absolute;
+    width: 4px; height: 4px;
+    background-color: #fff;
+    border-radius: 9999px;
+    right: calc(50% - 2px); top: calc(50% - 2px);
+    animation : loadingDot 1s ease infinite;
+}
+.wonjinbot__bubbleloading span:nth-of-type(1){margin-right: 8px; animation-delay: 0ms}
+.wonjinbot__bubbleloading span:nth-of-type(2){margin-right: 0px;  animation-delay: 100ms}
+.wonjinbot__bubbleloading span:nth-of-type(3){margin-right: -8px;  animation-delay: 200ms}
+
+.wonjinbot__emojieyes {
+    width:9px; height: 6px;
+    top: calc(50% - 3px); left: calc(50% - 5px);
+    position: absolute;
+}
+.wonjinbot__emojieyes span{
+    width : 2px; height : 100%;
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    border-radius: 4px;
+    transform-origin: bottom;
+}
+.wonjinbot__emojieyes span:nth-of-type(1) {right: 0;}
+.wonjinbot__emojieyes span:nth-of-type(2) {left: 0;}
