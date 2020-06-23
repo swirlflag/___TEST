@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+    <nav id="nav">
+        <h1 id="logo">VITAE</h1>
+        <ul id="menu">
+            <li class="menu__item"><a href="#">Aenean</a></li>
+            <li class="menu__item"><a href="#">ullamcorper</a></li>
+            <li class="menu__item"><a href="#">posuere</a></li>
+        </ul>
+    </nav>
+    <div id="contents">
+        <section class="header">
+            <div class="header__shapes">
+
+            </div>
+            <div class="header__background"></div>
+            <div class="header__title">
+                <h2><strong>V</strong>IVAWUS</h2>
+                <p>non volutpat metus convallis Integer porttitor ac</p>
+                <span class="shape-line"></span>
+            </div>
+        </section>
+        <section class="cards">
+            <div class="section-title">
+                <h3>IN SODALES</h3>
+                <span class="shape-line"></span>
+            </div>
+            <ul class="cards__list">
+                <li class="card__item">
+                    <div class="card__background"></div>
+                    <div class="card__text">
+                        <p>Nec facilisis</p>
+                        <p>Porttitor</p>
+                    </div>
+                    <div class="card__shapes">
+                        <span></span>
+                        <span></span>
+                    </div>
+                </li>
+                <li class="card__item">
+                    <div class="card__background"></div>
+                    <div class="card__text">
+                        <p>Elementum</p>
+                        <p>Sapien</p>
+                    </div>
+                    <div class="card__shapes">
+                        <span></span>
+                        <span></span>
+                    </div>
+                </li>
+                <li class="card__item">
+                    <div class="card__background"></div>
+                    <div class="card__text">
+                        <p>Neque eu</p>
+                        <p>Nulla mattis</p>
+                    </div>
+                    <div class="card__shapes">
+                        <span></span>
+                        <span></span>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <section class="half">
+            <div class="half__item">
+                <div class="half__background"></div>
+            </div>
+            <div class="half__item">
+                <div class="section-title">
+                    <h3>METUS CONVALLIS</h3>
+                    <span class="shape-line"></span>
+                </div>
+                <div class="section-text">
+                    <p>
+                        Nam dapibus risus in mi maximus, at auctor leo convallis. Etiam sit amet nunc porttitor, eleifend nunc in, egestas dolor. Nam sodales, est id vulputate pellentesque, justo mi sollicitudin arcu, eu ultrices tortor lacus a leo. Praesent et magna ex. Nam fringilla ex et nunc hendrerit semper. Sed commodo consectetur risus, eget varius lacus egestas ut. Donec laoreet vitae metus sed elementum. Proin in leo augue. Morbi ornare eros sit amet erat tincidunt, non volutpat metus convallis. Nulla pretium est vitae velit sollicitudin finibus. Quisque vel eros aliquet, lacinia arcu at, ullamcorper sapien.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="subscribe">
+            <div class="subscribe__contents">
+                <div class="section-title">
+                    <h3>SUBSCRIBE</h3>
+                    <p>dignissim imperdiet nisl. Fusce laoreet magna quam</p>
+                </div>
+
+                <form action="get" class="subscribe__form">
+                    <div class="subscribe__input">
+                        <input type="text" placeholder="est non lacinia dignissim">
+                    </div>
+                    <div class="subscribe__submit">
+                        <input type="submit" value="SUBMIT">
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <div id="footer">
+            <div id="footer-content">
+                <div id="footer-head">
+                    <h4>VITAE</h4>
+                    <p>
+                        maximus scelerisque velit
+                        <br>in condimentum sem imperdiet.
+                    </p>
+                </div>
+                <ul class="footer-link">
+                    <li><a href="#">curabitur</a></li>
+                    <li><a href="#">magna</a></li>
+                    <li><a href="#">pharetra</a></li>
+                    <li><a href="#">aliquet</a></li>
+                    <li><a href="#">commodo</a></li>
+                </ul>
+                <ul class="footer-link">
+                    <li><a href="#">nunc</a></li>
+                    <li><a href="#">viverra</a></li>
+                    <li><a href="#">Integer</a></li>
+                    <li><a href="#">sollicitudin</a></li>
+                    <li><a href="#">rutrum</a></li>
+                </ul>
+                <ul class="footer-link">
+                    <li><a href="#">egestas</a></li>
+                    <li><a href="#">sodales</a></li>
+                    <li><a href="#">porttitor</a></li>
+                    <li><a href="#">ullamcorper</a></li>
+                    <li><a href="#">eleifend</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+const makeHeaderShapes = (number) => {
+    const el_headerShapes = document.querySelector('.header__shapes');
+
+    for(let i = 0; i < number; ++i){
+        const el_span = document.createElement('span');
+        const x             = Math.random() * 100;
+        const y             = Math.random() * 100;
+        const width         = 30 + (Math.random() * 400);
+        el_span.style.top   = x + '%';
+        el_span.style.left  = y + '%';
+        el_span.style.width = width + 'px';
+        el_headerShapes.appendChild(el_span);
+    }
+}
+
+const initPage = () => {
+    makeHeaderShapes(14);
+}
+
+window.addEventListener('DOMContentLoaded', initPage);
+
+</script>
+<script src="script.js"></script>
+</body>
+</html>

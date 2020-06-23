@@ -51,6 +51,8 @@ const Wonjinbot = class {
     color_miniText          = '#fff';
     color_transparent       = 'transparent';
 
+    saveAction              = () => {};
+
     aniIncrease () {
         ++this.is_animatingStack;
         this.is_animating = this.is_animatingStack > 0;
@@ -58,6 +60,10 @@ const Wonjinbot = class {
     aniDecrease () {
         --this.is_animatingStack;
         this.is_animating = this.is_animatingStack > 0;
+        if(!this.is_animating){
+            this.saveAction();
+            this.saveAction = () => {};
+        }
     }
 
     constructor() {
@@ -158,7 +164,10 @@ const Wonjinbot = class {
 
     change(number) {
         if(this.is_animating){
-            return
+            this.saveAction = () => {
+                this.change(number);
+            }
+            return;
         }
 
         this.is_change = true;

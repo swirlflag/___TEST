@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<style>
+* {
+    padding: 0; margin: 0;
+}
+html,body {
+    width: 100%;
+    height: 100%;
+    background-color: #121212;
+}
+#app {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#title {
+    display: flex;
+    flex-direction: column;
+    font-size: 100px;
+    line-height: 0.9em;
+    letter-spacing: -0.03em;
+    color: #fff;
+}
+.title-word {
+    width: auto;
+    margin-right: auto;
+    display: inline-block;
+    position: relative;
+    margin-top: 0.7em;
+}
+.title-text {
+    padding: 20px;
+    box-sizing: border-box;
+    mix-blend-mode: difference;
+    position: relative;
+    z-index: 10;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.title-image{
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0;
+    pointer-events: none;
+    width: 500px; height: 500px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.is-show .title-text{
+    transform : scale(1.05);
+}
+.is-show .title-image{
+    opacity: 1;
+    transition: opacity 0.1s ease;
+}
+.title-word:nth-child(1){
+    font-weight: 300;
+}
+.title-word:nth-child(2){
+    font-weight: 300;
+    margin-left: -1em;
+}
+.title-word:nth-child(3){
+    font-weight: 700;
+    margin-right: unset;
+    margin-left: 50%;
+}
+.title-word:nth-child(1) .title-image{width: 890px; height : 300px;background-image: url(image/1.jpeg);}
+.title-word:nth-child(2) .title-image{width: 350px; height : 370px; background-image: url(image/2.jpeg);}
+.title-word:nth-child(3) .title-image{width: 250px; height: 500px; background-image: url(image/3.jpeg);}
+
+</style>
+</head>
+<body>
+<div id="app">
+    <div id="title">
+        <div class="title-word">
+            <p class="title-text">Creative Partners</p>
+            <div class="title-image"></div>
+        </div>
+        <div class="title-word">
+            <p class="title-text">Design Studio</p>
+            <div class="title-image"></div>
+        </div>
+        <div class="title-word">
+            <p class="title-text">Plus X</p>
+            <div class="title-image"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+const MouseFollowImage = class {
+
+    followRatio = 5;
+
+    constructor(word) {
+        this.selecting(word);
+        this.initFunction();
+    }
+
+    selecting(word) {
+        this.el_word    = word;
+        this.el_text    = word.querySelector('.title-text');
+        this.el_image   = word.querySelector('.title-image');
+    }
+
+    initFunction() {
+        const centerX = this.el_word.offsetWidth/2 - this.el_image.offsetWidth/2;
+        const centerY = this.el_word.offsetHeight/2 - this.el_image.offsetHeight/2;
+
+        this.el_image.style.left    = centerX  + 'px';
+        this.el_image.style.top     = centerY  + 'px';
+
+        this.el_text.addEventListener('mouseenter' , (e) => {
+            this.mouseEnterAction(e);
+        });
+        this.el_text.addEventListener('mousemove' , (e) => {
+            this.mouseMoveAction(e);
+        });
+        this.el_text.addEventListener('mouseleave' , (e) => {
+            this.mouseLeaveAction(e);
+        });
+    }
+
+    mouseEnterAction() {
+        this.el_word.classList.add('is-show');
+    }
+
+    mouseMoveAction(e) {
+        const imageX = -(this.el_word.offsetWidth/2 - e.offsetX) / this.followRatio;
+        const imageY = -(this.el_word.offsetHeight/2 - e.offsetY) / this.followRatio;
+        this.el_image.style.transform = `translate3d(${imageX}px,${imageY}px,0)`;
+    }
+
+    mouseLeaveAction() {
+        this.el_word.classList.remove('is-show');
+    }
+
+}
+
+const initPage = () => {
+    const imageWords = document.querySelectorAll('.title-word');
+
+    [...imageWords].forEach((word) => {
+        new MouseFollowImage(word);
+    })
+}
+
+window.addEventListener('DOMContentLoaded' , initPage);
+
+</script>
+</body>
+</html>
