@@ -44,6 +44,7 @@ const Wonjinbot = class {
     size_loadingType        = 26;
 
     time_toClose            = 0.5;
+    time_openTypeLoading    = 2000;
 
     color_wonjinblue        = '#84c3ff';
     color_openBackground    = '#faa';
@@ -79,6 +80,15 @@ const Wonjinbot = class {
 
     render(){
 
+        const el_typeLoadings = this.el_wonjinbot.querySelectorAll('.type-loading');
+
+        iterElement(el_typeLoadings, (bubble) => {
+            const loadingIcon = document.createElement('div');
+            addClass(loadingIcon, 'wonjinbot__bubbleloading');
+            loadingIcon.innerHTML = `<span></span><span></span><span></span>`;
+            bubble.appendChild(loadingIcon);
+        });
+
     }
 
     selecting() {
@@ -86,7 +96,7 @@ const Wonjinbot = class {
         this.el_items           = this.el_wonjinbot.querySelectorAll('.wonjinbot__item');
         this.el_bubbles         = this.el_wonjinbot.querySelectorAll('.wonjinbot__bubble');
         this.focusingItem(this.focusIndex);
-        this.focusBeforeItem    = this.focusItem;
+        this.focusBeforeItem    = null;
         this.focusBubbles       = this.focusItem.querySelectorAll('.wonjinbot__bubble');
         this.el_background      = this.el_wonjinbot.querySelector('#wonjinbot__background');
         this.el_eyes            = this.el_wonjinbot.querySelector('.wonjinbot__emojieyes');
@@ -187,6 +197,10 @@ const Wonjinbot = class {
     }
 
     focusingItem(number) {
+        if(this.el_items[number] === this.focusItem){
+            return
+        }
+
         this.focusIndex         = number;
         this.focusBeforeItem    = this.focusItem;
         this.focusItem          = this.el_items[this.focusIndex];
@@ -267,6 +281,7 @@ const Wonjinbot = class {
     }
 
     appearBubble(bubble) {
+        return
 
         const isFirst = hasClass(bubble, 'is-first');
         const duration = isFirst ? 0 : 0.5;
@@ -296,7 +311,7 @@ const Wonjinbot = class {
 
     }
 
-    miniBubble(bubble, nocalc) {
+    miniBubble(bubble, nocalc,noOpacity = false) {
         if(hasClass(bubble, 'is-mini') && noneClass(bubble, 'is-first')){
             return;
         };
@@ -335,13 +350,19 @@ const Wonjinbot = class {
 
         if(hasClass(bubble, 'type-loading')){
             miniWidth = this.size_loadingType + (this.size_paddingW*2);
+            const focusIndex = this.focusIndex;
+            setTimeout(() => {
+                if(this.focusIndex === focusIndex){
+                    this.openBubble(bubble);
+                }
+            }, this.time_openTypeLoading)
         }
 
         gsap.to(bubble, 0.5, {
             width   : miniWidth,
             delay   : miniWidthDelay,
             ease    : Back.easeOut.config(1.4),
-            opacity : 1,
+            opacity : noOpacity ? 0 : 1,
         });
 
         gsap.fromTo(bubble, 0.5 , {
@@ -383,6 +404,7 @@ const Wonjinbot = class {
         };
 
         if(hasClass(bubble, 'type-loading')){
+            addClass(bubble, 'type-loadingsave');
             removeClass(bubble, 'type-loading');
         }
 
@@ -466,25 +488,33 @@ const Wonjinbot = class {
         const bubbles = item.querySelectorAll('.wonjinbot__bubble');
 
         iterElement(bubbles , (bubble,i) => {
-            if(i === 0 && item === this.focusItem){
-                this.miniBubble(bubble, true)
+            if(hasClass(bubble, 'type-loadingsave')){
+                addClass(bubble, 'type-loading');
+                removeClass(bubble, 'type-loadingsave');
+            };
+            if(i === 0){
+                const isBeforeItem = item === this.focusBeforeItem;
+                this.miniBubble(bubble, true, isBeforeItem);
+                if(isBeforeItem){
+                    setTimeout(() => {
+                        bubble.style.opacity = 0;
+                    },500);
+                }
             }else {
                 const isFirst = hasClass(bubble, 'is-first');
 
                 gsap.to(bubble, 0.5, {
                     height      : isFirst ? this.size_bot : 0,
                     y           : 0,
-                    opacity     : isFirst ? 1 : 0,
+                    opacity     : 0,
                     backgroundColor : this.color_wonjinblue,
                 });
 
                 removeClass(bubble,'is-mini' , 'is-open');
                 this.sizingBackground();
 
-                const isBeforeItem = item === this.focusBeforeItem;
-
                 setTimeout(() => {
-                    if(isBeforeItem){
+                    if(!isFirst){
                         const miniWidth = 0;
                         bubble.style.width = miniWidth + 'px';
                     }

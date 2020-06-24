@@ -10,8 +10,9 @@
 </head>
 <body>
 
-<button id="button1" style="padding: 20px; position: absolute; top: 100px; right: 50px;">다음</button>
-<button id="button2" style="padding: 20px; position: absolute; top: 100px; right: 150px;">닫기</button>
+<button id="button1" style="padding: 20px; position: absolute; top: 100px; right: 50px;">다음으로</button>
+<button id="button2" style="padding: 20px; position: absolute; top: 100px; right: 150px;">모두닫기</button>
+<button id="button3" style="padding: 20px; position: absolute; top: 100px; right: 250px;">아래말풍선 하나 열기(없으면안엶)</button>
 <span id="view">
     현재<span>0</span>번 아이템
 </span>
@@ -46,11 +47,6 @@
                                 <a href="#">1. 눈 성형 자세히 보기</a>
                                 <a href="#">1. 눈 성형 자세히 보기</a>
                             </div>
-                        </div>
-                        <div class="wonjinbot__bubbleloading">
-                            <span></span>
-                            <span></span>
-                            <span></span>
                         </div>
                     </div>
                     <div id="bubble13" class="wonjinbot__bubble">
@@ -163,48 +159,7 @@ const bubble22 = document.querySelector('#bubble22');
 const bubble31 = document.querySelector('#bubble31');
 const bubble32 = document.querySelector('#bubble32');
 
-
-
-// const DATA = [
-//     [
-//         {
-//             className : "loading",
-//             title : "의료진의 신념이 반영된 20년의 헤리티지, 원진에 대해 더 궁금하신가요?2",
-//             contents : [
-//                 `<a href="#" target="_blank">1. 눈 성형 자세히 보기</a>`,
-//                 `<a href="#" target="_blank">1. 눈 성형 의료진 알아보기</a>`,
-//             ]
-//         },
-
-//     ]
-// ];
-
-
 const bot = new Wonjinbot();
-
-// bot.miniBubble(bubble1_1);
-// bot.miniBubble(bubble12);
-// bot.miniBubble(bubble21);
-// bot.miniBubble(test4);
-
-const autoTest = () => {
-    const bubbles = document.querySelectorAll('.wonjinbot__bubble');
-    for(let i = 0; i < bubbles.length; ++i){
-        const bubble = bubbles[i];
-        const st = () => {
-            const time = 1000 + Math.random() * 3000;
-            setTimeout(() => {
-                bot.toggleBubble(bubble);
-                st();
-            },time)
-        };
-        st();
-    };
-};
-
-
-// autoTest();
-
 
 const button1 = document.querySelector('#button1');
 const button2 = document.querySelector('#button2');
@@ -227,11 +182,11 @@ button2.addEventListener('click' , () => {
     bot.closeBubbleAll();
 });
 
-
-// setInterval(() => {
-//     console.log(bot.is_animating);
-// },10)
-
+button3.addEventListener('click' , () => {
+    const bubbles = bot.focusItem.querySelectorAll(".wonjinbot__bubble");
+    const bubbleOne = [...bubbles].find((bubble) => !bubble.classList.contains('is-open') && !bubble.classList.contains('is-mini'));
+    bubbleOne && bot.miniBubble(bubbleOne);
+});
 
 </script>
 

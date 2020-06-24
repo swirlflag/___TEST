@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Document</title>
+<title>Front-end Homework Test</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -43,20 +43,12 @@
                         <p>Nec facilisis</p>
                         <p>Porttitor</p>
                     </div>
-                    <div class="card__shapes">
-                        <span></span>
-                        <span></span>
-                    </div>
                 </li>
                 <li class="card__item">
                     <div class="card__background"></div>
                     <div class="card__text">
                         <p>Elementum</p>
                         <p>Sapien</p>
-                    </div>
-                    <div class="card__shapes">
-                        <span></span>
-                        <span></span>
                     </div>
                 </li>
                 <li class="card__item">
@@ -65,16 +57,15 @@
                         <p>Neque eu</p>
                         <p>Nulla mattis</p>
                     </div>
-                    <div class="card__shapes">
-                        <span></span>
-                        <span></span>
-                    </div>
                 </li>
             </ul>
         </section>
         <section class="half">
             <div class="half__item">
                 <div class="half__background"></div>
+                <div class="half__backgroundshapes">
+
+                </div>
             </div>
             <div class="half__item">
                 <div class="section-title">
@@ -104,6 +95,11 @@
                         <input type="submit" value="SUBMIT">
                     </div>
                 </form>
+            </div>
+            <div class="subscribe__shapes">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </section>
 
@@ -152,15 +148,33 @@ const makeHeaderShapes = (number) => {
         const x             = Math.random() * 100;
         const y             = Math.random() * 100;
         const width         = 30 + (Math.random() * 400);
-        el_span.style.top   = x + '%';
-        el_span.style.left  = y + '%';
+        el_span.style.left  = x + '%';
+        el_span.style.top   = y + '%';
         el_span.style.width = width + 'px';
         el_headerShapes.appendChild(el_span);
     }
 }
 
+const makeHalfBackgroundShapes = (number) => {
+    const el_halfBackgroundShapes = document.querySelector('.half__backgroundshapes');
+
+    for(let i = 0; i < number; ++i){
+        const standardY = Math.random();
+        const el_span   = document.createElement('span');
+        const x         = Math.random() * 100;
+        const y         = 30 + (standardY * 60);
+        const scale     = standardY
+        const rotate    = Math.random() * 360;
+        el_span.style.left  = x + '%';
+        el_span.style.top   = y + '%';
+        el_span.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
+        el_halfBackgroundShapes.appendChild(el_span);
+    }
+}
+
 const initPage = () => {
-    makeHeaderShapes(14);
+    makeHeaderShapes(8);
+    makeHalfBackgroundShapes(24);
 }
 
 window.addEventListener('DOMContentLoaded', initPage);

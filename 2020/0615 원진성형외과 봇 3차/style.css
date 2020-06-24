@@ -107,8 +107,8 @@
     pointer-events: none;
 }
 
-.wonjinbot__bubble.type-loading.is-mini {
-    /* border: 1px solid #d3d !important; */
+.wonjinbot__bubble.type-loading{
+    pointer-events: none;
 }
 
 .wonjinbot__bubblecontent{

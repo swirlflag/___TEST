@@ -15,129 +15,137 @@
 *{
     margin: 0;padding: 0;
 }
+html, body {
+    width: 100%; height: 100%;
+}
+#app {
+    height: 100%;
+}
 .trigger-box {
     position: relative;
     display: inline-block;
-    width: 100%; height: auto;
-    height: 100px;
     background-color: #ddd;
 }
 .trigger-line {
     height: 1px;
     background-color: #3d3;
     width: 100%;
-    /* position: relative; */
-    /* display: inline-block; */
-    /* border: 1px solid #000; */
 }
 
-.rect {
-    width: 100px; 
-    height: 100px;
-    background-color: #d3d;
-    position: relative;display: inline-block;
+.title {
+    width: 100%; height: 100%;
+    border: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.rect1 {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    border: 1px solid #d3d;
-    /* position: fixed; */
-    margin-top: 500px;
+.title .trigger-line {
+    position: absolute;
 }
-
-.rect2 {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    border: 1px solid #f11;
+.title h1{
+    font-size: 10px;
+    letter-spacing: normal;
+    opacity: 0;
     /* position: fixed; */
 }
 
-.rect3 {
-    width: 300px; height: 300px;
-    border: 1px solid #d3a;
-}
-.rect4 {
-    width: 200px; height: 150px;
-    border: 1px solid #da1;
-
-}
-
-.section {
-    height: 500px;
-    border: 1px solid #ddd;
-    margin-top: 200px;
+.title h1 span{
+    display: inline-block;
 }
 
 
-.target1 {
-    width: 100px; 
-    height: 100px;
-    background-color: #d3d;
+.section-content {
+    max-width : 1000px;
+    padding: 50px;
 }
 
-.gap  {
-    width: 100%;
-    display: block;
-    height: 500px;
+.section-content {
+    max-width : 1000px;
+    padding: 50px;
 }
+
+.textcontents {
+    padding: 300px 100px;
+    position: relative;
+}
+.textcontents h2 {
+    overflow: hidden;
+}
+.textcontents h2 div {
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.textcontents .trigger-line{
+    position: absolute;
+    top: 0; left: 0;
+}
+
+
 </style>
 </head>
 <body>
 
 <div id="app">
 
-    <div class="gap"></div>
+    <section class="title">
+        <div class="trigger-line" trigger-pointer="1"></div>
+        <h1 trigger-target="1">
+            <span trigger-target="1">안</span>
+            <span trigger-target="1">녕</span>
+            <span trigger-target="1">하</span>
+            <span trigger-target="1">세</span>
+            <span trigger-target="1">요</span>
+            <span trigger-target="1">!</span>
+        </h1>
+    </section>
 
-    <!-- <div class="trigger-box">
-        <div class="trigger-line"></div>
-        <div class="rect"></div>
-    </div>
-    <div class="trigger-box">
-        <div class="trigger-line"></div>
-        <div class="rect"></div>
-    </div>
-    <div class="trigger-box">
-        <div class="trigger-line"></div>
-        <div class="rect"></div>
-    </div>
-    <div class="trigger-box">
-        <div class="trigger-line"></div>
-        <div class="rect"></div>
-    </div> -->
+    <section class="textcontents">
+        <div class="trigger-line" trigger-pointer="2"></div>
+        <div class="section-content">
+            <h2>
+                <div trigger-target="2">
+                    In hac habitasse platea dictumst. Mauris sollicitudin mauris nec ex efficitur tincidunt. Integer ultricies velit dui, vel posuere lacus congue quis. Integer ex diam, sodales a bibendum non, viverra sit amet neque. Proin ac lacinia eros. Suspendisse tincidunt convallis felis vitae pulvinar. Nulla interdum ex odio, vel auctor ipsum cursus in. Suspendisse elementum rhoncus ante, a egestas risus pellentesque a.
+                </div>
+            </h2>
+            <p trigger-target="2">
+                In hac habitasse platea dictumst. Mauris sollicitudin mauris nec ex efficitur tincidunt. Integer ultricies velit dui, vel posuere lacus congue quis. Integer ex diam, sodales a bibendum non, viverra sit amet neque. Proin ac lacinia eros. Suspendisse tincidunt convallis felis vitae pulvinar. Nulla interdum ex odio, vel auctor ipsum cursus in. Suspendisse elementum rhoncus ante, a egestas risus pellentesque a.
 
-    <!-- <div class="trigger-line" trigger-pointer="1"></div>
-    <div class="target1" trigger-target="1"></div> -->
+                Duis vel purus consequat, viverra ipsum volutpat, sollicitudin augue. Mauris eros dolor, mollis non felis sed, dictum luctus ante. Cras consectetur, magna eu convallis varius, arcu turpis vehicula diam, sed suscipit tellus tellus ut dolor. Mauris vel efficitur dolor, nec suscipit enim. Nam sed felis nisl. Proin posuere quis justo et iaculis. Sed at enim ut ipsum cursus posuere. Phasellus posuere pharetra leo nec dapibus.
 
-    <div class="trigger-box">
-        <div class="trigger-line"></div>
-        <div class="rect"></div>
-        <div class="rect"></div>
-        <div class="rect"></div>
-        <div class="rect"></div>
-        <div class="rect"></div>
-        <div class="rect"></div>
-    </div>
+                In a rutrum leo. Nulla sollicitudin rhoncus eros, eu facilisis nulla iaculis ac. Quisque sed ante cursus, ultricies neque non, dictum dolor. Vestibulum varius aliquet varius. Duis bibendum risus metus, sit amet laoreet neque mattis sed. Praesent auctor laoreet felis, eu laoreet tellus volutpat nec. Nunc ut arcu et metus accumsan imperdiet. Donec feugiat massa a luctus ornare. Proin vitae nulla vitae orci fringilla tempor nec ut neque.
 
-    <div class="gap"></div>
-    <div class="gap"></div><div class="gap"></div>
-
-
-
-
+                Pellentesque eu nisi semper, dignissim sem sit amet, dapibus turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque vestibulum leo sed tortor tincidunt egestas. Nam sollicitudin mi quis quam feugiat, eget vestibulum orci placerat. Sed pulvinar vestibulum nisl, non cursus lorem varius vestibulum. Suspendisse commodo nisi et magna volutpat convallis. Donec sed rhoncus magna, et placerat leo. Donec lobortis arcu urna, vel feugiat lacus cursus in. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras in mollis mauris. Pellentesque ullamcorper lectus eu felis elementum bibendum. Phasellus vel felis eu arcu tincidunt auctor.
+            </p>
+        </div>
+    </section>
 </div>
 
-<script src="dxscroll.js"></script>
+<script src="dx_scrolltrigger.js"></script>
 <script>
+
+const iterElement = (els,fn) => {for(let i = 0, l = els.length; i < l; ++i){fn(els[i],i)}}
 
 const initPage = () => {
 
     const myScrollAction = makeScrollAction({isTest: true});
 
-    myScrollAction('.rect' , 400, {x : 1000 , scale: 1.1});
-    // myScrollAction('.rect' , 400, {x : 1000});
+    myScrollAction('.title h1' , 100, { opacity : 1});
+    myScrollAction('.title h1' , 600, { fontSize:'200px', color: '#f00'});
+
+    const el_section1h1          = document.querySelector('.title h1');
+    const el_section1h1Text     = document.querySelectorAll('.title h1 span');
+
+    iterElement(el_section1h1Text, (text,i) => {
+        myScrollAction(text, 600, {yPercent : 50 * (i%2?1:-1)});
+    });
+
+    const el_section2Title   = document.querySelector('.section-content h2 div');
+    const el_section2Text    = document.querySelector('.section-content p');
+
+    myScrollAction(el_section2Text, 400 , {marginTop : '80px' });
+    myScrollAction(el_section2Title, 400 , {xPercent : -50});
 
 };
 
