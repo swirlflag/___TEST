@@ -92,12 +92,13 @@
 
 <script>
  var swiper = new Swiper('.swiper-container', {
-      direction: 'vertical',
+        direction: 'vertical',
     //   slidesPerView: 'auto',
     //   freeMode: true,
     //   scrollbar: {
     //     el: '.swiper-scrollbar',
     //   },
+        effect : 'fade',
         speed :600,
         mousewheel: true,
         autoHeight: true,
@@ -154,9 +155,6 @@
 
     // scrollSetting();
 
-    setInterval(() => {
-        console.log(swiper.watchState)
-    },100)
 
     swiper.on('slideChange' , () => {
 

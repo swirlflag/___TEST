@@ -28,7 +28,7 @@ html, body {
 }
 .trigger-line {
     height: 1px;
-    background-color: #3d3;
+    background: linear-gradient(90deg, rgba(221,51,221,1) 0%, rgba(253,226,29,1) 50%, rgba(51,221,51,1) 100%);
     width: 100%;
 }
 
@@ -65,21 +65,48 @@ html, body {
     padding: 50px;
 }
 
-.textcontents {
+.text_contents {
     padding: 300px 100px;
     position: relative;
 }
-.textcontents h2 {
+.text_contents h2 {
     overflow: hidden;
 }
-.textcontents h2 div {
+.text_contents h2 div {
     white-space: nowrap;
     display: inline-block;
 }
 
-.textcontents .trigger-line{
+.text_contents .trigger-line{
     position: absolute;
     top: 0; left: 0;
+}
+
+.rect_contents {
+    position: relative;    
+    height: 100%;
+}
+
+.rect_contents .rect1{
+    width: 200px; height: 200px;
+    background-color: rgb(248, 165, 69);
+    position: absolute;
+    left: 70%; top: 500px;
+    display: inline-block;
+}
+.rect_contents .rect2{
+    width: 300px; height: 300px;
+    background-color: rgb(27, 152, 209);
+    position: absolute;
+    left: 20%; top: 600px;
+    display: inline-block;
+}
+.rect_contents .rect3{
+    width: 250px; height: 250px;
+    background-color: rgb(65, 238, 109);
+    position: absolute;
+    left: 40%; top: 300px;
+    display: inline-block;
 }
 
 
@@ -101,7 +128,7 @@ html, body {
         </h1>
     </section>
 
-    <section class="textcontents">
+    <section class="text_contents">
         <div class="trigger-line" trigger-pointer="2"></div>
         <div class="section-content">
             <h2>
@@ -119,6 +146,13 @@ html, body {
                 Pellentesque eu nisi semper, dignissim sem sit amet, dapibus turpis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque vestibulum leo sed tortor tincidunt egestas. Nam sollicitudin mi quis quam feugiat, eget vestibulum orci placerat. Sed pulvinar vestibulum nisl, non cursus lorem varius vestibulum. Suspendisse commodo nisi et magna volutpat convallis. Donec sed rhoncus magna, et placerat leo. Donec lobortis arcu urna, vel feugiat lacus cursus in. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras in mollis mauris. Pellentesque ullamcorper lectus eu felis elementum bibendum. Phasellus vel felis eu arcu tincidunt auctor.
             </p>
         </div>
+    </section>
+
+    <section class="rect_contents">
+        <div class="trigger-line" trigger-pointer="3"></div>
+        <div class="rect1" trigger-target="3"></div>
+        <div class="rect2" trigger-target="3"></div>
+        <div class="rect3" trigger-target="3"></div>
     </section>
 </div>
 
@@ -141,11 +175,19 @@ const initPage = () => {
         myScrollAction(text, 600, {yPercent : 50 * (i%2?1:-1)});
     });
 
-    const el_section2Title   = document.querySelector('.section-content h2 div');
-    const el_section2Text    = document.querySelector('.section-content p');
+    const el_section2Title   = document.querySelector('.text_contents .section-content h2 div');
+    const el_section2Text    = document.querySelector('.text_contents .section-content p');
 
     myScrollAction(el_section2Text, 400 , {marginTop : '80px' });
     myScrollAction(el_section2Title, 400 , {xPercent : -50});
+
+    const el_section3Rect1 = document.querySelector('.rect_contents .rect1');
+    const el_section3Rect2 = document.querySelector('.rect_contents .rect2');
+    const el_section3Rect3 = document.querySelector('.rect_contents .rect3');
+
+    myScrollAction(el_section3Rect1 , 400, { rotation : 180});
+    myScrollAction(el_section3Rect2 , 400, { rotation : -40});
+    myScrollAction(el_section3Rect3 , 400, { rotation : -100});
 
 };
 

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.4/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
+<style>
+*{
+    margin: 0;
+    padding: 0;
+
+}
+html,body {
+    height: 100%;
+}
+#app {
+    height: 100%;
+    overflow-y: scroll;
+    font-size: 26px;
+}
+
+#app.lock-scroll {
+    overflow: hidden;
+}
+
+section {
+    padding: 0 20px;
+    margin: 100px 0;
+}
+
+section.iwantfix {
+    height: 100%;
+    padding: 0; margin: 0;
+}
+
+.iwantfix .swiper-container {
+    height: 100%;
+}
+
+.iwantfix .swiper-slide {
+    color: #fff;
+}
+.iwantfix .swiper-slide:nth-of-type(1) {background-color: rgb(218, 70, 70);}
+.iwantfix .swiper-slide:nth-of-type(2) {background-color: rgb(70, 109, 218);}
+.iwantfix .swiper-slide:nth-of-type(3) {background-color: rgb(146, 70, 218);}
+.iwantfix .swiper-slide:nth-of-type(4) {background-color: rgb(151, 206, 22);}
+
+@media screen and (max-width : 760px) {
+    #app {
+        font-size: 14px;
+    }
+    section {
+        padding: 0 20px;
+        margin: 20px 0;
+    }
+
+}
+
+</style>
+</head>
+<body>
+<div id="mydisplay" style="position:fixed; top: 0;right:0;background: dodgerblue;color:#fff;font-size: 14px;z-index: 9999;line-height: 1.4em">
+    <div>now state : <span id="t1">-</span></div>
+    <div>last state change : <span id="t2">-</span></div>
+</div>
+<div id="app">
+    <section>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae arcu at felis varius aliquet elementum at neque. Donec vulputate quam ac odio posuere porta. Cras vitae hendrerit lorem, ac imperdiet ipsum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent tincidunt blandit enim, viverra venenatis eros luctus ut. In ultrices velit id lectus tristique sagittis. Fusce tincidunt dui sed felis lacinia imperdiet.
+
+        In tempor interdum mauris, in semper ante dapibus a. Sed eu ornare quam. Nullam nisl nulla, porta non blandit ut, vestibulum ac augue. Curabitur laoreet urna porta dictum porttitor. Vivamus urna eros, malesuada non magna eget, bibendum molestie nisl. Cras fringilla bibendum turpis a posuere. Donec in lorem dapibus, ultricies dui ut, ultrices orci. Fusce porttitor metus et libero tempor elementum. Mauris et imperdiet massa. Fusce consectetur interdum massa eget dapibus. Donec malesuada diam a mi ornare vulputate. Nullam condimentum, nibh non cursus accumsan, turpis tortor porta lorem, in vulputate lorem augue nec velit. Nullam quis arcu sodales, placerat ligula vitae, condimentum sapien.
+
+        Etiam tristique consectetur eleifend. In tristique enim neque, sit amet facilisis eros hendrerit a. Vestibulum erat tellus, bibendum sed tincidunt id, hendrerit vel leo. Pellentesque tempor turpis augue, a tempus diam tempor in. Vivamus risus enim, vehicula fringilla nunc vitae, commodo pharetra nibh. Morbi dictum arcu lacus, vitae vestibulum urna venenatis non. Morbi at tristique diam. In viverra, tellus ut egestas blandit, enim metus hendrerit nunc, a facilisis elit quam at lorem. Mauris dui dui, sodales ac diam vel, gravida porta erat.
+        In tempor interdum mauris, in semper ante dapibus a. Sed eu ornare quam. Nullam nisl nulla, porta non blandit ut, vestibulum ac augue. Curabitur laoreet urna porta dictum porttitor. Vivamus urna eros, malesuada non magna eget, bibendum molestie nisl. Cras fringilla bibendum turpis a posuere. Donec in lorem dapibus, ultricies dui ut, ultrices orci. Fusce porttitor metus et libero tempor elementum. Mauris et imperdiet massa. Fusce consectetur interdum massa eget dapibus. Donec malesuada diam a mi ornare vulputate. Nullam condimentum, nibh non cursus accumsan, turpis tortor porta lorem, in vulputate lorem augue nec velit. Nullam quis arcu sodales, placerat ligula vitae, condimentum sapien.
+
+        Etiam tristique consectetur eleifend. In tristique enim neque, sit amet facilisis eros hendrerit a. Vestibulum erat tellus, bibendum sed tincidunt id, hendrerit vel leo. Pellentesque tempor turpis augue, a tempus diam tempor in. Vivamus risus enim, vehicula fringilla nunc vitae, commodo pharetra nibh. Morbi dictum arcu lacus, vitae vestibulum urna venenatis non. Morbi at tristique diam. In viverra, tellus ut egestas blandit, enim metus hendrerit nunc, a facilisis elit quam at lorem. Mauris dui dui, sodales ac diam vel, gravida porta erat.
+    </section>
+    <section class="iwantfix">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">Slide 1</div>
+                <div class="swiper-slide">Slide 2</div>
+                <div class="swiper-slide">Slide 3</div>
+                <div class="swiper-slide">Slide 4</div>
+            </div>
+        </div>
+    </section>
+    <section>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae arcu at felis varius aliquet elementum at neque. Donec vulputate quam ac odio posuere porta. Cras vitae hendrerit lorem, ac imperdiet ipsum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent tincidunt blandit enim, viverra venenatis eros luctus ut. In ultrices velit id lectus tristique sagittis. Fusce tincidunt dui sed felis lacinia imperdiet.
+
+        In tempor interdum mauris, in semper ante dapibus a. Sed eu ornare quam. Nullam nisl nulla, porta non blandit ut, vestibulum ac augue. Curabitur laoreet urna porta dictum porttitor. Vivamus urna eros, malesuada non magna eget, bibendum molestie nisl. Cras fringilla bibendum turpis a posuere. Donec in lorem dapibus, ultricies dui ut, ultrices orci. Fusce porttitor metus et libero tempor elementum. Mauris et imperdiet massa. Fusce consectetur interdum massa eget dapibus. Donec malesuada diam a mi ornare vulputate. Nullam condimentum, nibh non cursus accumsan, turpis tortor porta lorem, in vulputate lorem augue nec velit. Nullam quis arcu sodales, placerat ligula vitae, condimentum sapien.
+
+        Etiam tristique consectetur eleifend. In tristique enim neque, sit amet facilisis eros hendrerit a. Vestibulum erat tellus, bibendum sed tincidunt id, hendrerit vel leo. Pellentesque tempor turpis augue, a tempus diam tempor in. Vivamus risus enim, vehicula fringilla nunc vitae, commodo pharetra nibh. Morbi dictum arcu lacus, vitae vestibulum urna venenatis non. Morbi at tristique diam. In viverra, tellus ut egestas blandit, enim metus hendrerit nunc, a facilisis elit quam at lorem. Mauris dui dui, sodales ac diam vel, gravida porta erat.
+        In tempor interdum mauris, in semper ante dapibus a. Sed eu ornare quam. Nullam nisl nulla, porta non blandit ut, vestibulum ac augue. Curabitur laoreet urna porta dictum porttitor. Vivamus urna eros, malesuada non magna eget, bibendum molestie nisl. Cras fringilla bibendum turpis a posuere. Donec in lorem dapibus, ultricies dui ut, ultrices orci. Fusce porttitor metus et libero tempor elementum. Mauris et imperdiet massa. Fusce consectetur interdum massa eget dapibus. Donec malesuada diam a mi ornare vulputate. Nullam condimentum, nibh non cursus accumsan, turpis tortor porta lorem, in vulputate lorem augue nec velit. Nullam quis arcu sodales, placerat ligula vitae, condimentum sapien.
+
+        Etiam tristique consectetur eleifend. In tristique enim neque, sit amet facilisis eros hendrerit a. Vestibulum erat tellus, bibendum sed tincidunt id, hendrerit vel leo. Pellentesque tempor turpis augue, a tempus diam tempor in. Vivamus risus enim, vehicula fringilla nunc vitae, commodo pharetra nibh. Morbi dictum arcu lacus, vitae vestibulum urna venenatis non. Morbi at tristique diam. In viverra, tellus ut egestas blandit, enim metus hendrerit nunc, a facilisis elit quam at lorem. Mauris dui dui, sodales ac diam vel, gravida porta erat.
+    </section>
+</div>
+
+<script>
+const test_nowState = document.querySelector('#t1');
+const test_lastAction = document.querySelector('#t2');
+
+const el_app    = document.querySelector('#app');
+const el_swiper = document.querySelector('.swiper-container');
+
+const initPage = () => {
+
+    let fixOffset       = el_swiper.offsetTop;
+    let isScrollLock    = false;
+    let isReadyExitPrev = true;
+    let isReadyExitNext = true;
+    let scrollState     = "top";
+
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    const fixSlide = new Swiper('.swiper-container',{
+        direction: 'vertical',
+        effect : 'fade',
+        speed : 600,
+        mouseWheel : true,
+        allowTouchMove : false,
+    });
+
+    const slideLenght = fixSlide.slides.length-1;
+
+    fixSlide.on('slideChange' , () => {
+        const realIndex = fixSlide.realIndex;
+        if(realIndex && realIndex < slideLenght){
+            isReadyExitPrev = false;
+            isReadyExitNext = false;
+        }
+    });
+
+    fixSlide.on('slideChangeTransitionEnd' , () => {
+        const realIndex = fixSlide.realIndex;
+        if(!realIndex){
+            isReadyExitPrev = true;
+        }else if(realIndex >= slideLenght){
+            isReadyExitNext = true;
+        };
+    });
+
+    const event_resize = () => {
+        fixOffset = el_swiper.offsetTop;
+    };
+
+    const event_scroll = (e) => {
+        if(!isMobile){
+            return
+        }
+        detectByDeltaY(0);
+    };
+
+    const detectByDeltaY = (deltaY) => {
+        const nowSt     = el_app.scrollTop;
+
+        if(isScrollLock){
+            if(isReadyExitPrev && deltaY < 0){
+                unlockScroll(true);
+                test_lastAction.innerText = 'middle -> top';
+            }
+            else if(!isReadyExitPrev && isReadyExitNext && deltaY > 0){
+                unlockScroll(false);
+                test_lastAction.innerText = 'middle -> bottom';
+            }
+        }else {
+            if(scrollState === "top" && fixOffset <= nowSt + deltaY){
+                test_lastAction.innerText = 'top -> middle';
+                lockScroll();
+            }
+            else if(scrollState === "bottom" && fixOffset >= nowSt + deltaY){
+                test_lastAction.innerText = 'bottom -> middle';
+                lockScroll();
+            }
+            if(!isScrollLock){
+                el_app.scrollTop += deltaY;
+            };
+        }
+    }
+
+    const event_wheel = (e) => {
+        e.preventDefault();
+        const deltaY    = Math.ceil(e.deltaY);
+        detectByDeltaY(deltaY);
+    };
+
+    let isTouch                 = false;
+    let touchStartPoint         = 0;
+    let touchEndPoint           = 0;
+    let touchStartEndDistance   = 0;
+    let touchEndDirection       = false;
+
+    const event_touchstart = (e) => {
+        touchStartPoint = e.touches[0].pageY;
+    }
+
+    const event_touchmove = (e) => {
+        touchEndPoint = e.touches[0].pageY
+    }
+
+    const event_touchend = (e) => {
+        touchEndDirection = touchStartPoint - touchEndPoint > 0;
+
+        if(isScrollLock){
+            detectByDeltaY(touchEndDirection ?1: -1)
+        }
+    }
+
+    const lockScroll = () => {
+        if(isScrollLock){
+            return
+        }
+        scrollState = "middle";
+        test_nowState.innerText = 'middle';
+        el_app.classList.add('lock-scroll');
+        el_app.scrollTop = fixOffset;
+        isScrollLock = true;
+        fixSlide.mousewheel.enable();
+        fixSlide.allowTouchMove = true;
+    };
+
+    const unlockScroll = (exitDirection) => {
+        if(!isScrollLock){
+            return
+        };
+        scrollState = exitDirection ? 'top' : 'bottom';
+        test_nowState.innerText = exitDirection ? 'top' : 'bottom';
+        el_app.classList.remove('lock-scroll');
+        isScrollLock = false;
+        fixSlide.mousewheel.disable();
+        fixSlide.allowTouchMove = false;
+    };
+
+    el_app.addEventListener('scroll' , event_scroll);
+    el_app.addEventListener('wheel' , event_wheel);
+
+    el_app.addEventListener('touchstart' , event_touchstart);
+    el_app.addEventListener('touchmove' , event_touchmove);
+    el_app.addEventListener('touchend' , event_touchend);
+
+    window.addEventListener('resize' , event_resize);
+
+}
+
+window.addEventListener('DOMContentLoaded' , initPage)
+</script>
+</body>
+</html>

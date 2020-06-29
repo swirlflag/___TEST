@@ -337,7 +337,7 @@ const Wonjinbot = class {
         if(hasClass(bubble, 'is-first')){
             miniWidthDelay -= 0.5;
             miniHeightDelay -= 0.5;
-        }
+        };
 
         addClass(bubble, 'is-mini');
         removeClass(bubble,'is-open');
