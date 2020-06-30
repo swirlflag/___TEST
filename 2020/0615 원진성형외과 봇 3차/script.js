@@ -6,6 +6,19 @@ const removeClass   = (el,...classNames) => classNames.forEach((className) => el
 
 const iterElement = (el, fn) => {for(let i = 0,l = el.length; i < l; ++i){fn(el[i],i)}};
 
+const composedPath = (el) => {
+    var path = [];
+    while (el) {
+        path.push(el);
+        if (el.tagName === 'HTML') {
+            path.push(document);
+            path.push(window);
+            return path;
+       }
+       el = el.parentElement;
+    };
+};
+
 const Wonjinbot = class {
 
     originSize              = [];
@@ -129,11 +142,10 @@ const Wonjinbot = class {
     }
 
     bindDefaultEvent() {
-
         window.addEventListener('click' , (e) => {
-            const path = e.path || e.composedPath();
-            if(path.find((el) => el.id === 'wonjinbot')){
-                const bubble = path.find((el) => hasClass(el, 'wonjinbot__bubble'));
+            const path = e.path || composedPath(e.target);
+            if(path.filter((el) => el.id === 'wonjinbot').length){
+                const bubble = path.filter((el) => hasClass(el, 'wonjinbot__bubble') && el)[0];
                 if(bubble){
                     this.toggleBubble(bubble);
                 };
