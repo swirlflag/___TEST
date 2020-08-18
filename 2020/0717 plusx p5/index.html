@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    height: 100%;
+    background: #ffffff;
+    overscroll-behavior:none;
+}
+canvas {
+    position: fixed;
+    left: 0;
+    top:0;
+    width: 100%;
+    height: 100%;
+}
+</style>
+</head>
+<body>
+
+<script src="./p5.min.js"></script>
+<script src="./gsap.min.js"></script>
+<script>
+
+var arr = [];
+
+function setup() {
+    createCanvas(window.innerWidth, window.innerHeight, WEBGL);
+    angleMode(DEGREES);
+    if (window.innerWidth > 520) {
+        var _perspective = 180
+    } else {
+        var _perspective = 350
+    }
+    perspective(_perspective / 4.0, width / height, 0.1, 10000);
+
+    for(var i = 0; i < 25; i++){
+        var vo = new VectorObj(0,0,0);
+        arr.push(vo)
+    }
+    objRotate();
+}
+
+var isFlex = 0;
+var flexType = 0;
+
+function objRotate(){
+    for(var i = 0; i < 25; i++){
+        var vo = arr[i];
+        var trz = vo.rz + 135;
+        var trx = vo.rx + 180;
+        vo.tween1 = gsap.to(vo, {duration: 1.2, rz: trz, ease: Power2.easeInOut, yoyo: true, repeat: -1, repeatDelay: 0.2, delay: i * 0.2})
+        vo.tween2 = gsap.to(vo, {duration: 1.8, rx: trx, ease: Power2.easeInOut, yoyo: true, repeat: -1, repeatDelay: 0.5, delay: i * 0.4})
+    }
+    isFlex = 0;
+}
+
+function objFlex(){
+    isFlex = 1;
+    flexType++;
+    var trz = 0;
+    if(flexType%2 == 0){
+        trz = 45;
+    }
+    for(var i = 0; i < 25; i++){
+        var vo = arr[i];
+        vo.tween1.pause();
+        vo.tween2.pause();
+        gsap.to(vo, {duration: 0.6, rz: trz, ease: Power2.easeInOut, delay: i * 0.005})
+        gsap.to(vo, {duration: 0.8, rx: 180, ease: Power2.easeInOut, delay: i * 0.005})
+    }
+
+    gsap.to("test", {duration: 0.8, x: 0, ease: Power2.easeInOut, onComplete: objRotate})
+}
+
+class VectorObj {
+    constructor(x, y, z){
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.rx = 0;
+        this.ry = 0;
+        this.rz = 0;
+    }
+}
+
+window.addEventListener("click", function(){
+    if(isFlex == 0){
+        objFlex();
+    }
+});
+
+var srx = 0;
+var sry = 0;
+
+function draw() {
+    background(255);
+    strokeWeight(3)
+    stroke(0);
+    noStroke();
+    fill(0);
+
+    let locX = (mouseX - width / 2);
+    let locY = (mouseY - height / 2);
+    var strx = -locX * 0.2;
+    var stry = locY * 0.2;
+    srx += (strx - srx) * 0.08
+    sry += (stry - sry) * 0.08
+    //rotateY(rx)
+    //rotateX(ry)
+    var size = 120;
+    var gap = 10;
+    var lineNum = 5;
+    var sx = - (size + gap) * lineNum / 2 + size / 2 - gap;
+    var sy = - (size + gap) * lineNum / 2 + size / 2 - gap;
+
+    for(var i = 0; i < lineNum * lineNum; i++){
+        push();
+        var vo = arr[i];
+        translate(sx + i % lineNum * (size + gap), sy + floor(i / lineNum) * (size + gap))
+        rotateY(srx);
+        rotateX(vo.rx);
+        rotateZ(vo.rz);
+        box(size, 20, 20);
+        rotateZ(90);
+        box(size, 20, 20);
+        pop();
+    }
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    if (window.innerWidth > 520) {
+        var _perspective = 180
+    } else {
+        var _perspective = 350
+    }
+    perspective(_perspective / 4.0, width / height, 0.1, 10000);
+}
+
+</script>
+</body>
+</html>
