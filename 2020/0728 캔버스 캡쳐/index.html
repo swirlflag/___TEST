@@ -96,6 +96,7 @@ downloadButton.addEventListener('click' , (e) => {
         downloadTrigger.download = `${dummyName}님의 한마디`;
         downloadTrigger.href = dataUrl;
         downloadTrigger.click();
+        console.log(typingModel.innerHTML);
     }).then(() => {
         typingInput.style.visibility = 'visible';
         typingModel.innerHTML = '';
