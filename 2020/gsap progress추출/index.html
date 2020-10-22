@@ -7,40 +7,81 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.3/dat.gui.min.js"></script>
 <style>
-#rect {
-    width: 100px; height: 100px;
-    background-color: #3d3;
-    display: inline-block;
-    position: relative;
+*{
+    margin: 0; padding: 0;
 }
+.box {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    text-align: center;
+}
+
+#box1 {
+    background-color:dodgerblue;
+    transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1);
+}
+#box1.css-move {
+    transform :translateX(100px);
+}
+
+#box2 {
+    background-color: #9026db;
+}
+
+#box3 {
+    background-color: #7cdc53;
+}
+
+
+
 </style>
 </head>
 <body>
-
-<h1 id="numberSlot"></h1>
-
-<div id="rect"></div>
-
+<div id="box1" class="box">css<br>transition</div>
+<br>
+<div id="box2" class="box">gsap<br>ratio</div>
+<br>
+<div id="box3" class="box">gsap<br>to</div>
 <script>
 
-const numberSlot = document.getElementById('numberSlot');
-const tl = gsap.timeline();
 
-let myObject = {myNumber : 0}
-let ratio = 0;
+const el_box1 = document.querySelector('#box1');
+const el_box2 = document.querySelector('#box2');
 
-// myObject는 비워도됨
-tl.to(myObject, 3, {
-    myNumber : 777,
-    ease : 'power4.out',
-    onUpdate(){
-        numberSlot.innerText = myObject.myNumber;
-        console.log(this.ratio);
-    },
-    onComplete(){
-        console.log('c');
+const tl = gsap.timeline({paused : true});
+
+const progress = {
+    ratio : 0,
+}
+
+tl.to(progress, 1 , {
+    ease : 'power4.inOut',
+    ratio : 1,
+    onUpdate : (_this) => {
+        el_box2.style.transform = `translate(${progress.ratio * 100}px)`
     },
 })
+
+setTimeout(() => {
+    el_box1.classList.add('css-move');
+    tl.play();
+    gsap.to('#box3' , 1 , {
+        ease : 'power4.inOut',
+        x : 100,
+    })
+},100)
+
+
+
+
+
 
 </script>
 </body>
