@@ -39,8 +39,6 @@
     background-color: #7cdc53;
 }
 
-
-
 </style>
 </head>
 <body>
@@ -55,19 +53,18 @@
 const el_box1 = document.querySelector('#box1');
 const el_box2 = document.querySelector('#box2');
 
-const tl = gsap.timeline({paused : true});
+const tl = gsap.timeline();
 
-const progress = {
-    ratio : 0,
-}
+tl.pause();
 
-tl.to(progress, 1 , {
+tl.to({}, 1 , {
     ease : 'power4.inOut',
-    ratio : 1,
-    onUpdate : (_this) => {
-        el_box2.style.transform = `translate(${progress.ratio * 100}px)`
+    onUpdate() {
+        const _this = this;
+        el_box2.style.transform = `translate(${_this.ratio * 100}px)`
     },
 })
+
 
 setTimeout(() => {
     el_box1.classList.add('css-move');
