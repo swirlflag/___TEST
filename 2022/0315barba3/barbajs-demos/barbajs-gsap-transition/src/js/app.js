@@ -4,6 +4,91 @@ import About from './pages/detail-page';
 import gsap from 'gsap';
 import { revealProject, leaveToProject, leaveFromProject, animationEnterMask, animationLeaveMask } from './animations';
 
+class IO {
+    constructor() {
+        if(!window.IntersectionObserver) {
+            throw 'IntersectionObserver를 실행할수 없는 환경입니다'
+        }
+
+        this.isObserve = false;
+
+        this._setupObject();
+    }
+
+    _setupObject() {
+        const io = new IntersectionObserver((entries, observer) => {
+            if(!this.isObserve) {
+                return;
+            }
+            entries.forEach((entry) => {
+                this.intersectAction(entry,entries,observer);
+            });
+        });
+
+        this.io = io;
+    }
+
+    intersectAction() {};
+
+    observeOn() {
+        this.isObserve = true;
+    }
+    observeOff() {
+        this.isObserve = false;
+    }
+
+    add(elements) {
+        if(!elements) {
+            return;
+        }
+
+        if(typeof elements === 'string') {
+            elements = document.querySelectorAll(elements);
+        }
+
+        if(elements && elements.nodeName) {
+            elements = [elements];
+        }
+
+        [...elements].map((el) => {
+            this.io.observe(el);
+        })
+    }
+}
+
+class IOautoPlayVideo extends IO {
+    constructor(props) {
+        super(props);
+    }
+    intersectAction(entry) {
+        const { target } = entry;
+
+        if(entry.isIntersecting) {
+            target.play();
+        }else {
+            target.pause();
+        }
+    }
+    addVideo() {
+        const videos = document.querySelectorAll("[data-io]");
+
+        const yetTargets = [...videos].filter((t) => {
+            if(t.dataset.io === '') {
+                t.dataset.io = 'true';
+                return true;
+            }
+        });
+
+        this.add(yetTargets);
+    };
+}
+
+const IOvideo = new IOautoPlayVideo();
+
+IOvideo.observeOn();
+IOvideo.addVideo();
+
+
 barba.init({
     debug: true,
     views: [Home],
@@ -12,38 +97,56 @@ barba.init({
 			name: 'general-transition',
 			once: ({ next }) => {
                 console.log('once!');
-				// resetActiveLink();
-				// gsap.from('header a', {
-				// 	duration: 0.6, 
-				// 	yPercent: 100, 
-				// 	stagger: 0.2,
-				// 	ease: 'power1.out',
-				// 	onComplete: () => animationEnterMask(next.container)
-				// });
 			},
-			leave: ({ current }) => {
-                const container = current.container;
-                const imagebox = container.querySelector('.imagebox');
+			leave: (data) => {
+                const beforeContainer = data.current.container;
 
-                const { width, height } = imagebox.getBoundingClientRect();
+                const beforeSource = beforeContainer.querySelector('.imagebox-next');
 
-                return gsap.to(container , {
-                    ease: 'power2.inOut',
-                    duration: 1.2,
-                    y: -1 * (window.innerHeight - height) + 'px'
-                })
+                const { height, y } = beforeSource.getBoundingClientRect();
+
+                const scrollGap = window.innerHeight - y - height;
+
+                const wantY = -1 * (window.innerHeight - height) + scrollGap;
+
+                const tl = new gsap.timeline();
+
+                tl.to(beforeContainer,{
+                    ease: 'power4.out',
+                    duration: 0.8,
+                    y: wantY,
+                    onComplete: () => {
+
+                    }
+                },0);
+                console.log(beforeSource);
+
+                beforeSource.classList.remove('imagebox-next');
+                beforeSource.classList.add('imagebox-fly');
+
+                tl.to(beforeSource , {
+                    ease : 'power4.out',
+                    duration : 0.7,
+                    height: window.innerHeight,
+                },0);
+
+                return tl;
             },
-            enter: ({current, next}) => {
-                // const box = document.querySelector('.imagebox');
-                // return gsap.to(box, {
-                //     ease: 'power2.out',
-                //     duration: 10,
-                //     y : 100,
-                // })
+            enter: (data) => {
+            window.scrollTo(0,0);
+                const beforeContainer = data.current.container;
+                const afterContainer = data.next.container;
+                const beforeSource = beforeContainer.querySelector('.imagebox-next');
+                const afterSource =  afterContainer.querySelector('.imagebox-prev');
+
+                afterSource.innerHTML = '';
+
+                [...beforeSource.children].map((el) => {
+                    afterSource.appendChild(el);
+                    IOvideo.addVideo();
+                });
+
             }
-			// enter: ({ next }) => {
-			// 	animationEnterMask(next.container)
-			// }
 		},
 	]
 });

@@ -7,75 +7,72 @@
     <title>Barba.js with GreenSock</title>
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link href="assets/app.css" rel="stylesheet">
-    <style>
-        .imagebox {
-            background-color: #cca;
-        }
-    </style>
 </head>
 
-<body data-barba="wrapper">
+<body>
+    <div data-barba="wrapper">
+        <div data-barba="container" class="container" data-barba-namespace="home">
+            <div class="imagebox imagebox-prev">
+                <img src="./images/source2.jpeg" alt="">
+            </div>
+            <p style="background-color: #cca;">
+                1Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur hendrerit nunc et luctus blandit. Nulla
+                sollicitudin erat hendrerit, mattis sapien eget, commodo ex. Mauris a consectetur leo, ut viverra lectus.
+                Morbi
+                condimentum nunc non placerat feugiat. Maecenas nec condimentum dui. Maecenas id ante libero. Cras tellus
+                purus,
+                efficitur quis nulla laoreet, iaculis luctus nunc. Morbi mattis magna elit, in vulputate risus cursus eu.
+                Nunc
+                lobortis et mi nec tristique. Phasellus a accumsan quam. Pellentesque vitae ullamcorper eros. In vehicula
+                consectetur purus, non facilisis urna condimentum et. Cras nec pretium mi, sit amet ornare turpis. Quisque
+                porttitor at sem et fringilla. Vestibulum est urna, laoreet non velit ultrices, eleifend scelerisque lorem.
 
+                Donec sed ultricies ex, eu ultricies dolor. Aliquam et quam luctus, maximus augue id, placerat justo. Cras
+                suscipit eleifend tortor eget blandit. Nunc nisi leo, auctor sed justo id, molestie pretium justo. Quisque
+                quis
+                lectus neque. Nulla viverra tortor id ultricies fermentum. Donec ac purus vitae turpis finibus malesuada.
+                Morbi
+                mattis arcu vitae ligula tempor molestie. Mauris in dignissim diam. Nunc lobortis fermentum sapien, vitae
+                rutrum
+                elit pharetra auctor. Maecenas eu molestie sapien. Suspendisse mollis neque erat, sit amet imperdiet dui
+                egestas
+                quis. Pellentesque sed varius velit, at auctor justo.
 
-    <div data-barba="container" class="container" data-barba-namespace="home">
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur hendrerit nunc et luctus blandit. Nulla
-            sollicitudin erat hendrerit, mattis sapien eget, commodo ex. Mauris a consectetur leo, ut viverra lectus.
-            Morbi
-            condimentum nunc non placerat feugiat. Maecenas nec condimentum dui. Maecenas id ante libero. Cras tellus
-            purus,
-            efficitur quis nulla laoreet, iaculis luctus nunc. Morbi mattis magna elit, in vulputate risus cursus eu.
-            Nunc
-            lobortis et mi nec tristique. Phasellus a accumsan quam. Pellentesque vitae ullamcorper eros. In vehicula
-            consectetur purus, non facilisis urna condimentum et. Cras nec pretium mi, sit amet ornare turpis. Quisque
-            porttitor at sem et fringilla. Vestibulum est urna, laoreet non velit ultrices, eleifend scelerisque lorem.
+                Nullam et dapibus massa, id pretium diam. Nunc tellus tortor, convallis sit amet gravida ut, ornare eu orci.
+                Praesent ut posuere nisl. Nullam sed libero leo. Maecenas sapien leo, sollicitudin sed luctus sed, blandit a
+                nulla. Vivamus laoreet, libero ut imperdiet malesuada, quam risus pulvinar augue, molestie mollis ipsum enim
+                et
+                lectus. Fusce elit enim, malesuada ut odio eu, tincidunt egestas tellus. Sed purus elit, ultrices eget neque
+                nec, cursus vehicula justo. Mauris vel lacinia massa, sed laoreet arcu. Mauris et ipsum ante. Morbi id
+                tincidunt
+                purus. Quisque in lectus sem.
 
-            Donec sed ultricies ex, eu ultricies dolor. Aliquam et quam luctus, maximus augue id, placerat justo. Cras
-            suscipit eleifend tortor eget blandit. Nunc nisi leo, auctor sed justo id, molestie pretium justo. Quisque
-            quis
-            lectus neque. Nulla viverra tortor id ultricies fermentum. Donec ac purus vitae turpis finibus malesuada.
-            Morbi
-            mattis arcu vitae ligula tempor molestie. Mauris in dignissim diam. Nunc lobortis fermentum sapien, vitae
-            rutrum
-            elit pharetra auctor. Maecenas eu molestie sapien. Suspendisse mollis neque erat, sit amet imperdiet dui
-            egestas
-            quis. Pellentesque sed varius velit, at auctor justo.
+                Fusce congue sit amet lacus id lobortis. Sed malesuada tincidunt urna ac laoreet. Aliquam erat volutpat.
+                Nullam
+                accumsan sed tortor vitae porta. Phasellus laoreet, orci eu vestibulum pulvinar, nisi risus facilisis
+                sapien, in
+                blandit lacus quam in elit. Phasellus risus libero, mollis ut dolor nec, elementum porttitor lorem. In leo
+                urna,
+                ornare et posuere et, ultricies ornare sapien. Morbi convallis felis sit amet orci rutrum ornare. Maecenas
+                tincidunt metus eros.
 
-            Nullam et dapibus massa, id pretium diam. Nunc tellus tortor, convallis sit amet gravida ut, ornare eu orci.
-            Praesent ut posuere nisl. Nullam sed libero leo. Maecenas sapien leo, sollicitudin sed luctus sed, blandit a
-            nulla. Vivamus laoreet, libero ut imperdiet malesuada, quam risus pulvinar augue, molestie mollis ipsum enim
-            et
-            lectus. Fusce elit enim, malesuada ut odio eu, tincidunt egestas tellus. Sed purus elit, ultrices eget neque
-            nec, cursus vehicula justo. Mauris vel lacinia massa, sed laoreet arcu. Mauris et ipsum ante. Morbi id
-            tincidunt
-            purus. Quisque in lectus sem.
-
-            Fusce congue sit amet lacus id lobortis. Sed malesuada tincidunt urna ac laoreet. Aliquam erat volutpat.
-            Nullam
-            accumsan sed tortor vitae porta. Phasellus laoreet, orci eu vestibulum pulvinar, nisi risus facilisis
-            sapien, in
-            blandit lacus quam in elit. Phasellus risus libero, mollis ut dolor nec, elementum porttitor lorem. In leo
-            urna,
-            ornare et posuere et, ultricies ornare sapien. Morbi convallis felis sit amet orci rutrum ornare. Maecenas
-            tincidunt metus eros.
-
-            Duis vehicula odio sem, non mattis ligula laoreet egestas. Aliquam sodales urna vitae tincidunt ultricies.
-            Fusce
-            viverra pharetra tellus. Aliquam at dolor at arcu commodo dignissim sit amet ac justo. Donec fermentum enim
-            a
-            felis pulvinar facilisis. Cras aliquet libero a eros blandit pellentesque. Proin vel nunc ex. Donec interdum
-            elit non mi varius semper. Suspendisse tortor orci, dapibus quis libero a, dapibus imperdiet nisl. Proin
-            cursus
-            arcu diam, et feugiat tellus vulputate a. Sed efficitur sagittis maximus. Donec molestie ex quis turpis
-            vulputate congue eu a velit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur
-            ridiculus
-            mus. Mauris posuere odio et lorem imperdiet, quis luctus tellus suscipit. Pellentesque placerat eros varius
-            laoreet blandit.
-        </p>
-        <div class="imagebox">
-
+                Duis vehicula odio sem, non mattis ligula laoreet egestas. Aliquam sodales urna vitae tincidunt ultricies.
+                Fusce
+                viverra pharetra tellus. Aliquam at dolor at arcu commodo dignissim sit amet ac justo. Donec fermentum enim
+                a
+                felis pulvinar facilisis. Cras aliquet libero a eros blandit pellentesque. Proin vel nunc ex. Donec interdum
+                elit non mi varius semper. Suspendisse tortor orci, dapibus quis libero a, dapibus imperdiet nisl. Proin
+                cursus
+                arcu diam, et feugiat tellus vulputate a. Sed efficitur sagittis maximus. Donec molestie ex quis turpis
+                vulputate congue eu a velit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur
+                ridiculus
+                mus. Mauris posuere odio et lorem imperdiet, quis luctus tellus suscipit. Pellentesque placerat eros varius
+                laoreet blandit.
+            </p>
+            <a href="/" class="imagebox imagebox-next">
+                <video src="./images/video.mp4" muted autoplay loop playsinline data-io></video>
+            </a>
         </div>
-        <a href="/index.html">next</a>
     </div>
 
     <script src="assets/app.js"></script>
