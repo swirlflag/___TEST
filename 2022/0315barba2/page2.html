@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+            background-color: #d3d;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <div data-barba="wrapper">
+        <div data-barba="container" data-barba-namespace="page-2">
+            <div class="box">box</div>
+            <h1>Home2</h1>
+            <a href="/___TEST/2022/0315barba2/page1.html">go</a>
+        </div>
+    </div>
+
+    <!-- load barba (UMD version) -->
+    <script src="https://unpkg.com/@barba/core"></script>
+
+    <!-- load gsap animation library (minified version) -->
+    <script src="https://unpkg.com/gsap@latest/dist/gsap.min.js"></script>
+
+    <script type="text/javascript">
+        barba.init({
+            transitions: [{
+                name: 'opacity-transition',
+                leave(data) {
+                    return gsap.to(data.current.container, {
+                        opacity: 0
+                    });
+                },
+                enter(data) {
+                    return gsap.from(data.next.container, {
+                        opacity: 0
+                    });
+                }
+            }]
+        });
+    </script>
+
+</body>
+
+</html>
