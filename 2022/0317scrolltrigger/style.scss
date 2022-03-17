@@ -1,0 +1,123 @@
+// move to common..
+.sourcebox {
+    display: inline-block;
+    box-sizing: border-box;
+    img , video{
+        object-fit: cover;
+        vertical-align: top;
+        display: inline-block;
+        width: 100%; height: 100%;
+    }
+}
+
+// move to global..
+.plate--page {
+    background-color: #131313;
+    min-height: 100%;
+    color: #fff !important;
+    box-sizing: border-box;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    .page--product {
+        min-height: 100%;
+        // height: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+
+        section {
+            box-sizing: border-box;
+            display: inline-block;
+        }
+    }
+}
+
+// target style
+.page--product-cex {
+    position: relative;
+
+    section {
+        box-sizing: border-box;
+
+        &.hero {
+            height: 100vh;
+            width: 100%;
+            top: 0; left: 0;
+            z-index: 10;
+            // position: absolute;
+            .hero__visual {
+                position: absolute;
+                top: 0; left: 0;
+                width: 100%; height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .sourcebox {
+                    max-width: 1000px;
+                }
+            }
+        }
+
+        &.intro {
+            height: auto;
+            border: 1px solid #d3d;
+            box-sizing: border-box;
+
+            .intro__visual {
+                @include dimmedBefore;
+                border: 1px solid #3d3;
+                box-sizing: border-box;
+                position: absolute;
+                width: 100%; height: 100vh;
+                .sourcebox {
+                    width: 100%; height: 100%;
+                }
+            }
+
+            .intro__layout {
+                position: relative;
+                z-index: 10;
+                color: #fff;
+                height: 100vh;
+
+                .intro__fly {
+                    position: absolute;
+                    // width: 100%; height: 100%;
+                    display: inline-flex;
+                    justify-content: center;
+                    align-items: center;
+                    box-sizing: border-box;
+                    text-align: center;
+                }
+                h2 {
+                    font-size: 70px;
+                }
+                p {
+                    font-size: 40px;
+
+                    span {
+                        display: inline-block;
+                        position: relative;
+                        transition: transform 85ms $EASE_outCubic;
+                        &.st-point {
+                            color: #ff0;
+                            transform: translate3d(0,-3px,0);
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+}
+
+
+section.hero {
+    display: none !important;
+}
+section.intro {
+    // display: none !important;
+}
