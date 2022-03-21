@@ -68,29 +68,36 @@ const initDOMLoaded = () => {
 	const sections = document.querySelectorAll("section");
 
 	let isSpacingMap = [...sections].map(() => Math.random() > 0.5);
-	// isSpacingMap = [
-    //     true,
-    //     true,
-    //     true,
-    //     false,
-    // ];
-	console.log(isSpacingMap);
+
+    console.log(isSpacingMap);
 
 	[...sections].forEach((el, i) => {
 		const beforeSpacing = i > 0 ? isSpacingMap[i-1] : false;
 		const nowSpacing = isSpacingMap[i];
-		new ScrollTrigger.create({
+
+        // if(nowSpacing) {
+        //     el.classList.add('use-spacing');
+        // }
+
+        const start = `${100 * (i+1) }% 50%`;
+        const end = `${nowSpacing ? '100%': '200%'} 0%`;
+
+		const ob = new ScrollTrigger.create({
 			trigger: el,
-			// start: `${beforeSpacing ? 0 : 0}% 0%`,
-            start: `50% 50%`,
-			// end: `${beforeSpacing ? 2200 : 1200}% 0%`,
-            end: '+=100%',
+            start: '50% 50%',
+            end: '150% 50%',
 			pin: true,
+            // start: '50% 50%',
+            // // start,
+            // end: '250% 50%',
+            // pinSpacing: true,
+			// pinSpacing: nowSpacing,
 			// markers: !nowSpacing,
 			markers: true,
-			// pinSpacing: nowSpacing,
 		});
 	});
+
+    // pinSpacing default => true
 };
 
 window.addEventListener("DOMContentLoaded", initDOMLoaded);
