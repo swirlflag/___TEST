@@ -15,15 +15,12 @@ class TextSplitMotion {
             splitType = 'letter', // word, letter
             target = null,
             isAppear = true,
-            // stagger = false,
             stagger = 0,
             mask = false,
 
             to = null,
             from = null,
             fromTo = null,
-            // duration = 0.6,
-            // ease = 'power2.out',
         } = options;
 
         this.parent = target;
@@ -179,8 +176,9 @@ const maskTextP1 = new TextSplitMotion({
 
 const textScene01 = () => {
     maskTextSpan1.play();
-    // maskTextSpan2.play();
+    maskTextSpan2.play();
     maskTextSpan3.play();
+    maskTextP1.play();
 }
 
 window.textScene01 = textScene01;
