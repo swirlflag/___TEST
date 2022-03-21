@@ -90,7 +90,7 @@ const initDOMLoaded = () => {
             // start: '50% 50%',
             // // start,
             // end: '250% 50%',
-            // pinSpacing: true,
+            pinSpacing: true,
 			// pinSpacing: nowSpacing,
 			// markers: !nowSpacing,
 			markers: true,
