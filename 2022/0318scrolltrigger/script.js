@@ -106,10 +106,13 @@ const initDOMLoaded = () => {
             triggerEnd : 150,
             scrollEnd : 50,
         }
+
+        // el.style.height = window.innerHeight * 2 +'px';
+
         const st = new ScrollTrigger.create({
             trigger: el,
             pin: true,
-            pinSpacing: true,
+            pinSpacing: false,
             start: `${data.triggerStart}% ${data.scrollStart}%`,
             end: `${data.triggerEnd}% ${data.scrollEnd}%`,
             markers: true,
@@ -130,8 +133,8 @@ const initDOMLoaded = () => {
         Object.entries(item.data).map(([k,v]) => {
             gui.add(item.data, k, 0, 150).onChange(() => {
                 const { triggerStart , triggerEnd , scrollStart, scrollEnd } = world[idx].data;
-                world[idx].st.vars.start =  `${triggerStart}% ${triggerEnd}%`;
-                world[idx].st.vars.end =  `${scrollStart}% ${scrollEnd}%`;
+                world[idx].st.vars.start =  `${triggerStart}% ${scrollStart}%`;
+                world[idx].st.vars.end =  `${triggerEnd}% ${scrollEnd}%`;
                 world[idx].st.update();
                 world[idx].st.refresh();
             }).step(10);
