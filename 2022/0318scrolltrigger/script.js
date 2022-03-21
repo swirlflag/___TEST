@@ -102,14 +102,14 @@ const initDOMLoaded = () => {
     const world = [...sections].map((el,i) => {
         const data = {
             triggerStart : 50,
-            triggerEnd : 50,
-            scrollStart : 150,
+            scrollStart : 50,
+            triggerEnd : 150,
             scrollEnd : 50,
         }
         const st = new ScrollTrigger.create({
             trigger: el,
             pin: true,
-            pinSpacing: false,
+            pinSpacing: true,
             start: `${data.triggerStart}% ${data.scrollStart}%`,
             end: `${data.triggerEnd}% ${data.scrollEnd}%`,
             markers: true,
