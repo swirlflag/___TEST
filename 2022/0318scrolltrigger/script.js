@@ -84,10 +84,11 @@ const initDOMLoaded = () => {
 			// start: `${beforeSpacing ? 0 : 0}% 0%`,
             start: `50% 50%`,
 			// end: `${beforeSpacing ? 2200 : 1200}% 0%`,
-            end: '+=100%',
+            end: '150% 50%',
 			pin: true,
 			// markers: !nowSpacing,
 			markers: true,
+            pinSpacing: false,
 			// pinSpacing: nowSpacing,
 		});
 	});
