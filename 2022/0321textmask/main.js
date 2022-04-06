@@ -6,6 +6,9 @@ window.gsap = gsap;
 class TextSplitMotion {
 
 	constructor(options) {
+        if(!options.target) {
+            return
+        }
         this._init(options);
         this._setupTemplate();
     }
@@ -14,10 +17,8 @@ class TextSplitMotion {
         const {
             splitType = 'letter', // word, letter
             target = null,
-            isAppear = true,
             stagger = 0,
             mask = false,
-
             to = null,
             from = null,
             fromTo = null,
@@ -58,12 +59,12 @@ class TextSplitMotion {
         let splitMap = this.strings.split(splitType);
 
         if(this.splitType === 'word') {
-            splitMap = splitMap.join('|| ||').split('||');
+            const spliter = '|||';
+            splitMap = splitMap.join(`${spliter} ${spliter}`).split(spliter);
         }
 
         let template = splitMap.map((string,idx) => {
             string = string.charCodeAt() === 32 ? '&nbsp;' : string;
-            // string = string === '|' ? '&nbsp;' : string;
             return `
                 <span data-tm-split data-tm-index="${idx}" class="tm-split ${this.mask ? 'usemask' : ''}">
                     <span data-tm-frame class="tm-frame">${string}</span>
@@ -96,6 +97,7 @@ class TextSplitMotion {
                 ease: 'power2.out',
                 ...this.action,
             }
+            console.log(this.action);
             this.tl[this.actionType](el, option,this.stagger * idx);
         });
     }
@@ -165,6 +167,11 @@ const maskTextP1 = new TextSplitMotion({
     stagger : 0.01,
     mask:true,
     from : {
+        dynamic() {
+            return {
+                y : 10,
+            }
+        },
         xPercent (a,b,c) {
             // console.log(a.parentElement);
             // console.log(c);
@@ -175,10 +182,16 @@ const maskTextP1 = new TextSplitMotion({
 });
 
 const textScene01 = () => {
-    maskTextSpan1.play();
-    maskTextSpan2.play();
-    maskTextSpan3.play();
+    // maskTextSpan1.play();
+    // maskTextSpan2.play();
+    // maskTextSpan3.play();
     maskTextP1.play();
 }
 
 window.textScene01 = textScene01;
+
+// TODO
+// dynamic value
+// from, to, fromto
+// maskorigin
+
