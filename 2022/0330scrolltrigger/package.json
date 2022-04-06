@@ -1,0 +1,17 @@
+{
+  "name": "0330scrolltrigger",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^2.8.0"
+  },
+  "dependencies": {
+    "gsap": "^3.10.0",
+    "sass": "^1.49.9"
+  }
+}

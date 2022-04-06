@@ -57,23 +57,25 @@ const tl = gsap.timeline();
 
 tl.pause();
 
-tl.to({}, 1 , {
+TweenMax.set(1 , {
     ease : 'power4.inOut',
     onUpdate() {
         const _this = this;
         el_box2.style.transform = `translate(${_this.ratio * 100}px)`
     },
-})
+});
+
+console.log(TweenMax);
 
 
-setTimeout(() => {
-    el_box1.classList.add('css-move');
-    tl.play();
-    gsap.to('#box3' , 1 , {
-        ease : 'power4.inOut',
-        x : 100,
-    })
-},100)
+// setTimeout(() => {
+//     el_box1.classList.add('css-move');
+//     tl.play();
+//     gsap.to('#box3' , 1 , {
+//         ease : 'power4.inOut',
+//         x : 100,
+//     })
+// },100)
 
 
 

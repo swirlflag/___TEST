@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+}
+.box {
+    max-width: 1000px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+}
+.box img{
+    opacity: 0.5;
+    vertical-align: top;
+    box-sizing: border-box;
+}
+
+.box1 {
+    height: 600px;
+    border: 3px solid #3d3;
+}
+.box2 {
+    border: 3px solid #d3d;
+    height: 1300px;
+}
+</style>
+</head>
+<body>
+
+<div id="app">
+    <div class="wrap">
+        <div class="box box1">
+            <img src="./image1.jpeg" class="img" alt="">
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <div class="box box2">
+            <img src="./image1.jpeg" class="img2" alt="">
+        </div>
+    </div>
+</div>
+
+<script>
+const $box = document.querySelector('.box');
+const $img = document.querySelector('.img');
+const $img2 = document.querySelector('.img2');
+
+class FitImageSize {
+    constructor(target, {
+        type = 'cover',
+        parent = null
+    }) {
+        this.$image = target;
+        this.$parent = parent || target.parentElement;
+        this.type = type;
+        this._init();
+    }
+
+    _init() {
+        this.ro = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                this.calcSize();
+            }
+        });
+
+        this.makeCopyImage()
+            .then((image) => {
+                this.getSize(image);
+                this.setSize();
+                this.ro.observe(this.$parent);
+            })
+        ;
+
+    }
+
+    calcSize() {
+        this.getSize();
+        this.setSize();
+    }
+
+    getSize(image = this.$image) {
+        const parentRect = this.$parent.getBoundingClientRect();
+
+        this.parentSize = {
+            width: parentRect.width,
+            height: parentRect.height,
+            ratio: parentRect.width/parentRect.height,
+        }
+
+        this.imageSize = {
+            width: image.naturalWidth,
+            height: image.naturalHeight,
+            ratio: image.naturalWidth/image.naturalHeight,
+        };
+    }
+
+    makeCopyImage() {
+        const src = this.$image.src;
+        const copyImage = new Image();
+        copyImage.src = src;
+
+        return new Promise((resolve, reject) => {
+            copyImage.onload = () => {
+                resolve(copyImage)
+            }
+        });
+    }
+
+    setSize() {
+        const {
+            parentSize, imageSize
+        } = this;
+
+        const ratioFlag = parentSize.width/imageSize.width > parentSize.height/imageSize.height;
+
+        const typeDict = {
+            'contain' : () => {
+                if(ratioFlag) {
+                // contain 세로를 동기화
+                    this.$image.style.height = this.parentSize.height + 'px';
+                    this.$image.style.width = this.parentSize.height * this.imageSize.ratio + 'px';
+                }else {
+                // contain 가로를 동기화
+                    this.$image.style.width = this.parentSize.width + 'px';
+                    this.$image.style.height = this.parentSize.width / this.imageSize.ratio + 'px';
+                }
+            },
+            'cover' : () => {
+                if(ratioFlag) {
+                // cover 가로를 동기화
+                    this.$image.style.width = this.parentSize.width + 'px';
+                    this.$image.style.height = this.parentSize.width / this.imageSize.ratio + 'px';
+                }else {
+                // cover 세로를 동기화
+                    this.$image.style.height = this.parentSize.height + 'px';
+                    this.$image.style.width = this.parentSize.height * this.imageSize.ratio + 'px';
+                }
+            }
+        }
+        typeDict[this.type]();
+    }
+}
+
+window.addEventListener('DOMContentLoaded' , () => {
+    // const imgfit2 = new FitImageSize($img2);
+})
+let imgfit1 = new FitImageSize($img ,{type:'cover'});
+let imgfit2 = new FitImageSize($img2, {type: 'contain'});
+
+
+
+
+</script>
+</body>
+</html>
