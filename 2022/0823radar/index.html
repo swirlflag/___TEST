@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #radar {
+            position: relative;
+            width: 400px;
+            height: 460px;
+            /* background: url("https://ssl.nexon.com/s2/game/m_dnf/brand/character/bg_radar.png") no-repeat; */
+            border: 1px solid red;
+        }
+        svg {
+            width: 100%;
+            height: 100%;
+            vertical-align: top;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+
+</head>
+
+<body>
+    <div id="radar">
+        <span id="check"></span>
+        <svg>
+            <defs>
+                <linearGradient id="gradient" gradientTransform="rotate(120)">
+                    <stop offset="20%" id="gradientCo1"></stop>
+                    <stop offset="65%" id="gradientCo2"></stop>
+                </linearGradient>
+            </defs>
+            <polygon points="201 92,320 160,320 299,201 367,82 299,82 160" id="polygon" fill="rgba(255,0,0,0.5)">
+            </polygon>
+        </svg>
+    </div>
+    <script>
+
+        class RadarVector6 {
+            static angleRatioDict = [
+                { angle: 180, ratio: 1, },
+                { angle: 243.2, ratio: 1.107, },
+                { angle: 296.9, ratio: 1.109, },
+                { angle: 0, ratio: 1, },
+                { angle: 63.2, ratio: 1.11, },
+                { angle: 117, ratio: 1.11, },
+            ]
+
+            static radian = (angle) => angle * Math.PI / 180;
+
+            static calcCoord = (angle) => [Math.sin(RadarVector6.radian(angle)), Math.cos(RadarVector6.radian(angle))];
+
+            static defaultPoints = [2, 2, 2, 2, 2, 2];
+
+            constructor(frame, polygon) {
+                if (!frame && !polygon) {
+                    throw "please input DOM Elements"
+                }
+
+                this.$el = { frame, polygon };
+
+                this.cx = this.$el.frame.offsetWidth / 2;
+                this.cy = this.$el.frame.offsetHeight / 2;
+
+                const points = polygon.points.length ? Object.values(polygon.points).map((v) => [v.x, v.y]) : RadarVector6.defaultPoints;
+                this.points = points;
+            }
+            getPointString() {
+                return this.points.reduce((p, v, i) => `${p}${i ? "," : ""}${v[0]} ${v[1]}`, "");
+            }
+            setPoint(index, level = 10) {
+                let [x, y] = RadarVector6.calcCoord(RadarVector6.angleRatioDict[index].angle);
+                x = Math.round((x * this.cx * (level / 10 * RadarVector6.angleRatioDict[index].ratio)) + this.cx);
+                y = Math.round((y * this.cy * (level / 10 * RadarVector6.angleRatioDict[index].ratio)) + this.cy);
+                this.points[index] = [x, y];
+                return this;
+            }
+            setStatus(statusData) {
+                for (let i = 0, l = statusData.length; i < l; ++i) {
+                    this.setPoint(i, statusData[i]);
+                }
+                return this;
+            }
+            render() {
+                const pointString = this.getPointString();
+                this.$el.polygon.setAttribute("points", pointString);
+            };
+        }
+
+        const radar = document.querySelector('#radar');
+        const polygon = document.querySelector('polygon');
+
+        const myRadar = new RadarVector6(radar, polygon);
+        myRadar.setStatus([4,4,4,4,4,4]).render();
+
+        setInterval(() => {
+            const randomStatus = new Array(6).fill(null).map(() => Math.round(Math.random() * 10));
+            myRadar.setStatus(randomStatus);
+            const myRadarString = myRadar.getPointString();
+            gsap.to(myRadar.$el.polygon, {
+                duration: 0.7,
+                attr: {
+                    points: myRadarString,
+                },
+                ease: "power2.out",
+            })
+        },1000)
+
+    </script>
+</body>
+
+</html>
