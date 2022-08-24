@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>dynamic css variable</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+
+<style>
+:root {
+    --100vw: 100vw;
+    --100vh: 100vh;
+}
+* {
+    margin: 0; padding: 0;
+}
+html, body {
+    font-family: 'Roboto', sans-serif;
+    word-break: break-all;
+    width: 100%; height: 100%;
+}
+#app {
+    background-color: #333;
+}
+#scrollback {
+    font-size: 10vw;
+    font-weight: 300;
+    color: rgba(255,255,255,0.4);
+}
+#scrollback strong{
+    font-weight: 900;
+}
+#fly {
+    width: calc(var(--100vw) / 2); height: var(--100vh);
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    top: 0; left: 0;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    color: #fff;
+    border: 3px dashed #fff;
+    box-sizing: border-box;
+    padding: 5px;
+}
+</style>
+</head>
+<body>
+<div id="app">
+    <div id="scrollback">
+        <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND <strong>SCROLL</strong> BACKGROUND<strong>SCROLL</strong> BACKGROUND<strong>SCROLL</strong> BACKGROUND<strong>SCROLL</strong> BACKGROUND<strong>SCROLL</strong> BACKGROUND<strong>SCROLL</strong> BACKGROUND<strong>SCROLL</strong> BACKGROUND .fin
+    </div>
+    <div id="fly">
+        <strong>dynamic window size !</strong>
+        <br>
+        <code>
+            width: calc(var(--100vw) / 2);
+            <br>height: var(--100vh);
+        </code>
+    </div>
+</div>
+
+
+<script>
+const styleRoot = document.querySelector(":root");
+const styleRootSheet = getComputedStyle(styleRoot);
+console.log(styleRootSheet.getPropertyValue('--100vw'));
+console.log(styleRootSheet.getPropertyValue('--100vh'));
+
+const setWindowSizeVariable = () => {
+    styleRoot.style.setProperty("--100vw" , window.innerWidth + "px");
+    styleRoot.style.setProperty("--100vh" , window.innerHeight + "px");
+}
+window.addEventListener("resize" , setWindowSizeVariable);
+</script>
+</body>
+</html>
