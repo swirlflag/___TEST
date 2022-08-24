@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/Flip.min.js"></script>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+}
+html, body {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+#app {
+    width: 100%; height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    overflow: hidden;
+}
+.puzzle {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 150px; height: 150px;
+    position: relative;
+    box-shadow: 0 0 10px 2px #fff;
+}
+.puzzle__flyspace {
+    width: 100%; height: 100%;
+    position: absolute;
+    pointer-events: none;
+}
+.puzzle__grid{
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 50px; height: 50px;
+    flex: 0 0 auto;
+    border: 1px dashed rgba(255,255,255,0.2);
+}
+.puzzle__item{
+    font-weight: 700;
+    pointer-events: auto;
+    font-size: 20px;
+    width: 50px; height: 50px;
+    cursor: pointer;
+    box-sizing: border-box;
+    display: inline-block;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(54, 128, 255);
+    /* transition: background-color 2100ms ease; */
+}
+.puzzle__item._fly{
+    /* background-color: rgb(255, 54, 54); */
+    position: absolute;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.1);
+}
+#all {
+    position: fixed;
+    top: 10px; left: 10px;
+    display: inline-block;
+    font-size:16px;
+    background-color: rgb(255, 54, 54);
+    padding: 5px 14px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    cursor:pointer;
+    z-index: 10;
+}
+
+</style>
+</head>
+<body>
+<div id="app">
+    <button id="all">GO!</button>
+    <div class="puzzle">
+        <div class="puzzle__grid">
+            <span class="puzzle__item">1</span>
+        </div>
+        <div class="puzzle__grid">
+            <span class="puzzle__item">2</span>
+        </div>
+        <div class="puzzle__grid">
+            <span class="puzzle__item">3</span>
+        </div>
+        <div class="puzzle__grid">
+            <span class="puzzle__item">4</span>
+        </div>
+        <div class="puzzle__grid">
+            <span class="puzzle__item">5</span>
+        </div>
+        <div class="puzzle__grid">
+            <span class="puzzle__item">6</span>
+        </div>
+        <div class="puzzle__grid">
+            <span class="puzzle__item">7</span>
+        </div>
+        <div class="puzzle__grid">
+            <span class="puzzle__item">8</span>
+        </div>
+        <div class="puzzle__grid">
+            <span class="puzzle__item">9</span>
+        </div>
+    </div>
+    <div class="puzzle__flyspace"></div>
+</div>
+
+<script>
+gsap.registerPlugin(Flip);
+
+const app = document.querySelector("#app");
+const puzzle = document.querySelector(".puzzle");
+// const puzzles = document.querySelectorAll(".puzzle__grid");
+const grids = gsap.utils.toArray(".puzzle__grid");
+const puzzles = gsap.utils.toArray(".puzzle__item");
+const flySpace = document.querySelector('.puzzle__flyspace');
+
+
+const toggleFly = (grid, item) => {
+    // state
+    const state = Flip.getState(item);
+    const isFly = item.classList.toggle("_fly");
+
+    // move
+    if(isFly) {
+        flySpace.appendChild(item);
+        const [ x, y ] = [Math.random() * 100, Math.random() * 100];
+        item.style.left = `calc(${x}% - ${item.offsetWidth}px)`;
+        item.style.top = `calc(${y}% - ${item.offsetHeight}px)`;
+    }else {
+        grid.appendChild(item);
+    }
+
+    // from
+    Flip.from(state, {
+        duration: 1,
+        ease: isFly ? "power3.out" : "power2.inOut",
+    });
+};
+
+[...grids].forEach((grid,i) => {
+    const item = puzzles[i];
+    item.addEventListener("click", () => {toggleFly(grid, item)})
+});
+
+const goButton = document.querySelector('#all');
+goButton.addEventListener("click" , () => {
+    [...grids].forEach((grid,i) => {
+        const item = puzzles[i];
+        setTimeout(() => {
+            toggleFly(grid, item)
+        }, i * 60)
+    });
+})
+
+
+// [...puzzles].map((item) => {
+//     let sortState = Flip.getState(item);
+
+//     const setSort = () => {
+//         // gsap.set(item, {x: 0, y: 0});
+//         Flip.from(sortState, {
+//             duration: 1,
+//             ease: "power1.inOut",
+//             absolute: true,
+//             // fixed: true,
+//             // onComplete: myFunc
+//         });
+//     }
+
+//     const setFly = () => {
+//         sortState = Flip.getState(item);
+//         const randomX = (Math.random() * 100 - 50);
+//         const randomY = (Math.random() * 100 - 50);
+//         gsap.set(item, {x: randomX, y: randomY});
+//     }
+
+//     item.addEventListener("click" , () => {
+//         const isFly = item.classList.toggle("_fly");
+//         if(isFly) {
+//             setSort();
+//         }else {
+//             setFly();
+//         }
+//     });
+// });
+
+
+</script>
+</body>
+</html>
