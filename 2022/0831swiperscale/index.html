@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            height: 100%;
+        }
+        :root {
+            --SIZE_gutter: 20px;
+            --SIZE_card: 200px;
+        }
+        #app {
+            box-sizing: border-box;
+            width: 100%; height: 100%;
+            overflow: hidden;
+        }
+        .swiper-container {
+            border: 1px dotted #d3d;
+            margin: 30px;
+            box-sizing: border-box;
+            margin-left: calc(var(--SIZE_gutter) * -1);
+        }
+        .swiper-wrapper {
+            overflow: visible;
+        }
+        .swiper-slide {
+            overflow: visible;
+            box-sizing: border-box;
+            height: 200px;
+            width: 200px;
+            transition: transform 300ms ease,padding 300ms ease, width 300ms ease;
+            margin: 0 10px;
+        }
+        .swiper-slide div{
+            background-color: #aca;
+            opacity: 0.8;
+            width: 100%; height: 100%;
+            box-sizing: border-box;
+        }
+        .swiper-slide.swiper-slide-active {
+            transform: scale(1.2);
+        }
+        .swiper-slide.swiper-slide-prev {
+            padding-right: var(--SIZE_gutter);
+            width: calc(var(--SIZE_card) + var(--SIZE_gutter));
+        }
+        .swiper-slide.swiper-slide-next {
+            padding-left: var(--SIZE_gutter);
+            width: calc(var(--SIZE_card) + var(--SIZE_gutter));
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div></div>
+                </div>
+                <div class="swiper-slide">
+                    <div></div>
+                </div>
+                <div class="swiper-slide">
+                    <div></div>
+                </div>
+                <div class="swiper-slide">
+                    <div></div>
+                </div>
+                <div class="swiper-slide">
+                    <div></div>
+                </div>
+                <div class="swiper-slide">
+                    <div></div>
+                </div>
+                <div class="swiper-slide">
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    console.log(Swiper);
+    const $container = document.querySelector(".swiper-container");
+    const mySwiper = new Swiper($container, {
+        slidesPerView: "auto",
+        centeredSlides : true,
+        loop : true,
+        // spaceBetween : 15,
+    })
+</script>
+</body>
+</html>
