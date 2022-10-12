@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js"></script>
+    <script src="./DrawSVGPlugin.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #fff;
+        }
+        #app {
+            box-sizing: border-box;
+        }
+        #app::before {
+            content: "";
+            display: inline-block;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;height: 100%;
+            /* background: rgb(51,51,51);
+            background: radial-gradient(circle, rgba(51,51,51,1) 0%, rgba(0,0,0,1) 100%); */
+        }
+        .trigger {
+            height: 100vh;
+            width: 100%;
+            border: 1px solid #fff;
+            background-color: #333;
+        }
+
+        .fly {
+            position: fixed;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            /* border: 1px solid #3d3; */
+        }
+        .fly > div{
+            box-sizing: border-box;
+        }
+        .fly > div + div{
+            margin-left: 30px;
+        }
+        .fly-logo {
+            font-size: 100px;
+        }
+        .fly-shape {
+            /* opacity: 0 !important; */
+        }
+        .fly-text {
+            font-size: 60px;
+            font-weight: 100;
+        }
+        .trigger-logo {
+            height: 200px;
+        }
+        .trigger-shape {
+            height: 200vh;
+            border: 1px solid #d3d;
+        }
+        .trigger-text {
+            padding-top: 20vh;
+        }
+        svg {
+            width: 150px; height: 150px;
+            overflow: visible;
+        }
+        svg *{
+            /* transform-origin: center center; */
+        }
+
+    </style>
+
+</head>
+<body>
+    <div id="app">
+        <div class="trigger trigger-logo"></div>
+        <div class="trigger trigger-shape"></div>
+        <div class="trigger trigger-text"></div>
+
+        <div class="fly fly-logo">
+            <div class="logo">🚀</div>
+        </div>
+
+        <div class="fly fly-shape">
+
+            <div class="shape shape1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none">
+                    <rect x="1.5" y="1.5" width="97" height="97" stroke="white" stroke-width="3"/>
+                    <rect x="6.11351" y="50" width="62.0615" height="62.0615" transform="rotate(-45 6.11351 50)" stroke="white" stroke-width="3"/>
+                    <rect x="32.5" y="32.5" width="35" height="35" stroke="white" stroke-width="3"/>
+                </svg>
+            </div>
+
+            <div class="shape shape2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none">
+                    <circle cx="50" cy="50" r="48.5" stroke="white" stroke-width="3"/>
+                    <circle cx="50" cy="50" r="22.5" stroke="white" stroke-width="3"/>
+                    <circle cx="50" cy="50" r="35.5" stroke="white" stroke-width="3"/>
+                </svg>
+            </div>
+
+        </div>
+
+        <div class="fly fly-text">
+            <p>2022.12.10</p>
+        </div>
+
+    </div>
+
+    <!-- <script></script> -->
+
+    <script>
+        const $app = document.querySelector("#app");
+
+        const $trigger_logo = $app.querySelector(".trigger-logo");
+        const $trigger_shape = $app.querySelector(".trigger-shape");
+        const $trigger_text = $app.querySelector(".trigger-text");
+
+        const $fly_logo = $app.querySelector(".fly.fly-logo");
+        const $logo = $fly_logo.querySelector(".logo");
+
+        const $fly_shape = $app.querySelector(".fly.fly-shape");
+        const $shapes = $app.querySelectorAll(".shape");
+        const $shape1 = $app.querySelector(".shape1");
+        const $shape2 = $app.querySelector(".shape2");
+        const $shape1_items = $shape1.querySelectorAll("svg > rect");
+        const $shape2_items = $shape2.querySelectorAll("svg > circle");
+
+        const $fly_text = $app.querySelector(".fly.fly-text");
+        const $text = $fly_text.querySelector("p");
+
+        // gsap.fromTo($logo, {autoAlpha: 0, sacle: 2, ease: "power2.out", duration: 0.3});
+
+        gsap.to($logo, {
+            y: "-50%",
+            ease: "power2.inOut",
+            duration: 1,
+            autoAlpha: 0,
+            scrollTrigger: {
+                trigger: $trigger_logo,
+                // markers: true,
+                start: "100% 0%",
+                end: "100% 0%",
+                toggleActions: "play play play reverse",
+            }
+        });
+
+        const tl1 = gsap.timeline({pause: true});
+        // tl1.pause();
+        tl1.fromTo($fly_shape, {scale: 11,}, {scale: 1, ease: "power1.out", duration: 1.4,},0.15);
+
+        tl1.from($shape1, {x: 50, ease: "power1.out", duration: 2.2,},0);
+        tl1.fromTo($shape1_items[0], {drawSVG: "0%",x: -20, opacity: 0,} , {drawSVG: "100%", x: 0, opacity: 1,ease: "power1.inOut", duration: 1,},0);
+        tl1.fromTo($shape1_items[0], {drawSVG: "0%",x: -20, opacity: 0,} , {drawSVG: "100%", x: 0, opacity: 1,ease: "power1.inOut", duration: 1,},0);
+        tl1.fromTo($shape1_items[1], {drawSVG: "100% 100%",y : 20, x:20, opacity: 0,} , {drawSVG: "100% 0%", y: 0, x:0,opacity: 1, ease: "power1.inOut",duration: 1,},0.1);
+        tl1.from($shape2, {x: -50, ease: "power1.out", duration: 2.2,},0);
+        tl1.fromTo($shape1_items[2], {drawSVG: "50% 50%", y: -20, opacity: 0,} , {drawSVG: "100%", y:0, opacity: 1, ease: "power1.inOut", duration: 1,},0.2);
+        tl1.fromTo($shape2_items[0], {drawSVG: "0%",x: 20, opacity: 0,} , {drawSVG: "100%", x: 0, opacity: 1, ease: "power1.inOut",duration: 1,},0.3);
+        tl1.fromTo($shape2_items[1], {drawSVG: "100% 100%",y : -20, opacity: 0,} , {drawSVG: "100% 0%", y: 0, opacity: 1, ease: "power1.inOut",duration: 1,},0.4);
+        tl1.fromTo($shape2_items[2], {drawSVG: "0% 0%", x : -20, opacity: 0,} , {drawSVG: "0% 100%", x: 0, opacity: 1, ease: "power1.inOut",duration: 1,},0.5);
+
+
+        const master = gsap.timeline({pause: true});
+        master.add(tl1);
+        // master.add(tl2);
+
+        ScrollTrigger.create({
+            trigger: $trigger_shape,
+            animation: tl1,
+            // markers: true,
+            scrub: 5,
+            start: "0% 0%",
+            end: "100% 0%",
+        });
+
+        const tl2 = gsap.timeline({pause: true});
+        tl2.fromTo($shape1_items[0], {drawSVG: "100%",} , {drawSVG: "0%",ease: "power4.inOut", duration: 1,},0);
+        tl2.fromTo($shape1_items[1], {drawSVG: "100%",} , {drawSVG: "0%",ease: "power4.inOut", duration: 1,},0);
+        tl2.fromTo($shape1_items[2], {drawSVG: "100%",} , {drawSVG: "0%",ease: "power4.inOut", duration: 1,},0);
+        tl2.fromTo($shape2_items[0], {drawSVG: "100%",} , {drawSVG: "0%",ease: "power4.inOut", duration: 1,},0);
+        tl2.fromTo($shape2_items[1], {drawSVG: "100%",} , {drawSVG: "0%",ease: "power4.inOut", duration: 1,},0);
+        tl2.fromTo($shape2_items[2], {drawSVG: "100%",} , {drawSVG: "0%",ease: "power4.inOut", duration: 1,},0);
+        tl2.fromTo($text, {autoAlpha: 0, } , { autoAlpha: 1, ease: "power1.out", duration: 1,},0.8);
+        tl2.fromTo($text, {letterSpacing: "0.3em",} , {letterSpacing: "0", ease: "power2.inOut", duration: 1.3,},0.8);
+
+        ScrollTrigger.create({
+            trigger: $trigger_text,
+            animation:tl2,
+            markers: true,
+            start: "0% 0%",
+            end: "100% 0%",
+            toggleActions: "play play play reverse",
+        });
+
+    </script>
+</body>
+</html>
+
