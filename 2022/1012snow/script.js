@@ -110,7 +110,8 @@ class ShaderProgram {
     gl.enable( gl.BLEND )
     gl.enable( gl.CULL_FACE )
     // gl.blendFunc( gl.SRC_ALPHA, gl.ONE )
-    gl.blendFunc( gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA )
+    gl.blendFunc( gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA );
+    // console.log(gl.SRC_ALPHA                );
     gl[ options.depthTest ? 'enable' : 'disable' ]( gl.DEPTH_TEST )
 
     if ( options.autosize )
