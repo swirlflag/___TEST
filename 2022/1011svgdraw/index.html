@@ -19,23 +19,25 @@
         body {
             font-family: 'Roboto', sans-serif;
             color: #fff;
+            background-color: #000;
         }
+
         #app {
             box-sizing: border-box;
         }
-        #app::before {
-            content: "";
-            display: inline-block;
+
+        .bgblend {
+            background-image: url("./taxture.png");
+            background-color: #000;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%;height: 100%;
+            z-index: -1;
+            width: 100%; height: 100%;
+            left: 0 ;top: 0;
+            display: inline-block;
         }
         .trigger {
             height: 100vh;
             width: 100%;
-            background-color: #d3d;
-            background-color: #333;
-            border-top: 1px solid #fff;
         }
 
         .fly {
@@ -56,17 +58,17 @@
         }
         .fly-shape {
             /* mix-blend-mode: multiply; */
-            mix-blend-mode:lighten;
+            mix-blend-mode: difference;
             background-color: #000;
         }
         .fly-shape__texture{
             position: absolute;
             /* background-image: url("./images.jfif"); */
-            background-image: url("./taxture.png");
+            background-image: url("./taxture2.png");
             /* background-image: url("./"); */
-            background: linear-gradient(106deg, rgba(255,0,0,1) 20%, rgba(151,255,0,1) 41%, rgba(38,130,179,1) 60%, rgba(166,0,255,1) 82%);
+            /* background: linear-gradient(106deg, rgba(255,0,0,1) 20%, rgba(151,255,0,1) 41%, rgba(38,130,179,1) 60%, rgba(166,0,255,1) 82%); */
             box-sizing: border-box;
-            mix-blend-mode: multiply;
+             mix-blend-mode: overlay;
             /* background-color: #fff; */
             width: 100%; height: 100%;
             left: 0; top: 0;
@@ -110,7 +112,7 @@
 
         .shape.shape3 {
             position: relative;
-            border: 1px solid #000;
+
         }
         .shape.shape3 > svg{
             width: 100%; height: 100%;
@@ -118,22 +120,43 @@
             left: 0; top: 0;
         }
 
-        /* .blend {
-
-        }
-        .blend__texture{
-            mix-blend-mode: difference;
-        } */
-
         .fly-test {
             z-index: 10;
             width: 500px; height: 500px;
         }
-        
+
         .fly-test svg{
             width: 100%; height: 100%;
         }
         .fly-test img{
+        }
+
+        .fly-shape2 {
+            mix-blend-mode: lighten;
+        }
+        .blend {
+            mix-blend-mode: difference;
+            background-color: #000;
+            /* position: relative; */
+        }
+        .blend__texture{
+            mix-blend-mode: overlay;
+            mix-blend-mode: darken;
+            /* mix-blend-mode: multiply; */
+            background-image: url("./taxture2.png");
+            background-repeat: repeat;
+            background-size: 50%;
+            width: 100%; height: 100%;
+            position: absolute;
+            left: 0; top: 0;
+            z-index: 2;
+            opacity: 1;
+            pointer-events: none;
+            display: inline-block;
+        }
+
+        .myshape {
+            width: 500px; height: 500px;
         }
 
     </style>
@@ -141,31 +164,20 @@
 </head>
 <body>
     <div id="app">
+        <span class="bgblend"></span>
+
         <div class="trigger trigger-logo"></div>
         <div class="trigger trigger-shape"></div>
         <div class="trigger trigger-text"></div>
 
-        <div class="fly fly-test">
-            <svg width="100%" height="100%">
-                <defs>
-                    <mask id="text-mask-1" x="0" y="0" width="100%" height="100%">
-                        <!-- <text x="30" y="140" font-family="Helvetica" font-weight="bold" font-size="7em" fill="#999">Text Mask</text> -->
-                        <rect x="1.5%" y="1.5%" width="97%" height="97%" stroke="white" stroke-width="3"/>
-                        <rect x="-15.11351%" y="50%" width="62.0615%" height="62.0615%" transform="rotate(-45 6.11351 50)" stroke="white" stroke-width="3"/>
-                        <rect x="32.5%" y="32.5%" width="35%" height="35%" stroke="white" stroke-width="3"/>
-                    </mask>
-                </defs>
-
-                <image width="100%" height="100%" xlink:href="./images.jfif" mask="url(#text-mask-1)"/>
-            </svg>
-        </div>
 
         <div class="fly fly-logo">
             <div class="logo">🚀</div>
         </div>
 
-        <div class="fly fly-shape">
-            <span class="fly-shape__texture"></span>
+
+        <div class="fly fly-shape blend">
+            <span class="blend__texture"></span>
 
             <div class="shape shape1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none">
@@ -257,7 +269,7 @@
 
         tl1 = gsap.timeline({paused: true});
         tl1.pause();
-        tl1.fromTo($fly_shape, {scale: 4,}, {scale: 1, ease: "power1.out", duration: 1.4,},0.15);
+        tl1.fromTo($fly_shape, {scale: 8,}, {scale: 1, ease: "power1.out", duration: 1.4,},0.15);
 
         tl1.fromTo($shape1_items[0], {drawSVG: "0%",y: -20, autoAlpha: 0,} , {drawSVG: "100%", y: 0, autoAlpha: 1,ease: "power1.inOut", duration: 1,},0);
         tl1.fromTo($shape1_items[1], {drawSVG: "100% 100%",y : 20, x:20, autoAlpha: 0,} , {drawSVG: "100% 0%", y: 0, x:0,autoAlpha: 1, ease: "power1.inOut",duration: 1,},0.1);
@@ -279,9 +291,18 @@
         st1 = ScrollTrigger.create({
             trigger: $trigger_shape,
             animation: tl1,
-            scrub: 1,
+            scrub: 2.5,
             start: "0% 0%",
             end: "100% 0%",
+            onEnter: () => {
+                console.log(1);
+            },
+            onLeave: () => {
+                console.log(2);
+            },
+            onLeaveBack: () => {
+                tl1.progress(0);
+            },
         });
 
         tl2 = gsap.timeline({paused: true});
@@ -290,8 +311,6 @@
         tl2.addLabel("outStroke", 0.2);
         tl2.addLabel("inText", 0.4);
 
-        // tl2.fromTo($shape3_items[1], {autoAlpha: 1}, {autoAlpha: 0, ease: "power4.inOut", duration: 0.4}, "outFill");
-        // tl2.fromTo($shape3_fill, {drawSVG: "100%",}, {drawSVG: "0%", ease: "power4.inOut", duration: 0.4}, "outFill");
         tl2.fromTo($shape3_fill, {autoAlpha: 1}, {autoAlpha: 0, ease: "power4.inOut", duration: 0.6}, "outFill");
 
         tl2.fromTo($shape3_line, {drawSVG: "100%",} , {drawSVG: "0%",ease: "power4.inOut", duration: 0.7,}, "outStroke");
@@ -322,7 +341,6 @@
             },
             toggleActions: "play play play reverse",
         });
-        
 
     </script>
 </body>
