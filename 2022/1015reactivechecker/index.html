@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=yes">
+<title>Reactive Checker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js" integrity="sha512-WoO4Ih0CDOSLYafy22wZD/mcJ7k0ESLqtQsFa6zFKnEUrbtuGU+GkLtVhgt93xa2qewG5gKEC6CWlN8OaCTSVg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+}
+ul {
+    list-style: none;
+}
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.55;
+    word-break: keep-all;
+    letter-spacing: -0.007em;
+}
+
+#app {
+    font-size: 16px;
+}
+
+#app.media--mobile {
+    font-size: 14px;
+}
+
+:root {
+    --SIZE_CONTENTWIDTH: 1280px;
+    --SIZE_INNERPADDING: 40px;
+
+    --SIZE_DE_CONTENTWIDTH: 1280px;
+    --SIZE_DE_INNERPADDING: 40px;
+
+    --SIZE_TA_CONTENTWIDTH: 1280px;
+    --SIZE_TA_INNERPADDING: 24px;
+
+    --SIZE_MD_CONTENTWIDTH: 560px;
+    --SIZE_MD_INNERPADDING: 10px;
+
+    --TRANSITIONTIME: 500ms;
+}
+
+.dg.main {
+}
+.dg.main .close-button {
+    border: 1px solid #fff !important;
+    padding: 2px;
+}
+.closed + .close-button {
+    width: auto !important; height: auto !important;
+    right: 0;
+    font-size: 10px;
+    align-items: center;
+    display: flex;
+}
+
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+}
+.layout-wrap {
+    width: 100%; height: 100%;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+}
+.dg.ac {
+    z-index: 10;
+}
+#datgui {
+    position: fixed;
+    /* right: 10px; top: 0; */
+    z-index: 10;
+    right: 0 !important;
+    left: unset;
+    top: 0;
+    bottom: unset;
+}
+.layout > * {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+}
+.layout > * > *{
+    border: 1px solid transparent;
+    box-sizing: border-box;
+}
+.layout > *:not(.layout-escape) {
+    max-width: var(--SIZE_CONTENTWIDTH);
+    padding-left: var(--SIZE_INNERPADDING);
+    padding-right: var(--SIZE_INNERPADDING);
+}
+.layout > *:not(.layout-escape) > *{
+
+}
+
+.use--border .layout {
+    border: 1px dashed dodgerblue;
+}
+.use--border .layout > *:not(.layout-escape) {
+    border: 1px dashed dodgerblue;
+}
+.use--border .layout > *:not(.layout-escape) > *{
+    border: 1px dashed dodgerblue;
+}
+
+.use--transition .layout > *:not(.layout-escape) {
+    transition: padding var(--TRANSITIONTIME) cubic-bezier(0.65, 0, 0.35, 1) ,max-width var(--TRANSITIONTIME) cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: padding, max-width, width;
+}
+
+/* .media--desktop .layout > *:not(.layout-escape) {
+    max-width: var(--SIZE_DE_CONTENTWIDTH);
+    padding-left: var(--SIZE_DE_INNERPADDING);
+    padding-right: var(--SIZE_DE_INNERPADDING);
+}
+.media--tablet .layout > *:not(.layout-escape) {
+    max-width: var(--SIZE_TA_CONTENTWIDTH);
+    padding-left: var(--SIZE_TA_INNERPADDING);
+    padding-right: var(--SIZE_TA_INNERPADDING);
+}
+.media--mobile .layout > *:not(.layout-escape) {
+    max-width: var(--SIZE_MO_CONTENTWIDTH);
+    padding-left: var(--SIZE_MO_INNERPADDING);
+    padding-right: var(--SIZE_MO_INNERPADDING);
+} */
+
+.sourcebox {
+    display: inline-flex;
+    max-width: 100%;
+}
+.sourcebox img,
+.sourcebox video{
+    object-fit: cover;
+    box-sizing: border-box;
+    width: 100%; height: 100%;
+    vertical-align: top;
+}
+nav{
+    white-space: nowrap;
+    position: sticky;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.9);
+    backdrop-filter: blur(50px);
+    color: #fff;
+    z-index: 2;
+}
+nav .layout-wrap{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+nav h1 {
+    font-size: 20px;
+    padding: 3px 0;
+}
+
+section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    position: relative;
+}
+.media--tablet section {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+.media--mobile section {
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+.section__background {
+    position: absolute;
+    width: 100%; height: 100%;
+    left: 0; top: 0;
+    overflow: hidden;
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+    background-image: url("https://picsum.photos/1000/200");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.section__background::before{
+    content: "";
+    position: absolute;
+    width: 110%; height: 110%;
+    left: -10%; top: -10%;
+    display: inline-block;
+    background-color: rgba(255,255,255,0.7);
+}
+.section__background .sourcebox{
+    width: 100%; height: 100%;
+}
+
+.section__line{
+    width: 100%; height: 1px;
+    display: none;
+    position: absolute;
+    transform: translate3d(-50%,0,0);
+    left: 50%; top: 0;
+    pointer-events: none;
+    vertical-align: top;
+}
+.section__line::before{
+    content: "";
+    width: inherit; height: inherit;
+    background-color: #dfdfdf;
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+}
+section + section .section__line{
+    display: inline-block;
+}
+.media--mobile .layout > .section__line{
+    padding: 0 ;
+}
+
+
+a {
+    color: rgb(42, 193, 110);
+    transition: color 200ms ease;
+}
+a:hover {
+    color: rgb(5, 148, 219);
+}
+
+ul.list {
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
+}
+.list li{
+
+}
+.list li::before{
+    content: "•";
+    flex: 0 0 auto;
+    margin-right: 3px;
+}
+
+ul.grid {
+    display: grid;
+}
+.grid li {
+    /* height: 40px; */
+    border-radius: 5px;
+    border: 1px solid #000;
+}
+
+.grid.example--1 {
+    /* grid-template-rows: repeat(auto-fill, 100px); */
+    grid-auto-rows: 50px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
+}
+.grid.example--2 {
+    /* grid-template-columns: auto;
+    grid-gap: 20px;
+    grid-template-rows: repeat(3, 100px);
+    grid-template-columns: repeat(3, 1fr); */
+    grid-auto-rows: 50px;
+    /* grid-template-rows: 100px 200px; */
+    /* grid-template-columns: 300px; */
+    grid-template-columns: repeat(auto-fill, 300px);
+    grid-gap: auto;
+}
+.grid.example--2 li{
+/* width: 50px; */
+/* width: 300px; */
+    /* width: 300px; */
+}
+
+
+section > * + *{
+    margin-top: 20px;
+}
+section .layout-wrap > * + *{
+    margin-top: 20px;
+}
+.section__line + *,
+.section__background + *{
+    margin-top: 0 !important;
+}
+section h2 {
+    font-size: 28px;
+}
+section h3 {
+    font-size: 18px;
+}
+.media--desktop section h2{
+    font-size: 28px;
+}
+.media--tablet section h2{
+    font-size: 24px;
+}
+.media--mobile section h2{
+    font-size: 20px;
+}
+
+footer {
+    text-align: center;
+    background-color: rgba(0,0,0,0.8);
+    color: #fff;
+    padding: 10px 0;
+}
+
+p.subtext {
+    font-style: italic;
+    color: #333;
+}
+
+
+</style>
+</head>
+<body>
+
+<div id="app">
+    <nav class="layout">
+        <div class="layout-wrap">
+            <h1>Reactive Checker.</h1>
+        </div>
+    </nav>
+
+    <section class="layout">
+        <span class="section__line"></span>
+        <div class="layout-wrap">
+            <h2>패널 값 조절</h2>
+            <p>
+                프로젝트는 항상 복잡하기에 모든 개념을 한번에 정리할순 없습니다. 대신 대부분의 컨텐츠에 적용될 전반적인 레이아웃 규격을 지정하고 확인하는데 사용해보세요.
+                뭔가 많아서 헷갈린다면 먼저 이것저것 값을 바꿔보면서 화면의 변화를 확인해보세요. 이후 적절한 값을 정했다면 조절기의 복사 버튼을 눌러 값을 공유해주세요.
+                조절한 값은 해당 브라우저에 임시 저장됩니다. 초기 값으로 돌리시려면 값 초기화를 눌러주세요.
+            </p>
+            <ul class="list">
+                <li>nowWindow: 현재 브라우저 너비의 픽셀값 입니다. </li>
+                <li>nowBreakpoint: 현재 화면 크기에 따른 반응형 분기가 어떤 지점인지 표시합니다.</li>
+                <li>transition: 값 변경 확인이 용이하게끔 트랜지션 효과를 넣을수 있는 옵션입니다.</li>
+                <li>border: 간격 확인이 용이하게끔 테두리 표시를 넣을수 있는 옵션입니다.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="layout">
+        <span class="section__line"></span>
+        <div class="layout-wrap">
+            <h2>Break points</h2>
+            <div class="sourcebox">
+                <img src="./media.png" alt="">
+            </div>
+            <p class="subtext">위 이미지 내용은 현재 적용해둔 지점이며 프로젝트에 따라 추가로 개념을 늘리거나(ex. small phone, wide desktop) 제외할 수 있습니다.</p>
+            <p >
+                반응형 지점(Break point)은 디바이스 크기에 맞게 감지되며 반응형 별 제작한 디자인이 실제로 변경되는 주요 지점입니다. 화면의 요소들별로 지점에 대한 변경을 따로 설정할 수 있습니다.
+            </p>
+            <h3>타 시스템 breakpoints 샘플 리스트</h3>
+            <ul class="list">
+                <li>
+                    <a href="https://material.io/design/layout/responsive-layout-grid.html#breakpoints" target="_blank">material</a>
+                </li>
+                <li>
+                    <a href="https://mui.com/material-ui/customization/breakpoints/#main-content" target="_blank">mui</a>
+                </li>
+                <li>
+                    <a href="https://getbootstrap.kr/docs/5.0/layout/breakpoints/" target="_blank">bootstrap</a>
+                </li>
+                <li>
+                    <a href="https://ant.design/components/layout/#breakpoint-width" target="_blank">ant design</a>
+                </li>
+                <li>
+                    <a href="https://tailwindcss.com/docs/responsive-design" target="_blank">tailwindcss</a>
+                </li>
+                <li>
+                    <a href="http://getskeleton.com/#queries" target="_blank">skeleton</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="layout">
+        <span class="section__line"></span>
+        <div class="layout-wrap">
+            <h2>레이아웃 간격</h2>
+            <div class="sourcebox">
+                <img src="./sizes.png" alt="">
+            </div>
+            <p class="subtext">
+                이 값들은 breakpoint별로 각각 지정될 수 있습니다.
+            </p>
+            <ul class="list">
+                <li>
+                    Inner padding은 레이아웃 상 컨텐츠와 브라우저 프레임 간 존재해야 하는 최소한의 너비입니다.
+                    디자인에 따라 (배경, 선, 이미지 등) 부분적으로 탈출시킬 수 있습니다.
+                </li>
+                <li>
+                    Content width는 브라우저 크기와 상관없이 최대로 늘어날 수 있는 화면 컨텐츠의 너비값 입니다.
+                    Inner padding을 포함해 계산합니다.
+                </li>
+            </ul>
+            <p></p>
+        </div>
+    </section>
+
+    <section class="layout">
+        <span class="section__line"></span>
+        <div class="layout-wrap">
+            <h2>그리드 예시</h2>
+            <!-- <h3>1. 비율 너비, 고정 간격</h3> -->
+            <ul class="grid example--1">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="layout">
+        <span class="section__background layout-escape">
+        </span>
+        <div class="layout-wrap">
+            <h2>백그라운드 예시</h2>
+        </div>
+    </section>
+
+    <section class="layout">
+        <div class="layout-wrap">
+            <h2>추천 가이드</h2>
+            <p class="subtext">추천가이드는 생각나는대로 계속 추가합니다..</p>
+            <ul class="list">
+                <li>
+                    정보성 텍스트는 대부분의 상황에서 px단위로 접근해주세요. <a href="https://www.google.com/search?q=viewport&rlz=1C5CHFA_enKR961KR961&oq=viewport&aqs=chrome.0.0i512l5j69i65l3.4165j0j1&sourceid=chrome&ie=UTF-8" target="_blank">viewport</a>의 도움으로 디자이너가 의도한 사이즈가 전달하는 경험을 대부분의 디바이스에서 동일하게 유지할 수 있습니다.
+                </li>
+                <li>
+                    이미지, 그리드 등 화면 영역 요소는 비율(%)과 고정(px)단위를 분리해서 접근해주세요. 상황에 따라 두 방식 모두 쓰일수도 있으며 반응형에 따라 최소,최대,평균값을 모두 개별로 적용할수도 있습니다.
+                </li>
+                <li>
+                    반응형 분기점의 가장 애매한 부분은 주로 모바일-태블릿 간 전환입니다. 기본 값으로 셋팅해둔것처럼 모바일의 breakpoint와 MO_CONTENTWIDTH의 값에 차등을 두어 애매한 구간을 효율적으로 지우는 방식도 추천합니다.
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <footer class="layout">
+        <p>- Finish Page -</p>
+    </footer>
+</div>
+
+<script>
+const localStorageValue = localStorage.values ? JSON.parse(localStorage.values) : {};
+
+const values = {
+    isOpen: true,
+    nowWindow : window.innerWidth,
+    nowBreakpoint: "",
+    breakpoint : {
+        desktop: 1920,
+        tablet: 1024,
+        mobile: 768,
+    },
+    size : {
+        DE_CONTENTWIDTH: 1280,
+        DE_INNERPADDING: 40,
+
+        TA_CONTENTWIDTH: 1280,
+        TA_INNERPADDING: 24,
+
+        MO_CONTENTWIDTH: 560,
+        MO_INNERPADDING: 12,
+    },
+    transition: {
+        use: false,
+        "time(ms)": 1000,
+    },
+    border: {
+        use: false,
+    },
+    "눌러서복사하기": () => {
+        const text = `- break points\n\n${Object.entries(values.breakpoint).map(([k,v]) => `${k}: ${v}`).join("\n")}\n\n- sizes\n\n${Object.entries(values.size).map(([k,v]) => `${k}: ${v}`).join("\n")}`;
+        window.navigator.clipboard.writeText(text)
+            .then(() => {
+                alert("복사가 완료되었습니다.");
+            }).catch(() => {})
+    },
+    "값 초기화하기": () => {
+        const isConfirm = confirm("값을 초기화 합니다.");
+        if(!isConfirm) {
+            return;
+        }
+        localStorage.removeItem("values", null);
+        window.location.reload();
+    },
+    ...localStorageValue,
+}
+
+let currentDevice = null;
+
+const $app = document.querySelector("#app");
+const $nav = document.querySelector("nav");
+const $navLayout = document.querySelector("nav .layout-wrap");
+
+const styleRoot = document.querySelector(":root");
+const styleRootSheet = getComputedStyle(styleRoot);
+
+
+const setLocalStorage = () => {
+    window.localStorage.setItem("values", JSON.stringify(values));
+};
+
+const setBreakpoint = () => {
+
+    const entries = Object.entries(values.breakpoint).sort((a,b) => a[1] > b[1] ? 1 : -1);
+    root: for(let i = 0; i < entries.length; ++i) {
+        if(window.innerWidth <= entries[i][1] || i+1 === entries.length) {
+            if(currentDevice !== entries[i][0]) {
+                for(let j = 0; j < entries.length; ++j) {
+                    $app.classList.remove(`media--${entries[j][0]}`);
+                }
+                $app.classList.add(`media--${entries[i][0]}`);
+                values.nowBreakpoint = entries[i][0];
+            }
+            currentDevice = entries[i][0];
+            break root;
+        }
+    }
+    setLocalStorage();
+};
+
+
+const setSizes = () => {
+    const { nowBreakpoint , size } = values;
+
+    Object.entries(size).forEach(([key,value]) => {
+        styleRoot.style.setProperty(`--SIZE_${key}` , value + "px");
+    });
+
+    const sizeMap = {
+        desktop: {
+            contentWidth : values.size.DE_CONTENTWIDTH,
+            innerPadding : values.size.DE_INNERPADDING,
+        },
+        tablet: {
+            contentWidth : values.size.TA_CONTENTWIDTH,
+            innerPadding : values.size.TA_INNERPADDING,
+        },
+        mobile: {
+            contentWidth : values.size.MO_CONTENTWIDTH,
+            innerPadding : values.size.MO_INNERPADDING,
+        },
+    };
+
+    styleRoot.style.setProperty("--SIZE_CONTENTWIDTH" , sizeMap[values.nowBreakpoint].contentWidth + "px");
+    styleRoot.style.setProperty("--SIZE_INNERPADDING" , sizeMap[values.nowBreakpoint].innerPadding + "px");
+
+    setLocalStorage();
+};
+
+const setBorder = () => {
+    $app.classList[values.border.use ? "add" : "remove"]("use--border");
+    setLocalStorage();
+};
+
+const setTransition = () => {
+    $app.classList[values.transition.use ? "add" : "remove"]("use--transition");
+    styleRoot.style.setProperty(`--TRANSITIONTIME` , values.transition["time(ms)"] + "ms");
+    setLocalStorage();
+};
+
+window.addEventListener("resize", () => {
+    values.nowWindow = window.innerWidth;
+    setBreakpoint();
+    setSizes();
+});
+
+const gui = new dat.GUI({
+    // autoPlace: false,
+    // width: 300,
+});
+if(values.isOpen) {
+    gui.open()
+}else {
+    gui.close()
+}
+gui.domElement.id = 'datgui';
+const $guiButton = gui.domElement.querySelector(".close-button");
+
+$guiButton.addEventListener("click", () => {
+    values.isOpen = !values.isOpen;
+    setLocalStorage();
+});
+
+// $navLayout.appendChild(gui.domElement);
+
+const gui_braekpoint = gui.addFolder("breakpoint");
+gui_braekpoint.open();
+const gui_nowWindow = gui_braekpoint.add(values, "nowWindow").listen();
+gui_nowWindow.domElement.style.pointerEvents = "none";
+const gui_nowBreakpoint = gui_braekpoint.add(values, "nowBreakpoint").listen();
+gui_nowBreakpoint.domElement.style.pointerEvents = "none";
+Object.entries(values.breakpoint).forEach(([key,value]) => {
+    gui_braekpoint.add(values.breakpoint, key, 10).onFinishChange(setBreakpoint);
+});
+
+const gui_size = gui.addFolder("size");
+gui_size.open();
+Object.entries(values.size).forEach(([key,value]) => {
+    gui_size.add(values.size, key).onFinishChange(setSizes);
+});
+
+const gui_transition = gui.addFolder("transition (테스트용)");
+gui_transition.open();
+gui_transition.add(values.transition, "use").onFinishChange(setTransition);
+gui_transition.add(values.transition, "time(ms)").onFinishChange(setTransition);
+
+const gui_border = gui.addFolder("border (테스트용)");
+gui_border.open();
+gui_border.add(values.border, "use").onFinishChange(setBorder);
+
+gui.add(values, "눌러서복사하기");
+gui.add(values, "값 초기화하기");
+
+window.addEventListener("DOMContentLoaded" , () => {
+    setBreakpoint();
+    setSizes();
+    setBorder();
+    setTransition();
+});
+
+
+</script>
+</body>
+</html>
