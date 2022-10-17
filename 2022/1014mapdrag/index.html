@@ -5,103 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js" integrity="sha512-WoO4Ih0CDOSLYafy22wZD/mcJ7k0ESLqtQsFa6zFKnEUrbtuGU+GkLtVhgt93xa2qewG5gKEC6CWlN8OaCTSVg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
 <title>Document</title>
-<style>
-* {
-    margin: 0;
-    padding: 0;
-}
-body {
-    cursor: none;
-}
-#app {
-    user-select: none;
-}
-.worldmap {
-    position: fixed;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-}
-.worldmap canvas{
-    position: relative;
-    width: 100%; height: 100%;
-    border: 1px solid #d3d;
-    box-sizing: border-box;
-}
-.cursor {
-    position: fixed;
-    width: 0; height: 0;
-    background-color: transparent;
-    z-index: 3;
-    pointer-events: none !important;
-    /* mix-blend-mode: difference; */
-}
-.cursor.-press{
-
-}
-.cursor__pointer{
-    display: inline-block;
-    will-change: transform;
-    left: 0; top: 0;
-    position: absolute;
-}
-.cursor__visual{
-    display: inline-block;
-    width: 30px; height: 30px;
-    border-radius: 9999px;
-    display: inline-block;
-    position: relative;
-    top: -15px; left: -15px;
-    border: 1px solid #fff;
-    transition: transform 90ms ease;
-    will-change: transform;
-    overflow: hidden;
-}
-.cursor__visual::before{
-
-}
-.cursor.-press .cursor__visual {
-    transform: scale(1.5);
-}
-.cursor.-press .cursor__visual::before{
-    transform: scale(1);
-}
-.focuscrosshead {
-    position: fixed;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 65;
-    opacity: 0.8;
-    user-select: none;
-}
-.focuscrosshead * {
-    pointer-events: none !important ;
-    user-select: none !important;
-}
-.focuscrosshead::before,
-.focuscrosshead::after {
-    content: "";
-    position: absolute;
-    display: inline-block;
-    background-color: #d3d;
-}
-.focuscrosshead::before{
-    width: 100%; height: 1px;
-    top: 50%; left: 0;
-}
-.focuscrosshead::after{
-    width: 1px; height: 100%;
-    left: 50%; top: 0;
-}
-.focuscrosshead span{
-    position: absolute;
-    display: inline-block;
-    top: 50%; left: 50%;
-    color: #fff;
-    background-color: #d3d;
-}
-
-</style>
+<link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
@@ -115,32 +21,65 @@ body {
         </span>
     </div>
     <div class="worldmap">
+        <div class="mappoints">
+            <button class="point point--1">화산섬 아래 반도</button>
+            <button class="point point--2">간지나는 계곡</button>
+            <button class="point point--3">산맥 정상</button>
+            <button class="point point--4">만 호수</button>
+            <button class="point point--5">사막산 정상</button>
+        </div>
         <canvas></canvas>
+    </div>
+    <div id="modal-plate">
+        <div class="modal-item type--video">
+			<span class="modal__dimmed"></span>
+			<div class="modal-item__wrap">
+				<div class="modal__box">
+					<button class="modal__close">닫기</button>
+					<div class="modal__content">
+						<div class="sourcebox">
+							<iframe src="" frameborder="0" allowfullscreen=""></iframe>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
     </div>
 </div>
 
 <script src="./script.js"></script>
 <script>
+
+const YOUTUBE_KEY = "m8Ll-uML7Z4?start=14";
+const $modalVideo = document.querySelector(".modal-item.type--video");
+window.modal = {};
+window.modal.video = new ModalObjectVideo($modalVideo, {youtube: YOUTUBE_KEY});
+
 const perRound = (value) => {
     return (Math.round(value * 1000))/10;
 }
 
-const canvas = document.querySelector(".worldmap canvas");
-const ctx = canvas.getContext("2d");
+const $canvas = document.querySelector(".worldmap canvas");
+const ctx = $canvas.getContext("2d");
 const mapSource = new Image();
+
+const $mappoints = document.querySelector(".mappoints");
 
 const focuscrosshead = document.querySelector(".focuscrosshead span");
 
 mapSource.src = "./map.jpg";
 
 mapSource.onload = () => {
-    focus.width = mapSource.width;
-    focus.height = mapSource.height;
+    focus.width = mapSource.width * focus.scale;
+    focus.height = mapSource.height * focus.scale;
     map.width = focus.width;
     map.height = focus.height;
 
     ctx.canvas.width = size.ww;
     ctx.canvas.height = size.wh;
+
+    setScale(focus.scale);
+    setFocusPercent(50,50);
 };
 
 const size = {
@@ -150,25 +89,31 @@ const size = {
     cy : window.innerHeight/2,
 };
 
+const defaultValue = {
+    mapPower: 0.2,
+    cursorPower: 0.3,
+    scale: 0.8,
+};
+
 const map = {
     x: 0,
     y: 0,
-    scale: 1,
+    scale: defaultValue.scale,
     width: 0,
     height: 0,
-    power: 0.13,
+    power: defaultValue.mapPower,
 }
 
 const focus = {
     x: 0,
     y: 0,
-    scale: 1,
+    scale: defaultValue.scale,
     width: 0,
     height: 0,
-    xPercent: 0,
-    yPercent: 0,
-    xPercentMap :0,
-    yPercentMap :0,
+    xPercent: 50,
+    yPercent: 50,
+    xPercentMap :50,
+    yPercentMap :50,
 };
 
 const mouse = {
@@ -179,7 +124,7 @@ const mouse = {
 const cursor = {
     x: 0,
     y: 0,
-    power: 0.15,
+    power: defaultValue.cursorPower,
 }
 
 const press = {
@@ -239,6 +184,7 @@ gui_map.add(map, "y").listen();
 gui_map.add(map, "scale").step(0.0001).listen();
 gui_map.add(map, "width").step(1).listen();
 gui_map.add(map, "height").step(1).listen();
+gui_map.add(map, "power").listen();
 // guiMap.add(map, "width");
 // guiMap.add(map, "height");
 gui_map.domElement.style.pointerEvents = "none";
@@ -336,8 +282,9 @@ window.addEventListener("touchend", (e) => {
     pressUp();
 });
 
-const setFocus = (willX = 0, willY = 0) => {
-    // limitX = (map.width * focus.scale) - (size.ww * focus.scale) + ((1 - (1/focus.scale)) * map.width);
+const setFocus = (willX, willY) => {
+    willX = willX === undefined ? focus.x : willX;
+    willY = willY === undefined ? focus.y : willY;
 
     let isOverX = focus.width - willX - size.ww < 0;
     let isOverY = focus.height - willY - size.wh < 0;
@@ -379,19 +326,20 @@ const setFocus = (willX = 0, willY = 0) => {
 };
 
 const setFocusPercent = (xPercent, yPercent) => {
-    const x = (map.width - size.ww)/100 * xPercent;
-    const y = (map.height - size.wh)/100 * yPercent;
+    const x = (focus.width - size.ww)/100 * xPercent;
+    const y = (focus.height - size.wh)/100 * yPercent;
     setFocus(x,y);
 };
 
 const setFocusMapPercent = (xPercent, yPercent) => {
-    const x = map.width/100 * xPercent - size.cx;
-    const y = map.height/100 * yPercent - size.cy;
+    const x = focus.width/100 * xPercent - size.cx;
+    const y = focus.height/100 * yPercent - size.cy;
     setFocus(x,y);
 };
 
-const setScale = (scale) => {
+const setScale = (scale, isFocusSet = true) => {
 
+// [TODO] 항좀 정리하자 
     scale = scale <= 0.001 ? 0.001 : scale;
 
     const origin = {
@@ -402,26 +350,21 @@ const setScale = (scale) => {
     origin.x = origin.x - (size.cx - (1/focus.scale * size.cx));
     origin.y = origin.y - (size.cy - (1/focus.scale * size.cy));
 
-    let x = 0;
-    let y = 0;
-
-
     if(mapSource.width * scale < size.ww) {
         scale = (size.ww+1) / (mapSource.width);
     }
     if(mapSource.height * scale < size.wh) {
         scale = (size.wh+1) / (mapSource.height);
     }
-    x = ((origin.x - size.cx/scale) * scale) + (size.cx * scale);
-    y = ((origin.y - size.cy/scale) * scale) + (size.cy * scale);
 
-    console.log(`scale change! : ${focus.scale} => ${scale}`);
+    let x = ((origin.x - size.cx/scale) * scale) + (size.cx * scale);
+    let y = ((origin.y - size.cy/scale) * scale) + (size.cy * scale);
+
     focus.scale = scale;
     focus.width = mapSource.width * scale;
     focus.height = mapSource.height * scale;
-
-    console.log(x,y);
-    setFocus(x,y);
+    focus.x = x;
+    focus.y = y;
 }
 
 window.addEventListener("mousewheel" , (e) => {
@@ -430,25 +373,9 @@ window.addEventListener("mousewheel" , (e) => {
     }else {
         setScale(focus.scale + 0.1);
     }
-})
 
-const mapPoints = [
-    [46,35],
-    [46,54],
-    [60,57],
-    [53,76],
-];
-
-
-setTimeout(() => {
-    // setFocusPercent(5.5, 37);
-    // setFocusMapPercent(14,42.5);
-    // setFocusMapPercent(...mapPoints[0]);
-    // setFocus(450,0);
-    // setFocusMapPercent(40.5,0);
-    // setFocusPercent(100,0);
-    setFocusMapPercent(70.5,0);
-},500);
+    setFocus();
+});
 
 
 const drawMap = () => {
@@ -470,8 +397,11 @@ const drawMap = () => {
     map.width = mapSource.width * map.scale;
     map.height = mapSource.height * map.scale;
 
-    ctx.drawImage(mapSource, -map.x, -map.y, map.width , map.height);
+    $mappoints.style.transform = `translate3d(${-x}px,${-y}px,0)`
+    $mappoints.style.width = `${map.width}px`;
+    $mappoints.style.height = `${map.height}px`;
 
+    ctx.drawImage(mapSource, -map.x, -map.y, map.width , map.height);
 };
 
 
@@ -491,7 +421,7 @@ const drawMap = () => {
 
 
 
-
+// 대충만들고
 // cursor
 const $cursor = document.querySelector(".cursor");
 const $cursorPointer = document.querySelector(".cursor__pointer");
@@ -500,14 +430,21 @@ const $cursorVisual = document.querySelector(".cursor__visual");
 window.addEventListener("mousemove", (e) => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
+    for(let i = 0, l = e.path.length; i < l; ++i) {
+        if(e.path[i].tagName === "A" || e.path[i].tagName === "BUTTON") {
+        // console.log('hoveR!');
+            $cursor.classList.add("-hover");
+            break;
+        }
+        $cursor.classList.remove("-hover");
+    }
 });
-
 window.addEventListener("mousedown" , () => {
     $cursor.classList.add("-press");
-})
+});
 window.addEventListener("mouseup" , () => {
     $cursor.classList.remove("-press");
-})
+});
 
 const drawCursor = () => {
     const dx = mouse.x - cursor.x;
@@ -530,13 +467,43 @@ const draw = () => {
 
 draw();
 
-setTimeout(() => {
-    // setFocus((map.width/2 - window.innerWidth/2) * -1, (map.height/2 - window.innerHeight/2) * -1)
-},200);
+const myPoints = [
+    [46,35], // 화산섬 아래 반도
+    [46,54], // 말라붙은 계곡
+    [64,58], // 산맥 정상
+    [53,76], // 만 호수
+    [35,53], // 사막산 정상
+];
+
+const $mappoint_itmes = document.querySelectorAll(".mappoints .point");
+
+const testAction = (xPercentMap,yPercentMap) => {
+    map.power = 0.05;
+    focus.x = map.x;
+    focus.y = map.y;
+    focus.scale = map.scale;
+    setScale(defaultValue.scale * 2);
+    setFocusMapPercent(xPercentMap,yPercentMap);
+    // $canvas.classList.add("-perspective");
+
+    setTimeout(() => {
+        modal.video.open({onClose: () => {
+            setScale(defaultValue.scale);
+            // $canvas.classList.remove("-perspective");
+            setFocus();
+            map.power = defaultValue.mapPower;
+        }});
+    },500);
+};
+
+[...$mappoint_itmes].forEach((item,i) => {
+    item.addEventListener("click", () => {
+        testAction(...myPoints[i]);
+    });
+});
 
 
-
-
+gsap.fromTo(document.body, {autoAlpha: 0}, {autoAlpha: 1, duration: 1, ease: "power1.in"});
 
 </script>
 </body>
