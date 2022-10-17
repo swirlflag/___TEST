@@ -15,6 +15,7 @@ body {
     cursor: none;
 }
 #app {
+    user-select: none;
 }
 .worldmap {
     position: fixed;
@@ -133,19 +134,20 @@ const focuscrosshead = document.querySelector(".focuscrosshead span");
 mapSource.src = "./map.jpg";
 
 mapSource.onload = () => {
-    size.icx = mapSource.width/2;
-    size.icy = mapSource.height/2;
-    map.width = mapSource.width;
-    map.height = mapSource.height;
+    focus.width = mapSource.width;
+    focus.height = mapSource.height;
+    map.width = focus.width;
+    map.height = focus.height;
+
+    ctx.canvas.width = size.ww;
+    ctx.canvas.height = size.wh;
 };
 
 const size = {
     ww : window.innerWidth,
     wh : window.innerHeight,
     cx : window.innerWidth/2,
-    cy : window.innerWidth/2,
-    icx : 0,
-    icy : 0,
+    cy : window.innerHeight/2,
 };
 
 const map = {
@@ -160,6 +162,9 @@ const map = {
 const focus = {
     x: 0,
     y: 0,
+    scale: 1,
+    width: 0,
+    height: 0,
     xPercent: 0,
     yPercent: 0,
     xPercentMap :0,
@@ -192,8 +197,17 @@ const press = {
 
 // dat
 const gui = new dat.GUI();
-
-const isOpenGUI = localStorage.GUI_OPEN;
+const guiclose = gui.domElement.querySelector(".close-button");
+let isOpen = localStorage.guiopen ? true : false;
+guiclose.addEventListener("click", () => {
+    isOpen = !isOpen;
+    if(isOpen) {
+        localStorage.setItem("guiopen", isOpen);
+    }else {
+        localStorage.removeItem("guiopen");
+    }
+});
+isOpen ? gui.open() : gui.close();
 
 const gui_mouse = gui.addFolder("mouse");
 gui_mouse.add(mouse, "x").listen();
@@ -214,12 +228,17 @@ gui_focus.add(focus, "xPercent").listen();
 gui_focus.add(focus, "yPercent").listen();
 gui_focus.add(focus, "xPercentMap").listen();
 gui_focus.add(focus, "yPercentMap").listen();
+gui_focus.add(focus, "scale").step(0.0001).listen();
+gui_focus.add(focus, "width").step(1).listen();
+gui_focus.add(focus, "height").step(1).listen();
 gui_focus.open();
 
 const gui_map = gui.addFolder("map");
 gui_map.add(map, "x").listen();
 gui_map.add(map, "y").listen();
-gui_map.add(map, "scale").listen();
+gui_map.add(map, "scale").step(0.0001).listen();
+gui_map.add(map, "width").step(1).listen();
+gui_map.add(map, "height").step(1).listen();
 // guiMap.add(map, "width");
 // guiMap.add(map, "height");
 gui_map.domElement.style.pointerEvents = "none";
@@ -250,12 +269,16 @@ window.addEventListener("resize", () => {
     size.cx = window.innerWidth/2;
     size.cy = window.innerHeight/2;
 
+    ctx.canvas.width = size.ww;
+    ctx.canvas.height = size.wh;
+
     // setFocusPercent(focus.xPercent, focus.yPercent);
     // setFocusMapPercent(focus.xPercent, focus.yPercent);
     // setFocusMapPercent(14,42.5);
     // setFocusMapPercent(20,42.5);
 
     setFocusMapPercent(focus.xPercentMap, focus.yPercentMap);
+    // setScale(focus.scale);
 
 });
 
@@ -300,7 +323,7 @@ window.addEventListener("mouseup", (e) => {
     pressUp();
 });
 window.addEventListener("mouseout", (e) => {
-    pressUp();
+    // pressUp();
 });
 
 window.addEventListener("touchstart", (e) => {
@@ -313,14 +336,14 @@ window.addEventListener("touchend", (e) => {
     pressUp();
 });
 
+const setFocus = (willX = 0, willY = 0) => {
+    // limitX = (map.width * focus.scale) - (size.ww * focus.scale) + ((1 - (1/focus.scale)) * map.width);
 
-const setFocus = (willX = 0,willY = 0) => {
+    let isOverX = focus.width - willX - size.ww < 0;
+    let isOverY = focus.height - willY - size.wh < 0;
 
-    const isOverX = map.width - willX - size.ww < 0;
-    const isOverY = map.height - willY - size.wh < 0;
-
-    const limitX = map.width - size.ww - 1;
-    const limitY = map.height - size.wh - 1;
+    let limitX = focus.width - size.ww - 1;
+    let limitY = focus.height - size.wh - 1;
 
     let x = willX;
     let y = willY;
@@ -342,13 +365,13 @@ const setFocus = (willX = 0,willY = 0) => {
     focus.x = Math.round(x);
     focus.y = Math.round(y);
 
-    const xPercent = perRound(focus.x / (map.width - size.ww));
-    const yPercent = perRound(focus.y / (map.height - size.wh));
+    const xPercent = perRound(focus.x / (focus.width - size.ww));
+    const yPercent = perRound(focus.y / (focus.height - size.wh));
     focus.xPercent = xPercent;
     focus.yPercent = yPercent;
 
-    const xPercentMap = perRound((focus.x + window.innerWidth/2) / (map.width));
-    const yPercentMap = perRound((focus.y + window.innerHeight/2) / (map.height));
+    const xPercentMap = perRound((focus.x + size.cx) / (focus.width));
+    const yPercentMap = perRound((focus.y + size.cy) / (focus.height));
     focus.xPercentMap = xPercentMap;
     focus.yPercentMap = yPercentMap;
 
@@ -356,16 +379,58 @@ const setFocus = (willX = 0,willY = 0) => {
 };
 
 const setFocusPercent = (xPercent, yPercent) => {
-    const x = (map.width - window.innerWidth)/100 * xPercent;
-    const y = (map.height - window.innerHeight)/100 * yPercent;
+    const x = (map.width - size.ww)/100 * xPercent;
+    const y = (map.height - size.wh)/100 * yPercent;
     setFocus(x,y);
 };
 
 const setFocusMapPercent = (xPercent, yPercent) => {
-    const x = map.width/100 * xPercent - window.innerWidth/2;
-    const y = map.height/100 * yPercent - window.innerHeight/2;
+    const x = map.width/100 * xPercent - size.cx;
+    const y = map.height/100 * yPercent - size.cy;
     setFocus(x,y);
 };
+
+const setScale = (scale) => {
+
+    scale = scale <= 0.001 ? 0.001 : scale;
+
+    const origin = {
+        x: 1/focus.scale * focus.x,
+        y: 1/focus.scale * focus.y,
+    };
+
+    origin.x = origin.x - (size.cx - (1/focus.scale * size.cx));
+    origin.y = origin.y - (size.cy - (1/focus.scale * size.cy));
+
+    let x = 0;
+    let y = 0;
+
+
+    if(mapSource.width * scale < size.ww) {
+        scale = (size.ww+1) / (mapSource.width);
+    }
+    if(mapSource.height * scale < size.wh) {
+        scale = (size.wh+1) / (mapSource.height);
+    }
+    x = ((origin.x - size.cx/scale) * scale) + (size.cx * scale);
+    y = ((origin.y - size.cy/scale) * scale) + (size.cy * scale);
+
+    console.log(`scale change! : ${focus.scale} => ${scale}`);
+    focus.scale = scale;
+    focus.width = mapSource.width * scale;
+    focus.height = mapSource.height * scale;
+
+    console.log(x,y);
+    setFocus(x,y);
+}
+
+window.addEventListener("mousewheel" , (e) => {
+    if(e.deltaY > 0) {
+        setScale(focus.scale - 0.1);
+    }else {
+        setScale(focus.scale + 0.1);
+    }
+})
 
 const mapPoints = [
     [46,35],
@@ -378,25 +443,34 @@ const mapPoints = [
 setTimeout(() => {
     // setFocusPercent(5.5, 37);
     // setFocusMapPercent(14,42.5);
-    setFocusMapPercent(...mapPoints[0]);
+    // setFocusMapPercent(...mapPoints[0]);
     // setFocus(450,0);
-},1000);
+    // setFocusMapPercent(40.5,0);
+    // setFocusPercent(100,0);
+    setFocusMapPercent(70.5,0);
+},500);
 
 
 const drawMap = () => {
-    ctx.canvas.width = size.ww;
-    ctx.canvas.height = size.wh;
 
-    const dx = focus.x - map.x;
-    const dy = focus.y - map.y;
+    const d = {
+        x: focus.x - map.x,
+        y: focus.y - map.y,
+        scale: focus.scale - map.scale,
+    };
 
-    const x = map.x + (dx * map.power);
-    const y = map.y + (dy * map.power);
+    const x = map.x + (d.x * map.power);
+    const y = map.y + (d.y * map.power);
+    const scale = map.scale + (d.scale * map.power);
 
     map.x = x;
     map.y = y;
+    map.scale = scale;
 
-    ctx.drawImage(mapSource, -map.x, -map.y, mapSource.width, mapSource.height);
+    map.width = mapSource.width * map.scale;
+    map.height = mapSource.height * map.scale;
+
+    ctx.drawImage(mapSource, -map.x, -map.y, map.width , map.height);
 
 };
 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+canvas {
+    position: absolute;
+    width: 100vw; height: 100vh;
+    left: 0;top: 0;
+    border: 1px solid #d3d;
+    box-sizing: border-box;
+}
+</style>
+</head>
+<body>
+<canvas></canvas>
+<script>
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d");
+const mapSource = new Image();
+
+mapSource.src = "./map.jpg";
+
+const draw = () => {
+    ctx.canvas.width = window.innerWidth;
+    ctx.canvas.height = window.innerHeight;
+    ctx.drawImage(mapSource, 0,0, mapSource.width/2, mapSource.height);
+};
+mapSource.onload = () => {
+    draw();
+};
+
+window.addEventListener("resize", () => {
+    draw();
+});
+
+
+</script>
+</body>
+</html>
