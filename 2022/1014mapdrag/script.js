@@ -323,13 +323,87 @@ const targetPathDetect = (e,...targets) => {
 
 }
 
-// [TODO] 맵 기능 모듈화로 패키징하기
 class MapExplorer {
 	constructor() {
+		this.state = {
+			size: {
+				ww: window.innerWidth,
+				wh: window.innerWidth,
+				cx: window.innerWidth/2,
+				cy: window.innerHeight/2,
+			},
+			focus: {
+
+			},
+			map: {
+
+			},
+			mouse: {
+
+			},
+			cursor: {
+
+			},
+			press: {
+				isPress: false,
+				time: 0,
+				timer: null,
+
+				startFocusX : 0,
+				startFocusY : 0,
+				startPressX: 0,
+				startPressY: 0,
+				moveX: 0,
+				moveY: 0,
+			},
+		};
+
+		this.el = {};
+
+		this.ctx = null;
+
 		this._init();
 	}
 
 	_init() {
+		this._setupElement();
+		this._setupEvent();
+	}
+
+	_setupElement() {
 
 	}
+
+	_setupEvent() {
+
+	}
+
+	_pressDown(x, y) {
+		this.state.press.isPress = true;
+		this.state.press.startPressX = x;
+		this.state.press.startPressY = y;
+		this.state.press.startFocusX = this.state.focus.x;
+		this.state.press.startFocusY = this.state.focus.y;
+	}
+
+	_pressMove(x, y) {
+		if(!this.state.press.isPress) {
+			return;
+		}
+		press.moveX = x;
+    	press.moveY = y;
+		// const dx = press.moveX - press.startPressX;
+		// const dy = press.moveY - press.startPressY;
+
+		// const x = press.startFocusX - dx;
+		// const y = press.startFocusY - dy;
+
+		// setFocus(x,y);
+	}
+
+	_pressUp() {
+	
+	}
+
+
 }

@@ -25,7 +25,7 @@
             <button class="point point--1">화산섬 아래 반도</button>
             <button class="point point--2">간지나는 계곡</button>
             <button class="point point--3">산맥 정상</button>
-            <button class="point point--4">만 호수</button>
+            <button class="point point--4">남대륙 만</button>
             <button class="point point--5">사막산 정상</button>
         </div>
         <canvas></canvas>
@@ -50,6 +50,7 @@
 <script src="./script.js"></script>
 <script>
 
+
 const YOUTUBE_KEY = "m8Ll-uML7Z4?start=14";
 const $modalVideo = document.querySelector(".modal-item.type--video");
 window.modal = {};
@@ -59,13 +60,16 @@ const perRound = (value) => {
     return (Math.round(value * 1000))/10;
 }
 
+const $app = document.querySelector("#app");
 const $canvas = document.querySelector(".worldmap canvas");
 const ctx = $canvas.getContext("2d");
 const mapSource = new Image();
 
 const $mappoints = document.querySelector(".mappoints");
 
-const focuscrosshead = document.querySelector(".focuscrosshead span");
+const $crosshead = document.querySelector(".focuscrosshead");
+const $crossheadtext = document.querySelector(".focuscrosshead span");
+
 
 mapSource.src = "./map.jpg";
 
@@ -92,13 +96,16 @@ const size = {
 const defaultValue = {
     mapPower: 0.2,
     cursorPower: 0.3,
-    scale: 0.8,
+    initScale: 0.1,
+    limitUnderScale: 0.75,
+    limitOverScale: 1.3,
+    focusScale: 2.7,
 };
 
 const map = {
     x: 0,
     y: 0,
-    scale: defaultValue.scale,
+    scale: defaultValue.initScale,
     width: 0,
     height: 0,
     power: defaultValue.mapPower,
@@ -107,13 +114,14 @@ const map = {
 const focus = {
     x: 0,
     y: 0,
-    scale: defaultValue.scale,
+    scale: defaultValue.initScale,
     width: 0,
     height: 0,
     xPercent: 50,
     yPercent: 50,
     xPercentMap :50,
     yPercentMap :50,
+    isFreeze: false,
 };
 
 const mouse = {
@@ -139,68 +147,6 @@ const press = {
     moveX: 0,
     moveY: 0,
 }
-
-// dat
-const gui = new dat.GUI();
-const guiclose = gui.domElement.querySelector(".close-button");
-let isOpen = localStorage.guiopen ? true : false;
-guiclose.addEventListener("click", () => {
-    isOpen = !isOpen;
-    if(isOpen) {
-        localStorage.setItem("guiopen", isOpen);
-    }else {
-        localStorage.removeItem("guiopen");
-    }
-});
-isOpen ? gui.open() : gui.close();
-
-const gui_mouse = gui.addFolder("mouse");
-gui_mouse.add(mouse, "x").listen();
-gui_mouse.add(mouse, "y").listen();
-gui_mouse.domElement.style.pointerEvents = "none";
-gui_mouse.open();
-
-const gui_cursor = gui.addFolder("cursor");
-gui_cursor.add(cursor, "x").listen();
-gui_cursor.add(cursor, "y").listen();
-gui_cursor.domElement.style.pointerEvents = "none";
-gui_cursor.open();
-
-const gui_focus = gui.addFolder("focus");
-gui_focus.add(focus, "x").listen();
-gui_focus.add(focus, "y").listen();
-gui_focus.add(focus, "xPercent").listen();
-gui_focus.add(focus, "yPercent").listen();
-gui_focus.add(focus, "xPercentMap").listen();
-gui_focus.add(focus, "yPercentMap").listen();
-gui_focus.add(focus, "scale").step(0.0001).listen();
-gui_focus.add(focus, "width").step(1).listen();
-gui_focus.add(focus, "height").step(1).listen();
-gui_focus.open();
-
-const gui_map = gui.addFolder("map");
-gui_map.add(map, "x").listen();
-gui_map.add(map, "y").listen();
-gui_map.add(map, "scale").step(0.0001).listen();
-gui_map.add(map, "width").step(1).listen();
-gui_map.add(map, "height").step(1).listen();
-gui_map.add(map, "power").listen();
-// guiMap.add(map, "width");
-// guiMap.add(map, "height");
-gui_map.domElement.style.pointerEvents = "none";
-gui_map.open();
-
-const gui_press = gui.addFolder("press");
-gui_press.add(press, "isPress").listen();
-gui_press.add(press, "time").listen();
-gui_press.add(press, "startFocusX").listen();
-gui_press.add(press, "startFocusY").listen();
-gui_press.add(press, "startPressX").listen();
-gui_press.add(press, "startPressY").listen();
-gui_press.add(press, "moveX").listen();
-gui_press.add(press, "moveY").listen();
-gui_press.domElement.style.pointerEvents = "none";
-gui_press.open();
 
 
 
@@ -229,6 +175,9 @@ window.addEventListener("resize", () => {
 });
 
 const pressDown = (e) => {
+    if(focus.isFreeze) {
+        return;
+    }
     press.isPress = true;
     press.startPressX = e.clientX;
     press.startPressY = e.clientY || e.touches[0].clientY;
@@ -237,6 +186,9 @@ const pressDown = (e) => {
 };
 const pressMove = (e) => {
     if(!press.isPress) {
+        return;
+    }
+    if(focus.isFreeze) {
         return;
     }
 
@@ -322,7 +274,7 @@ const setFocus = (willX, willY) => {
     focus.xPercentMap = xPercentMap;
     focus.yPercentMap = yPercentMap;
 
-    focuscrosshead.innerHTML = `focus<br>x: ${focus.x} (${xPercent}%)<br>y: ${focus.y} (${yPercent}%)`;
+    $crossheadtext.innerHTML = `focus<br>x: ${focus.x} (${xPercent}%)<br>y: ${focus.y} (${yPercent}%)`;
 };
 
 const setFocusPercent = (xPercent, yPercent) => {
@@ -337,7 +289,7 @@ const setFocusMapPercent = (xPercent, yPercent) => {
     setFocus(x,y);
 };
 
-const setScale = (scale, isFocusSet = true) => {
+const setScale = (scale, power) => {
 
 // [TODO] 항좀 정리하자 
     scale = scale <= 0.001 ? 0.001 : scale;
@@ -368,10 +320,17 @@ const setScale = (scale, isFocusSet = true) => {
 }
 
 window.addEventListener("mousewheel" , (e) => {
+
     if(e.deltaY > 0) {
-        setScale(focus.scale - 0.1);
+        // 축소
+        if(focus.scale > defaultValue.limitUnderScale) {
+            setScale(focus.scale - 0.05);
+        }
     }else {
-        setScale(focus.scale + 0.1);
+        // 확대
+        if(focus.scale < defaultValue.limitOverScale) {
+            setScale(focus.scale + 0.05);
+        }
     }
 
     setFocus();
@@ -471,7 +430,7 @@ const myPoints = [
     [46,35], // 화산섬 아래 반도
     [46,54], // 말라붙은 계곡
     [64,58], // 산맥 정상
-    [53,76], // 만 호수
+    [53,76], // 남대륙 만
     [35,53], // 사막산 정상
 ];
 
@@ -481,15 +440,15 @@ const testAction = (xPercentMap,yPercentMap) => {
     map.power = 0.05;
     focus.x = map.x;
     focus.y = map.y;
-    focus.scale = map.scale;
-    setScale(defaultValue.scale * 2);
+    focus.scale = map.focusScale;
+    setScale(2);
     setFocusMapPercent(xPercentMap,yPercentMap);
-    // $canvas.classList.add("-perspective");
+    $canvas.classList.add("-perspective");
 
     setTimeout(() => {
         modal.video.open({onClose: () => {
-            setScale(defaultValue.scale);
-            // $canvas.classList.remove("-perspective");
+            setScale(defaultValue.limitUnderScale);
+            $canvas.classList.remove("-perspective");
             setFocus();
             map.power = defaultValue.mapPower;
         }});
@@ -502,8 +461,116 @@ const testAction = (xPercentMap,yPercentMap) => {
     });
 });
 
+const tl_init = gsap.timeline({paused: true});
+tl_init.fromTo(document.body, {autoAlpha: 0}, {autoAlpha: 1, duration: 1, ease: "power1.in"},0.3);
+tl_init.add(() => {
+    map.power = 0.05;
+    setScale(defaultValue.limitUnderScale);
+    setTimeout(() => {
+        map.power = defaultValue.mapPower;
+        focus.isFreeze = false;
+    },1000);
+});
 
-gsap.fromTo(document.body, {autoAlpha: 0}, {autoAlpha: 1, duration: 1, ease: "power1.in"});
+window.addEventListener("DOMContentLoaded", () => {
+    tl_init.play();
+    focus.isFreeze = true;
+});
+
+
+// dat
+const guidev = {
+    "중심 확인선 켜기": false,
+    "직접 이동: 화산섬 아래 반도": () => {
+        testAction(...myPoints[0]);
+    },
+    "직접 이동: 말라붙은 계곡": () => {
+        testAction(...myPoints[1]);
+    },
+    "직접 이동: 산맥 정상": () => {
+        testAction(...myPoints[2]);
+    },
+    "직접 이동: 남대륙 만": () => {
+        testAction(...myPoints[3]);
+    },
+    "직접 이동: 사막산 정상": () => {
+        testAction(...myPoints[4]);
+    },
+
+}
+const gui = new dat.GUI();
+const guiclose = gui.domElement.querySelector(".close-button");
+let isOpen = localStorage.guiopen ? true : false;
+guiclose.addEventListener("click", () => {
+    isOpen = !isOpen;
+    if(isOpen) {
+        localStorage.setItem("guiopen", isOpen);
+    }else {
+        localStorage.removeItem("guiopen");
+    }
+});
+isOpen ? gui.open() : gui.close();
+
+const gui_mouse = gui.addFolder("mouse");
+gui_mouse.add(mouse, "x").listen();
+gui_mouse.add(mouse, "y").listen();
+// gui_mouse.domElement.style.pointerEvents = "none";
+// gui_mouse.open();
+
+const gui_cursor = gui.addFolder("cursor");
+gui_cursor.add(cursor, "x").listen();
+gui_cursor.add(cursor, "y").listen();
+// gui_cursor.domElement.style.pointerEvents = "none";
+// gui_cursor.open();
+
+const gui_focus = gui.addFolder("focus");
+gui_focus.add(focus, "x").listen();
+gui_focus.add(focus, "y").listen();
+gui_focus.add(focus, "xPercent").listen();
+gui_focus.add(focus, "yPercent").listen();
+gui_focus.add(focus, "xPercentMap").listen();
+gui_focus.add(focus, "yPercentMap").listen();
+gui_focus.add(focus, "scale").step(0.0001).listen();
+gui_focus.add(focus, "width").step(1).listen();
+gui_focus.add(focus, "height").step(1).listen();
+// gui_focus.open();
+
+const gui_map = gui.addFolder("map");
+gui_map.add(map, "x").listen();
+gui_map.add(map, "y").listen();
+gui_map.add(map, "scale").step(0.0001).listen();
+gui_map.add(map, "width").step(1).listen();
+gui_map.add(map, "height").step(1).listen();
+gui_map.add(map, "power").listen();
+// guiMap.add(map, "width");
+// guiMap.add(map, "height");
+// gui_map.domElement.style.pointerEvents = "none";
+// gui_map.open();
+
+const gui_press = gui.addFolder("press");
+gui_press.add(press, "isPress").listen();
+gui_press.add(press, "time").listen();
+gui_press.add(press, "startFocusX").listen();
+gui_press.add(press, "startFocusY").listen();
+gui_press.add(press, "startPressX").listen();
+gui_press.add(press, "startPressY").listen();
+gui_press.add(press, "moveX").listen();
+gui_press.add(press, "moveY").listen();
+// gui_press.domElement.style.pointerEvents = "none";
+// gui_press.open();
+
+
+const gui_cancontrol = gui.addFolder("조작 가능");
+gui_cancontrol.add(guidev, "중심 확인선 켜기").onFinishChange((now) => {
+    $crosshead.classList[now ? "add" : "remove"]("-show");
+});
+gui_cancontrol.add(guidev, "직접 이동: 화산섬 아래 반도");
+gui_cancontrol.add(guidev, "직접 이동: 말라붙은 계곡");
+gui_cancontrol.add(guidev, "직접 이동: 산맥 정상");
+gui_cancontrol.add(guidev, "직접 이동: 남대륙 만");
+gui_cancontrol.add(guidev, "직접 이동: 사막산 정상");
+gui_cancontrol.open();
+
 
 </script>
 </body>
