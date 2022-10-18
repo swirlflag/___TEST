@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js"></script>
+    <script src="./DrawSVGPlugin.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #fff;
+            background-color: #000;
+        }
+
+        #app {
+            box-sizing: border-box;
+        }
+
+        .bgblend {
+            background-image: url("./taxture.png");
+            background-color: #000;
+            position: fixed;
+            z-index: -1;
+            width: 100%; height: 100%;
+            left: 0 ;top: 0;
+            display: inline-block;
+        }
+        .trigger {
+            height: 100vh;
+            width: 100%;
+        }
+
+        .fly {
+            position: fixed;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            /* border: 1px solid #3d3; */
+        }
+        .fly > div{
+            box-sizing: border-box;
+            margin: 0 10px;
+        }
+        .fly-logo {
+            font-size: 100px;
+        }
+        .fly-shape {
+            /* mix-blend-mode: multiply; */
+            mix-blend-mode: difference;
+            background-color: #000;
+        }
+        .fly-shape__texture{
+            position: absolute;
+            /* background-image: url("./images.jfif"); */
+            background-image: url("./taxture2.png");
+            /* background-image: url("./"); */
+            /* background: linear-gradient(106deg, rgba(255,0,0,1) 20%, rgba(151,255,0,1) 41%, rgba(38,130,179,1) 60%, rgba(166,0,255,1) 82%); */
+            box-sizing: border-box;
+             mix-blend-mode: overlay;
+            /* background-color: #fff; */
+            width: 100%; height: 100%;
+            left: 0; top: 0;
+            z-index: 2;
+            opacity: 1;
+            /* opacity: 0.5; */
+        }
+        .fly-shape svg{
+            /* mix-blend-mode: difference; */
+        }
+        .fly-shape p{
+            color: #fff;
+            font-size: 20px;
+            /* mix-blend-mode: difference; */
+        }
+        .fly-text {
+            font-size: 60px;
+            font-weight: 100;
+            /* pointer-events: none; */
+        }
+        .trigger-logo {
+            height: 200px;
+        }
+        .trigger-shape {
+            height: 200vh;
+        }
+        .trigger-text {
+            padding-top: 20vh;
+        }
+        svg {
+            width: 100%; height: 100%;
+            overflow: visible;
+        }
+        svg *{
+            /* transform-origin: center center; */
+        }
+
+        .shape {
+            width: 150px; height: 150px;
+            position: relative;
+            filter: drop-shadow(0 0 10px #fff);
+        }
+        .shape > svg {
+            position: absolute;
+            width: 100%; height: 100%;
+            position: absolute;
+            left: 0; top: 0;
+        }
+
+        .shape.shape3 {
+            position: relative;
+
+        }
+        .fly-test {
+            z-index: 10;
+            width: 500px; height: 500px;
+        }
+
+        .fly-test svg{
+            width: 100%; height: 100%;
+        }
+        .fly-test img{
+        }
+
+        .fly-shape2 {
+            mix-blend-mode: lighten;
+        }
+        .blend {
+            mix-blend-mode: difference;
+            background-color: #000;
+            /* position: relative; */
+        }
+        .blend__texture{
+            mix-blend-mode: overlay;
+            mix-blend-mode: darken;
+            /* mix-blend-mode: multiply; */
+            background-image: url("./taxture2.png");
+            /* background: linear-gradient(106deg, rgba(255,0,0,1) 20%, rgba(151,255,0,1) 41%, rgba(38,130,179,1) 60%, rgba(166,0,255,1) 82%); */
+            background-repeat: repeat;
+            background-size: 50%;
+            width: 100%; height: 100%;
+            position: absolute;
+            left: 0; top: 0;
+            z-index: 2;
+            opacity: 1;
+            pointer-events: none;
+            display: inline-block;
+        }
+
+        .myshape {
+            width: 500px; height: 500px;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div id="app">
+        <span class="bgblend"></span>
+
+        <div class="trigger trigger-logo"></div>
+        <div class="trigger trigger-shape"></div>
+        <div class="trigger trigger-text"></div>
+
+
+        <div class="fly fly-logo">
+            <div class="logo">🚀</div>
+        </div>
+
+
+        <div class="fly fly-shape blend">
+            <span class="blend__texture"></span>
+
+            <!-- <div class="shape shape1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none">
+                    <rect x="1.5" y="1.5" width="97" height="97" stroke="#fff" stroke-width="3"/>
+                    <rect x="6.11351" y="50" width="62.0615" height="62.0615" transform="rotate(-45 6.11351 50)" stroke="#fff" stroke-width="3"/>
+                    <rect x="32.5" y="32.5" width="35" height="35" stroke="#fff" stroke-width="3"/>
+                </svg>
+            </div> -->
+
+            <!-- <div class="shape shape2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none">
+                    <circle cx="50" cy="50" r="48.5" stroke="#fff" stroke-width="3"/>
+                    <circle cx="50" cy="50" r="22.5" stroke="#fff" stroke-width="3"/>
+                    <circle cx="50" cy="50" r="35.5" stroke="#fff" stroke-width="3"/>
+                </svg>
+            </div> -->
+
+            <!-- <div class="shape shape3">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 2V102H22.5V22.5H82.5V102H102V2H2Z" stroke="#fff" stroke-width="3" />
+                </svg>
+
+                <svg viewBox="-3 -3 102 102" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 0V100H20.5V20.5H80.5V100H100V0H0Z" fill="#fff"  mask="url(#mask-shape3)"/>
+                    <defs>
+                        <mask id="mask-shape3">
+                            <path  d="M91.883 125.22C91.883 122.973 91.892 120.744 91.688 118.503 91.349 114.771 90.04 111.188 89.894 107.397 89.762 103.985 89.603 100.37 90.13 96.986 90.406 95.215 90.285 93.402 90.756 91.659 91.148 90.209 91.715 88.828 91.994 87.347 93.473 79.512 92.884 71.296 92.884 63.373 92.884 59.59 92.884 55.806 92.884 52.023 92.884 47.322 92.384 42.633 92.384 37.931 92.384 34.791 91.178 31.884 91.132 28.756 91.094 26.198 90.279 23.67 90.144 21.099 90.028 18.893 89.795 16.571 89.128 14.446 88.284 11.753 85.116 10.389 82.451 9.517 80.058 8.734 77.534 8.405 75.106 7.728 72.299 6.945 69.356 6.023 66.426 5.746 62.238 5.352 57.912 5 53.697 5 49.635 5 45.581 5.477 41.553 5.927 37.775 6.348 33.996 6.456 30.216 6.956 25.638 7.561 20.563 6.521 16.263 8.423 13.986 9.431 12.909 12.595 12.271 14.626 11.031 18.569 10.956 23.11 10.56 27.186 9.889 34.084 10.731 41.137 10.309 48.059 9.762 57.04 9.753 66.086 9.753 75.084 9.753 82.697 9.502 90.316 9.502 97.938 9.502 102.893 9.002 107.823 9.002 112.763 9.002 117.922 8 122.862 8 128" stroke="#fff" stroke-width="37" stroke-linecap="squre"/>
+                        </mask>
+                    </defs>
+                </svg>
+            </div> -->
+
+            <div class="shape shape4">
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="shape__line" d="M44.4639 38.4352V25.0436H58.0017V38.4352H44.4639ZM21.3864 53.3483H71.2323C82.9994 53.3483 84.4622 43.0005 84.4622 43.0005V16.8271H21.3864V7.08834H98V43.0013C98 59.1188 79.8472 63.0879 79.8472 63.0879H15.5403V79.8266C15.5403 79.8266 14.7049 86.7354 23.2319 89.2612H57.5832L74.0002 74.9572L90.3075 89.2612H96.4608V99H85.6917L73.9994 88.348L62.3071 99H14.3083C2.00731 99 2 86.8265 2 86.8265V4.95698L6.00065 1H15.5386V47.5649C15.5411 47.5657 15.6898 53.3483 21.3864 53.3483Z" stroke="#fff" stroke-width="1"/>
+                </svg>
+
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="shape__fill" d="M44.4639 38.4352V25.0436H58.0017V38.4352H44.4639ZM21.3864 53.3483H71.2323C82.9994 53.3483 84.4622 43.0005 84.4622 43.0005V16.8271H21.3864V7.08834H98V43.0013C98 59.1188 79.8472 63.0879 79.8472 63.0879H15.5403V79.8266C15.5403 79.8266 14.7049 86.7354 23.2319 89.2612H57.5832L74.0002 74.9572L90.3075 89.2612H96.4608V99H85.6917L73.9994 88.348L62.3071 99H14.3083C2.00731 99 2 86.8265 2 86.8265V4.95698L6.00065 1H15.5386V47.5649C15.5411 47.5657 15.6898 53.3483 21.3864 53.3483Z" fill="#fff" mask="url(#mask-shape4)"/>
+                    <defs>
+                        <mask id="mask-shape4">
+                            <!-- <path class="shape__mask" d="M51 25C51 25 51 34.5948 51 38.5" stroke="#fff" stroke-width="15"/>
+                            <path class="shape__mask" d="M9.04334 0.5V78.0986C9.04334 78.0986 8.22921 89.8975 13.658 92.3268C13.658 92.3268 16.1012 94.2366 23.0684 93.9755H60.5L74 81.5L87.5 93.9997H96.5" stroke="#fff" stroke-width="15"/>
+                            <path class="shape__mask" d="M21.3535 12H91.4005V46.5C91.4005 46.5 90.8992 55.4032 77.5 58H9.5" stroke="#fff" stroke-width="15" /> -->
+
+                            <path class="shape__mask" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="17" d="M19,11.5h77l-6.75-2.375v34.5c0,0-0.875,13.625-14.75,13.75h-53
+                            c0,0-9.625,0.875-9.625-5.25V5.75h-2.5l-1.5,1.75V83c0,0-1.75,11.25,16.875,11.25h35.5l-3.625,1.5l18-14.625L72,81.625l17.125,13
+                            l-3.5-0.75H101"/>
+                        </mask>
+                    </defs>
+                </svg>
+            </div>
+
+            <div class="shape shape5">
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="shape__line" fill="none" stroke="#fff" stroke-width="1" d="M83.222,1.176c0,0-4.41,0.366-5.193,3.956v94.043h14.051V18.523
+                    c0,0,0.02-3.653,4.581-3.653h1.224V1.176H83.222z M16.939,40.74V14.567l16.799,15.217L56.647,8.479l-6.109-7.304L33.739,16.393
+                    L16.939,1.176H7.164l-3.97,3.956v42.914c0,0,40.93,3.356,40.93,28.606c0,0,0.757,12.479-12.828,12.479h-6.109
+                    c-8.466-2.523-8.554-10.652-8.554-10.652V68.13h9.775v-9.737L3.194,58.392v25.262c0,0,1.043,13.109,17.41,15.216h18.022
+                    c18.997,0,19.548-21.607,19.548-21.607C58.174,47.736,16.939,40.74,16.939,40.74z M47.397,33.74l9.25,9.217l9.251-9.217
+                    l-9.251-9.217L47.397,33.74z"/>
+                </svg>
+
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="shape__fill" fill="#fff" mask="url(#mask-shape5)" d="M83.222,1.176c0,0-4.41,0.366-5.193,3.956v94.043h14.051V18.523
+                    c0,0,0.02-3.653,4.581-3.653h1.224V1.176H83.222z M16.939,40.74V14.567l16.799,15.217L56.647,8.479l-6.109-7.304L33.739,16.393
+                    L16.939,1.176H7.164l-3.97,3.956v42.914c0,0,40.93,3.356,40.93,28.606c0,0,0.757,12.479-12.828,12.479h-6.109
+                    c-8.466-2.523-8.554-10.652-8.554-10.652V68.13h9.775v-9.737L3.194,58.392v25.262c0,0,1.043,13.109,17.41,15.216h18.022
+                    c18.997,0,19.548-21.607,19.548-21.607C58.174,47.736,16.939,40.74,16.939,40.74z M47.397,33.74l9.25,9.217l9.251-9.217
+                    l-9.251-9.217L47.397,33.74z"/>
+                    <defs>
+                        <mask id="mask-shape5">
+                            <path class="shape__mask" fill-rule="evenodd" clip-rule="evenodd" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="15" d="M56.647,2.56L33.739,22.099
+                            L16.939,7.167h-5.798L9.076,8.914v34.631c0,0,38.919,5.561,42.097,29.15c0,0,4.052,19.54-16.044,21.366h-11.2
+                            c0,0-13.583,0.556-13.423-12.947V62.958h19.46L50,39.5L64.125,26l9.25-15.125L75.75,8l20.375-0.125v1L85.25,9L85,102.875" stroke-linecap="round"/>
+                        </mask>
+                    </defs>
+                </svg>
+            </div>
+
+        </div>
+
+        <div class="fly fly-text">
+            <p>2022.12.10</p>
+        </div>
+
+    </div>
+
+    <script>
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
+        const $app = document.querySelector("#app");
+
+        const $trigger_logo = $app.querySelector(".trigger-logo");
+        const $trigger_shape = $app.querySelector(".trigger-shape");
+        const $trigger_text = $app.querySelector(".trigger-text");
+
+        const $fly_logo = $app.querySelector(".fly.fly-logo");
+        const $logo = $fly_logo.querySelector(".logo");
+
+        const $fly_shape = $app.querySelector(".fly.fly-shape");
+        const $shapes = $app.querySelectorAll(".shape");
+
+        const $fly_text = $app.querySelector(".fly.fly-text");
+        const $text = $fly_text.querySelector("p");
+
+        let tl1 = null;
+        let st1 = null;
+
+        let tl2 = null;
+        let st2 = null;
+
+        // gsap.fromTo($logo, {autoAlpha: 0, scale: 2, ease: "power2.out", duration: 0.3});
+
+        gsap.to($logo, {
+            y: "-50%",
+            ease: "power2.inOut",
+            duration: 1,
+            autoAlpha: 0,
+            scrollTrigger: {
+                trigger: $trigger_logo,
+                start: "100% 0%",
+                end: "100% 0%",
+                toggleActions: "play play play reverse",
+            },
+        });
+
+        tl1 = gsap.timeline({paused: true});
+        tl1.pause();
+        tl1.fromTo($fly_shape, {scale: 2,}, {scale: 1, ease: "power1.out", duration: 1.4,},0.15);
+
+        // const $shape1 = $app.querySelector(".shape1");
+        // const $shape1_items = $shape1.querySelectorAll("svg > rect");
+        // tl1.fromTo($shape1_items[0], {drawSVG: "0%",y: -20, autoAlpha: 0,} , {drawSVG: "100%", y: 0, autoAlpha: 1,ease: "power1.inOut", duration: 1,},0);
+        // tl1.fromTo($shape1_items[1], {drawSVG: "100% 100%",y : 20, x:20, autoAlpha: 0,} , {drawSVG: "100% 0%", y: 0, x:0,autoAlpha: 1, ease: "power1.inOut",duration: 1,},0.1);
+        // tl1.fromTo($shape1_items[2], {drawSVG: "50% 50%", y: -20, autoAlpha: 0,} , {drawSVG: "100%", y:0, autoAlpha: 1, ease: "power1.inOut", duration: 1,},0.2);
+
+        // const $shape2 = $app.querySelector(".shape2");
+        // const $shape2_items = $shape2.querySelectorAll("svg > circle");
+        // tl1.fromTo($shape2_items[0], {drawSVG: "0%", y: 20, autoAlpha: 0,} , {drawSVG: "100%", y: 0, autoAlpha: 1, ease: "power1.inOut",duration: 1,},0.3);
+        // tl1.fromTo($shape2_items[1], {drawSVG: "100% 100%",y : -20, autoAlpha: 0,} , {drawSVG: "100% 0%", y: 0, autoAlpha: 1, ease: "power1.inOut",duration: 1,},0.4);
+        // tl1.fromTo($shape2_items[2], {drawSVG: "0% 0%", x : -20, autoAlpha: 0,} , {drawSVG: "0% 100%", x: 0, autoAlpha: 1, ease: "power1.inOut",duration: 1,},0.5);
+
+        // const $shape3 = $app.querySelector(".shape3");
+        // const $shape3_line = $shape3.querySelector("svg > path");
+        // const $shape3_fill = $shape3.querySelector("mask > path")
+        // tl1.fromTo($shape3_line, {drawSVG: "80% 80%", y : -20, autoAlpha: 0,} , {drawSVG: "100%", y : 0, autoAlpha: 1, ease: "power1.inOut",duration: 0.7,},0.3);
+        // tl1.fromTo($shape3_fill, {drawSVG: "0%",} , {drawSVG: "100%",ease: "power1.inOut", duration: 0.5,},">");
+
+        const $shape4 = $app.querySelector(".shape4");
+        const $shape4_line = $shape4.querySelector(".shape__line");
+        const $shape4_fill = $shape4.querySelector(".shape__fill");
+        const $shape4_mask = $shape4.querySelectorAll(".shape__mask");
+        tl1.fromTo($shape4_line, {drawSVG: "0%",} , {drawSVG: "100%", ease: "power1.inOut",duration: 1.5,},0.3);
+        tl1.fromTo($shape4_mask, {drawSVG: "0%",} , {drawSVG: "100%", ease: "power1.inOut",duration: 0.7,},1.3);
+
+        const $shape5_line = $app.querySelector(".shape5 .shape__line");
+        const $shape5_fill = $app.querySelector(".shape5 .shape__fill");
+        const $shape5_mask = $app.querySelectorAll(".shape5 .shape__mask");
+        tl1.fromTo($shape5_line, {drawSVG: "0%",} , {drawSVG: "100%", ease: "power1.inOut",duration: 1.5,},0.3);
+        tl1.fromTo($shape5_mask, {drawSVG: "0%",} , {drawSVG: "100%", ease: "power1.inOut",duration: 0.7,},1.3);
+
+        let isScrub = false;
+
+        st1 = ScrollTrigger.create({
+            trigger: $trigger_shape,
+            animation: tl1,
+            scrub: 1.5,
+            start: "0% 0%",
+            end: "100% 0%",
+            onLeaveBack: () => {
+                tl1.progress(0);
+            },
+        });
+
+        tl2 = gsap.timeline({paused: true});
+
+        tl2.addLabel("outFill",0);
+        tl2.addLabel("outStroke", 0.2);
+        tl2.addLabel("inText", 0.4);
+
+        // tl2.fromTo($shape3_fill, {autoAlpha: 1}, {autoAlpha: 0, ease: "power4.inOut", duration: 0.6}, "outFill");
+
+        // tl2.fromTo($shape3_line, {drawSVG: "100%",} , {drawSVG: "0%",ease: "power4.inOut", duration: 0.7,}, "outStroke");
+        // tl2.fromTo($shape1_items[0], {drawSVG: "100%",} , {drawSVG: "0%",ease: "power4.inOut", duration: 0.7,}, "outStroke");
+        // tl2.fromTo($shape1_items[1], {drawSVG: "100%",} , {drawSVG: "0%",ease: "power4.inOut", duration: 0.7,}, "outStroke");
+        // tl2.fromTo($shape1_items[2], {drawSVG: "100%",} , {drawSVG: "0%",ease: "power4.inOut", duration: 0.7,}, "outStroke");
+        // tl2.fromTo($shape2_items[0], {drawSVG: "100%",} , {drawSVG: "0%",ease: "power4.inOut", duration: 0.7,}, "outStroke");
+        // tl2.fromTo($shape2_items[1], {drawSVG: "100%",} , {drawSVG: "0%",ease: "power4.inOut", duration: 0.7,}, "outStroke");
+        // tl2.fromTo($shape2_items[2], {drawSVG: "100%",} , {drawSVG: "0%",ease: "power4.inOut", duration: 0.7,}, "outStroke");
+
+        tl2.fromTo($text, {autoAlpha: 0, } , { autoAlpha: 1, ease: "power1.inOut", duration: 0.7,},"inText");
+        tl2.fromTo($text, {letterSpacing: "0.15em",} , {letterSpacing: "0", ease: "power2.inOut", duration: 0.8,},"inText");
+
+        tl2.eventCallback("onReverseComplete", () => {
+            st1.enable(1);
+            tl1.totalProgress(1,false);
+        });
+
+        // st2 = ScrollTrigger.create({
+        //     trigger: $trigger_text,
+        //     animation:tl2,
+        //     markers: true,
+        //     start: "0% 0%",
+        //     end: "100% 0%",
+        //     onEnter: () => {
+        //         st1.disable(false,false);
+        //         tl1.totalProgress(1,false);
+        //     },
+        //     toggleActions: "play play play reverse",
+        // });
+
+    </script>
+</body>
+</html>
+
