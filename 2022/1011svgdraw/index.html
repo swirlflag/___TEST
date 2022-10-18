@@ -108,18 +108,19 @@
 
         .shape {
             width: 150px; height: 150px;
+            position: relative;
+        }
+        .shape > svg {
+            position: absolute;
+            width: 100%; height: 100%;
+            position: absolute;
+            left: 0; top: 0;
         }
 
         .shape.shape3 {
             position: relative;
 
         }
-        .shape.shape3 > svg{
-            width: 100%; height: 100%;
-            position: absolute;
-            left: 0; top: 0;
-        }
-
         .fly-test {
             z-index: 10;
             width: 500px; height: 500px;
@@ -211,6 +212,17 @@
                 </svg>
             </div>
 
+            <div class="shape shape4">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                    width="841.89px" height="595.28px" viewBox="0 0 100 100" enable-background="new 0 0 841.89 595.28" xml:space="preserve">
+                    <path fill-rule="evenodd" clip-rule="evenodd" fill="none" stroke="#DFDEDE" stroke-miterlimit="10" d="M214.618,158.61v-16.6
+                    h16.659v16.6H214.618z M186.22,177.096h61.338c14.48,0,16.28-12.827,16.28-12.827v-32.444H186.22v-12.072h94.277v44.517
+                    c0,19.979-22.338,24.899-22.338,24.899h-79.133v20.749c0,0-1.028,8.564,9.465,11.695h42.271l20.202-17.731l20.067,17.731h7.572
+                    v12.072h-13.252l-14.388-13.204l-14.388,13.204l0,0h-59.065c-15.137,0-15.146-15.09-15.146-15.09V117.111l4.923-4.905h11.737v57.721
+                    C179.027,169.928,179.21,177.096,186.22,177.096z"/>
+                </svg>
+            </div>
+
         </div>
 
         <div class="fly fly-text">
@@ -243,6 +255,10 @@
 
         const $shape3_line = $shape3.querySelector("svg > path");
         const $shape3_fill = $shape3.querySelector("mask > path")
+
+        const $shape4 = $app.querySelector(".shape4");
+        const $shape4_line = $shape4.querySelector("svg > path");
+        // const $shape4_fill = $app.querySelector(".shape4");
 
         const $fly_text = $app.querySelector(".fly.fly-text");
         const $text = $fly_text.querySelector("p");
@@ -283,9 +299,8 @@
         tl1.fromTo($shape3_line, {drawSVG: "80% 80%", y : -20, autoAlpha: 0,} , {drawSVG: "100%", y : 0, autoAlpha: 1, ease: "power1.inOut",duration: 0.7,},0.3);
         tl1.fromTo($shape3_fill, {drawSVG: "0%",} , {drawSVG: "100%",ease: "power1.inOut", duration: 0.5,},">");
 
-        // tl1.fromTo($shape3_line, {fill: "none",} , {fill: "#d3d",duration: 1,},0.3);
-        // tl1.fromTo($shape3_items[1], {drawSVG: "0%", autoAlpha: 0,} , { drawSVG: "100%", autoAlpha: 1, ease: "power1.inOut",duration: 1,},">-=0.3");
-        // tl1.fromTo($shape3_items[2], {drawSVG: "0% 0%", x : -20, autoAlpha: 0,} , {drawSVG: "0% 100%", x: 0, autoAlpha: 1, ease: "power1.inOut",duration: 1,},0.5);
+        // tl1.fromTo($shape4_line, {drawSVG: "0%",} , {drawSVG: "100%", ease: "power1.inOut",duration: 0.7,},0.3);
+
 
         let isScrub = false;
 
