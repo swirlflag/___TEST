@@ -12,6 +12,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js"></script>
     <script src="./DrawSVGPlugin.js"></script>
     <style>
+        :root {
+            /* --blendColor : rgba(255,255,255,0.6); */
+            --blendColor : #aaa;
+        }
         * {
             margin: 0;
             padding: 0;
@@ -26,16 +30,26 @@
             box-sizing: border-box;
         }
 
+        @keyframes rotate {
+            0% {transform: rotate(0deg);}
+            100% {transform: rotate(360deg);}
+        }
+
         .bg-blend {
             background-image: url("./texture1.png");
             background-color: #000;
+            background-size: cover;
+            background-repeat: repeat;
+            background-size: 100%;
             position: fixed;
             left: 0;
             z-index: -2;
-            width: 100%; height: 100%;
-            left: 0 ;top: 0;
+            width: max(130vw, 130vh); height: max(130vw, 130vh);
+            left: 50%; top: 50%;
             display: inline-block;
             pointer-events: none !important;
+            animation: rotateCircle 350s ease;
+            /* transform-origin: center; */
         }
         .bg-vignette {
             width: 100%; height: 100%;
@@ -43,9 +57,10 @@
             display: inline-block;
             position: fixed;
             z-index: -1;
-            background: rgba(0,0,0,0);
+            background: #00000000;
             background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 50%);
             pointer-events: none !important;
+            opacity: 0.7;
         }
         .trigger {
             height: 100vh;
@@ -62,7 +77,6 @@
         }
         .fly > div{
             box-sizing: border-box;
-            margin: 10px;
         }
         .fly-logo {
             font-weight: 700;
@@ -81,6 +95,53 @@
             mix-blend-mode: difference;
             background-color: #000;
         }
+        .shape-wrap {
+            display: flex;
+        }
+
+        .shape-wrap > .shape{
+            margin: 10px;
+        }
+
+
+        @keyframes rotateCircle {
+            0% {transform: translate3d(-50%, -50%,0) rotate(0deg);}
+            100% {transform: translate3d(-50%, -50%,0) rotate(360deg);}
+        }
+        @keyframes rotateCircle2 {
+            0% {transform: translate3d(-50%, -50%,0) rotate(180deg);}
+            100% {transform: translate3d(-50%, -50%,0) rotate(-180deg);}
+        }
+        .fly-circle {
+            opacity: 0.2;
+
+        }
+        .fly-circle span{
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            width: 100px; height: 100px;
+            left: 50%; top: 50%;
+            transform: translate3d(-50%, -50%,0);
+            animation: rotateCircle 50s linear infinite;
+        }
+        .fly-circle span:nth-child(2n){
+            animation-name: rotateCircle2;
+        }
+        .fly-circle svg{
+            width: 100%; height: 100%;
+            display: inline-block;
+            stroke: rgba(255,255,255,1);
+            /* stroke: rgba(0, 0, 0, 0.904); */
+        }
+        .fly-circle span:nth-child(1){width: min(42vw, 42vh); height: min(42vw, 42vh); animation-duration: 50s; opacity: 0.8;}
+        .fly-circle span:nth-child(2){width: min(45vw, 45vh); height: min(45vw, 45vh); animation-duration: 67s; opacity: 0.7;}
+        .fly-circle span:nth-child(3){width: min(53vw, 53vh); height: min(53vw, 53vh); animation-duration: 71s; opacity: 0.3;}
+        .fly-circle span:nth-child(3){width: min(56vw, 56vh); height: min(56vw, 56vh); animation-duration: 31s; opacity: 0.4;}
+        .fly-circle span:nth-child(4){width: min(80vw, 80vh); height: min(80vw, 80vh); animation-duration: 100s; opacity: 0.3;}
+        .fly-circle span:nth-child(5){width: min(110vw, 110vh); height: min(110vw, 110vh); animation-duration: 103s; opacity: 0.4; }
+
         .fly-text {
             font-size: 110px;
             font-weight: 100;
@@ -102,7 +163,7 @@
         .shape {
             width: 220px; height: 220px;
             position: relative;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
+            /* filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); */
         }
         .shape > svg {
             position: absolute;
@@ -110,10 +171,18 @@
             position: absolute;
             left: 0; top: 0;
         }
+        .shape .shape__stroke {
+            stroke: var(--blendColor);
+        }
+        .shape .shape__fill {
+            fill: var(--blendColor);
+        }
+        .shape .shape__mask {
+            stroke: var(--blendColor);
+        }
         .blend {
             mix-blend-mode: difference;
             background-color: #000;
-            /* position: relative; */
         }
         .blend__texture{
             mix-blend-mode: overlay;
@@ -132,8 +201,9 @@
             display: inline-block;
         }
 
+
         @media all and (max-width: 768px) {
-            .fly-shape {
+            .shape-wrap {
                 flex-direction: column;
             }
         }
@@ -156,11 +226,22 @@
             </div>
         </div>
 
+        <div class="fly fly-circle blend">
+            <span><svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="100"/></svg></span>
+            <span><svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="100"/></svg></span>
+            <span><svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="100"/></svg></span>
+            <span><svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="100"/></svg></span>
+            <span><svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="100"/></svg></span>
+        </div>
+
         <div class="fly fly-shape blend">
             <span class="blend__texture"></span>
-            <div class="shape type--w"></div>
-            <div class="shape type--a"></div>
-            <div class="shape type--r"></div>
+
+            <div class="shape-wrap">
+                <div class="shape type--w"></div>
+                <div class="shape type--a"></div>
+                <div class="shape type--r"></div>
+            </div>
         </div>
 
         <div class="fly fly-text">
@@ -204,19 +285,18 @@
                 return;
             }
 
-            const strokeWidth = 18;
-            const color = "#aaa";
+            const strokeWidth = 20;
 
             const template = `
                 <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path class="shape__stroke" fill="none" stroke="${color}" stroke-width="1" d="${typeDatas[type].stroke}"/>
+                    <path class="shape__stroke" fill="none" stroke-width="1" d="${typeDatas[type].stroke}"/>
                 </svg>
 
                 <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path class="shape__fill" fill="${color}" mask="url(#mask-shape--${i})" d="${typeDatas[type].stroke}"/>
+                    <path class="shape__fill"  mask="url(#mask-shape--${i})" d="${typeDatas[type].stroke}"/>
                     <defs>
                         <mask id="mask-shape--${i}">
-                            <path class="shape__mask" fill-rule="evenodd" clip-rule="evenodd" fill="none" stroke="${color}" stroke-miterlimit="10" stroke-width="${strokeWidth}" d="${typeDatas[type].mask}"/>
+                            <path class="shape__mask" fill-rule="evenodd" clip-rule="evenodd" fill="none" stroke-miterlimit="10" stroke-width="${strokeWidth}" d="${typeDatas[type].mask}"/>
                         </mask>
                     </defs>
                 </svg>
@@ -241,23 +321,33 @@
         const $logo = $fly_logo.querySelector(".logo");
 
         const $fly_shape = $app.querySelector(".fly.fly-shape");
+        const $shapewrap = $app.querySelector(".shape-wrap");
 
         const $fly_text = $app.querySelector(".fly.fly-text");
         const $text = $fly_text.querySelector("p");
 
-        let tl1 = null;
+        // const tl3 = gsap.timeline();
+        const $circleSpans = $app.querySelectorAll(".fly-circle span");
+        const $circlePaths = $app.querySelectorAll(".fly-circle circle");
+
+        // console.log();
+
+        let tl1 = gsap.timeline({paused: true});
         let st1 = null;
 
-        let tl2 = null;
+        let tl2 = gsap.timeline({paused: true});
         let st2 = null;
+
+        let tl3 = gsap.timeline({paused: true});
+        let st3 = null;
 
         // gsap.fromTo($logo, {autoAlpha: 0, scale: 2, ease: "power2.out", duration: 0.3});
 
         gsap.to($logo, {
-            y: "-10%",
-            ease: "power2.inOut",
-            duration: 0.6,
+            scale: 1.1,
             autoAlpha: 0,
+            ease: "power2.in",
+            duration: 0.8,
             scrollTrigger: {
                 trigger: $trigger_logo,
                 start: "100% 0%",
@@ -266,36 +356,24 @@
             },
         });
 
-        tl1 = gsap.timeline();
-        tl1.pause();
-        tl1.fromTo($fly_shape, {scale: 12,}, {scale: 1, ease: "power1.out", duration: $shapes.length * 0.75,},0);
-        tl1.from($bg_vignette, {opacity: 0.2, ease: "power1.out", duration: $shapes.length * 0.75,},0);
-
-        const randomEase = [
-            "power1.inOut",
-            "power2.inOut",
-            "power3.inOut",
-            "power1.out",
-            "power2.out",
-        ];
+    // timeline 1
+        tl1.fromTo($shapewrap, {scale: 12,}, {scale: 1, ease: "power1.out", duration: $shapes.length * 0.75,},0);
+        tl1.from($bg_vignette, {opacity: 0.3, ease: "power1.out", duration: $shapes.length * 0.75,},0);
 
         [...$shapes].forEach((shape,i) => {
             const $stroke = shape.querySelector(".shape__stroke");
             const $mask = shape.querySelector(".shape__mask");
-            const ease = randomEase[Math.round(Math.random() * randomEase.length)];
             const stagger = i * 0.3;
-            tl1.from(shape, {autoAlpha: 0 , ease: "power1.in", duration: 1.5,},0 + stagger);
+            tl1.from(shape, {opacity: 0 , ease: "power1.in", duration: 1.5,},0 + stagger);
             // tl1.fromTo(shape, {y: i%2 ? 20 : -20,} , {y: 0, ease: "power1.in", duration: 3,},0 + stagger);
             tl1.fromTo($stroke, {drawSVG: "0%",} , {drawSVG: "100%", ease: "power1.in", duration: 1.5,},0 + stagger);
-            tl1.fromTo($mask, {drawSVG: "0%",} , {drawSVG: "100%", ease: "power1.out", duration: 1,},1.1 + stagger);
+            tl1.fromTo($mask, {drawSVG: "0%",} , {drawSVG: "100%", ease: "power3.out", duration: 1,},1.1 + stagger);
         });
-
-        let isScrub = false;
 
         st1 = ScrollTrigger.create({
             trigger: $trigger_shape,
             animation: tl1,
-            scrub: 2.5,
+            scrub: 1.8,
             start: "0% 0%",
             end: "100% 0%",
             onLeaveBack: () => {
@@ -303,40 +381,75 @@
             },
         });
 
-        tl2 = gsap.timeline({paused: true});
 
-        tl2.addLabel("outMask",0);
-        tl2.addLabel("outStroke", 0.1);
-        tl2.addLabel("inText", 1);
+    // timeline 2
+        [...$circleSpans].forEach((span,i) => {
+            const stagger = (i*0.1);
+            const svg = span.querySelector("svg");
+            const circle = span.querySelector("circle");
+            tl2.from(svg, {opacity: 0, duration: 0.4 + stagger, ease: "power2.out"},0 + stagger);
+            tl2.from(svg, {scale: 2.5, duration: 2 + stagger, ease: "power1.out"},0 + stagger);
+            tl2.fromTo(circle, {drawSVG: "50% 50%"}, {drawSVG: "0% 95%", duration: 3 + stagger, ease: "power1.inOut",},0 + stagger);
+        });
 
-        // tl2.fromTo($fly_shape, {scale: 1,}, {scale: 1.1, ease: "power1.inOut", duration: 1.2,},0);
+        st2 = ScrollTrigger.create({
+            trigger: $trigger_shape,
+            animation: tl2,
+            scrub: 4,
+            start: "0% 0%",
+            end: "100% 0%",
+            onLeaveBack: () => {
+                tl2.progress(0);
+            },
+        });
+
+    // timeline 3
+        tl3.addLabel("outMask",0);
+        tl3.addLabel("outStroke", 0);
+        tl3.addLabel("inText", 1.5);
+
+        // tl3.fromTo($fly_shape, {scale: 1,}, {scale: 1.1, ease: "power1.inOut", duration: 1.2,},0);
 
         [...$shapes].forEach((shape,i) => {
             const $stroke = shape.querySelector(".shape__stroke");
             const $mask = shape.querySelector(".shape__mask");
             const x = ($shapes.length - ((i+1)*2 -1)) * -16;
-            tl2.to(shape, {x, ease: "power1.inOut", duration: 1.5}, 0);
-            tl2.fromTo($mask, {autoAlpha: 1}, {autoAlpha: 0, ease: "power2.inOut", duration: 0.4}, "outMask");
-            tl2.fromTo($stroke, {drawSVG: "100%",} , {drawSVG: "0%",ease: "power1.inOut", duration: 1,}, "outStroke");
+            tl3.to(shape, {x, ease: "power1.inOut", duration: 1.5}, 0);
+            tl3.fromTo($mask, {autoAlpha: 1}, {autoAlpha: 0, ease: "power2.inOut", duration: 0.6}, "outMask");
+            tl3.fromTo($stroke, {drawSVG: "100%"}, {drawSVG: "0%",ease: "power2.inOut", duration: 1.5,}, "outStroke");
+            // tl3.fromTo($stroke, {drawSVG: "20% 100%",ease: "power2.in", duration: 1,}, "outStroke");
+            // tl3.to($stroke,  {drawSVG: "0%",ease: "power2.out", duration: 0.8,}, ">");
         });
 
-        tl2.fromTo($text, {autoAlpha: 0, } , { autoAlpha: 1, ease: "power1.inOut", duration: 0.7,},"inText");
-        tl2.fromTo($text, {letterSpacing: "0.15em",} , {letterSpacing: "0", ease: "power2.inOut", duration: 1,},"inText");
+        [...$circleSpans].forEach((span,i) => {
+            const svg = span.querySelector("svg");
+            const circle = span.querySelector("circle");
+            // tl3.to(svg, {scale: 2, ease: "power2.out"},0 );
+            tl3.fromTo(circle, {drawSVG: "0% 95%"}, {drawSVG: "50% 50%", duration: 1 , ease: "power3.inOut",},0 );
+            // tl3.to(circle, {opacity:0, duration: 1 , ease: "power1.inOut",},0 );
+        });
 
-        tl2.eventCallback("onReverseComplete", () => {
+        tl3.from($text, { autoAlpha: 0, ease: "power1.inOut", duration: 0.7,},"inText");
+        tl3.from($text, {letterSpacing: "0.2em", ease: "power2.inOut", duration: 1,},"inText");
+
+        tl3.eventCallback("onReverseComplete", () => {
             st1.enable(1);
             tl1.totalProgress(1,false);
+            st2.enable(1);
+            tl2.totalProgress(1,false);
         });
 
-        st2 = ScrollTrigger.create({
+        st3 = ScrollTrigger.create({
             trigger: $trigger_text,
-            animation:tl2,
+            animation:tl3,
             // markers: true,
             start: "0% 0%",
             end: "100% 0%",
             onEnter: () => {
                 st1.disable(false,false);
                 tl1.totalProgress(1,false);
+                st2.disable(false,false);
+                tl2.totalProgress(1,false);
             },
             toggleActions: "play play play reverse",
         });
