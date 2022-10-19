@@ -39,17 +39,19 @@
             background-image: url("./texture1.png");
             background-color: #000;
             background-size: cover;
-            background-repeat: repeat;
-            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
             position: fixed;
             left: 0;
             z-index: -2;
-            width: max(130vw, 130vh); height: max(130vw, 130vh);
-            left: 50%; top: 50%;
             display: inline-block;
             pointer-events: none !important;
-            animation: rotateCircle 350s ease;
-            /* transform-origin: center; */
+            width: 100vw; height: 100vh;
+            left: 0; top: 0;
+            /* background-size: 100%;
+            left: 50%; top: 50%;
+            width: max(130vw, 130vh); height: max(130vw, 130vh);
+            animation: rotateCircle 350s ease; */
         }
         .bg-vignette {
             width: 100%; height: 100%;
@@ -113,21 +115,20 @@
             100% {transform: translate3d(-50%, -50%,0) rotate(-180deg);}
         }
         .fly-circle {
-            opacity: 0.2;
-
+            opacity: 0.4;
         }
         .fly-circle span{
             display: inline-flex;
             justify-content: center;
             align-items: center;
             position: absolute;
-            width: 100px; height: 100px;
+            width: min(20vw, 20vh); height: min(20vw, 20vh);
             left: 50%; top: 50%;
             transform: translate3d(-50%, -50%,0);
-            animation: rotateCircle 50s linear infinite;
+            /* animation: rotateCircle 50s linear infinite; */
         }
         .fly-circle span:nth-child(2n){
-            animation-name: rotateCircle2;
+            /* animation-name: rotateCircle2; */
         }
         .fly-circle svg{
             width: 100%; height: 100%;
@@ -135,12 +136,12 @@
             stroke: rgba(255,255,255,1);
             /* stroke: rgba(0, 0, 0, 0.904); */
         }
-        .fly-circle span:nth-child(1){width: min(42vw, 42vh); height: min(42vw, 42vh); animation-duration: 50s; opacity: 0.8;}
+        /* .fly-circle span:nth-child(1){width: min(42vw, 42vh); height: min(42vw, 42vh); animation-duration: 50s; opacity: 0.8;}
         .fly-circle span:nth-child(2){width: min(45vw, 45vh); height: min(45vw, 45vh); animation-duration: 67s; opacity: 0.7;}
         .fly-circle span:nth-child(3){width: min(53vw, 53vh); height: min(53vw, 53vh); animation-duration: 71s; opacity: 0.3;}
         .fly-circle span:nth-child(3){width: min(56vw, 56vh); height: min(56vw, 56vh); animation-duration: 31s; opacity: 0.4;}
         .fly-circle span:nth-child(4){width: min(80vw, 80vh); height: min(80vw, 80vh); animation-duration: 100s; opacity: 0.3;}
-        .fly-circle span:nth-child(5){width: min(110vw, 110vh); height: min(110vw, 110vh); animation-duration: 103s; opacity: 0.4; }
+        .fly-circle span:nth-child(5){width: min(110vw, 110vh); height: min(110vw, 110vh); animation-duration: 103s; opacity: 0.4; } */
 
         .fly-text {
             font-size: 110px;
@@ -161,7 +162,8 @@
             overflow: visible;
         }
         .shape {
-            width: 220px; height: 220px;
+            /* width: 220px; height: 220px; */
+            width: 140px; height: 140px;
             position: relative;
             /* filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); */
         }
@@ -227,11 +229,36 @@
         </div>
 
         <div class="fly fly-circle blend">
-            <span><svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="100"/></svg></span>
-            <span><svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="100"/></svg></span>
-            <span><svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="100"/></svg></span>
-            <span><svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="100"/></svg></span>
-            <span><svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="100"/></svg></span>
+            <span>
+                <svg width="100" height="100" viewBox="0 0 100 100" stroke-width="1" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path vector-effect="non-scaling-stroke" stroke-miterlimit="10" d="M43.142 91.679C23.411 88.062 8.45703 70.777 8.45703 50C8.45703 39.853 12.024 30.539 17.972 23.243M73.608 85.74C67.03 89.941 59.214 92.375 50.832 92.375M22.587 18.411C30.083 11.703 39.982 7.625 50.832 7.625C74.235 7.625 93.207 26.597 93.207 50C93.207 58.929 90.445 67.212 85.73 74.043"  />
+                </svg>
+            </span>
+            <span>
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path vector-effect="non-scaling-stroke" stroke-miterlimit="10" d="M18.437 78.2712C11.714 70.7712 7.626 60.8622 7.625 49.9982C7.625 27.4552 25.229 9.02322 47.438 7.69922M84.38 74.7762C76.684 85.4362 64.151 92.3732 50 92.3732C40.404 92.3732 31.554 89.1842 24.45 83.8072M53.396 7.75722C75.211 9.48722 92.375 27.7372 92.375 49.9982C92.375 58.0762 90.114 65.6272 86.191 72.0522"/>
+                </svg>
+            </span>
+            <span>
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path vector-effect="non-scaling-stroke" stroke-miterlimit="10" d="M11.8905 33.813C18.2495 18.441 33.3935 7.625 51.0635 7.625C63.0895 7.625 73.9475 12.636 81.6605 20.684M57.8695 91.832C55.6535 92.189 53.3805 92.375 51.0635 92.375C31.1965 92.375 14.5225 78.704 9.9375 60.257M85.0955 24.747C90.3365 31.8 93.4375 40.538 93.4375 50C93.4375 66.963 83.4705 81.598 69.0745 88.368" />
+                </svg>
+            </span>
+            <span>
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path vector-effect="non-scaling-stroke" stroke-miterlimit="10" d="M43.142 91.679C23.411 88.062 8.45703 70.777 8.45703 50C8.45703 39.853 12.024 30.539 17.972 23.243M73.608 85.74C67.03 89.941 59.214 92.375 50.832 92.375M22.587 18.411C30.083 11.703 39.982 7.625 50.832 7.625C74.235 7.625 93.207 26.597 93.207 50C93.207 58.929 90.445 67.212 85.73 74.043" />
+                </svg>
+            </span>
+            <span>
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path vector-effect="non-scaling-stroke" stroke-miterlimit="10" d="M18.437 78.2712C11.714 70.7712 7.626 60.8622 7.625 49.9982C7.625 27.4552 25.229 9.02322 47.438 7.69922M84.38 74.7762C76.684 85.4362 64.151 92.3732 50 92.3732C40.404 92.3732 31.554 89.1842 24.45 83.8072M53.396 7.75722C75.211 9.48722 92.375 27.7372 92.375 49.9982C92.375 58.0762 90.114 65.6272 86.191 72.0522"/>
+                </svg>
+            </span>
+            <span>
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path vector-effect="non-scaling-stroke" stroke-miterlimit="10" d="M11.8905 33.813C18.2495 18.441 33.3935 7.625 51.0635 7.625C63.0895 7.625 73.9475 12.636 81.6605 20.684M57.8695 91.832C55.6535 92.189 53.3805 92.375 51.0635 92.375C31.1965 92.375 14.5225 78.704 9.9375 60.257M85.0955 24.747C90.3365 31.8 93.4375 40.538 93.4375 50C93.4375 66.963 83.4705 81.598 69.0745 88.368"/>
+                </svg>
+            </span>
         </div>
 
         <div class="fly fly-shape blend">
@@ -251,6 +278,10 @@
     </div>
 
     <script>
+
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
 
         const typeDatas = {
             w: {
@@ -289,11 +320,11 @@
 
             const template = `
                 <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path class="shape__stroke" fill="none" stroke-width="1" d="${typeDatas[type].stroke}"/>
+                    <path class="shape__stroke" fill="none" stroke-width="1.5" vector-effect="non-scaling-stroke" d="${typeDatas[type].stroke}"/>
                 </svg>
 
                 <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path class="shape__fill"  mask="url(#mask-shape--${i})" d="${typeDatas[type].stroke}"/>
+                    <path class="shape__fill"  mask="url(#mask-shape--${i})" vector-effect="non-scaling-stroke" d="${typeDatas[type].stroke}"/>
                     <defs>
                         <mask id="mask-shape--${i}">
                             <path class="shape__mask" fill-rule="evenodd" clip-rule="evenodd" fill="none" stroke-miterlimit="10" stroke-width="${strokeWidth}" d="${typeDatas[type].mask}"/>
@@ -304,10 +335,6 @@
             shape.innerHTML = template;
             shape.classList.add(`shape--${i+1}`);
         });
-
-        if ('scrollRestoration' in history) {
-            history.scrollRestoration = 'manual';
-        }
 
         const $app = document.querySelector("#app");
 
@@ -357,17 +384,18 @@
         });
 
     // timeline 1
-        tl1.fromTo($shapewrap, {scale: 12,}, {scale: 1, ease: "power1.out", duration: $shapes.length * 0.75,},0);
+        tl1.fromTo($shapewrap, {scale: 9,}, {scale: 1, ease: "power1.out", duration: $shapes.length * 0.75,},0);
+        // tl1.fromTo($shapes, {width: "min(20vw, 20vh)", height: "min(20vw, 20vh)"}, {width: "min(10vw, 10vh)", height: "min(10vw, 10vh)", ease: "power1.out", duration: $shapes.length * 0.75,},0);
         tl1.from($bg_vignette, {opacity: 0.3, ease: "power1.out", duration: $shapes.length * 0.75,},0);
 
         [...$shapes].forEach((shape,i) => {
             const $stroke = shape.querySelector(".shape__stroke");
             const $mask = shape.querySelector(".shape__mask");
             const stagger = i * 0.3;
-            tl1.from(shape, {opacity: 0 , ease: "power1.in", duration: 1.5,},0 + stagger);
+            tl1.from(shape, {opacity: 0 , ease: "power1.in", duration: 0.5,},0 + stagger);
             // tl1.fromTo(shape, {y: i%2 ? 20 : -20,} , {y: 0, ease: "power1.in", duration: 3,},0 + stagger);
-            tl1.fromTo($stroke, {drawSVG: "0%",} , {drawSVG: "100%", ease: "power1.in", duration: 1.5,},0 + stagger);
-            tl1.fromTo($mask, {drawSVG: "0%",} , {drawSVG: "100%", ease: "power3.out", duration: 1,},1.1 + stagger);
+            tl1.fromTo($stroke, {drawSVG: "0%",} , {drawSVG: "100%", ease: "power2.inOut", duration: 3,},0 + stagger);
+            tl1.fromTo($mask, {drawSVG: "0%",} , {drawSVG: "100%", ease: "power1.inOut", duration: 1,},1.5 + stagger);
         });
 
         st1 = ScrollTrigger.create({
@@ -384,18 +412,19 @@
 
     // timeline 2
         [...$circleSpans].forEach((span,i) => {
-            const stagger = (i*0.1);
+            const stagger = i*0.3;
             const svg = span.querySelector("svg");
             const circle = span.querySelector("circle");
-            tl2.from(svg, {opacity: 0, duration: 0.4 + stagger, ease: "power2.out"},0 + stagger);
-            tl2.from(svg, {scale: 2.5, duration: 2 + stagger, ease: "power1.out"},0 + stagger);
-            tl2.fromTo(circle, {drawSVG: "50% 50%"}, {drawSVG: "0% 95%", duration: 3 + stagger, ease: "power1.inOut",},0 + stagger);
+
+            tl2.from(span, {opacity: 0, ease: "power1.out", duration: 0.2, },stagger);
+            tl2.fromTo(span, {width: "min(200vw, 200vh)", height: "min(200vw, 200vh)"}, {width: "min(15vw, 15vh)", height: "min(15vw, 15vh)", rotate: i%2 ? 360 : -360,ease: "power1.out", duration: 0.7, },stagger);
+            tl2.to(span, {opacity: 0, ease: "power1.out",  duration: 0.2, },0.6 + stagger);
         });
 
         st2 = ScrollTrigger.create({
             trigger: $trigger_shape,
             animation: tl2,
-            scrub: 4,
+            scrub: 2,
             start: "0% 0%",
             end: "100% 0%",
             onLeaveBack: () => {
@@ -425,7 +454,7 @@
             const svg = span.querySelector("svg");
             const circle = span.querySelector("circle");
             // tl3.to(svg, {scale: 2, ease: "power2.out"},0 );
-            tl3.fromTo(circle, {drawSVG: "0% 95%"}, {drawSVG: "50% 50%", duration: 1 , ease: "power3.inOut",},0 );
+            // tl3.fromTo(circle, {drawSVG: "0% 95%"}, {drawSVG: "50% 50%", duration: 1 , ease: "power3.inOut",},0 );
             // tl3.to(circle, {opacity:0, duration: 1 , ease: "power1.inOut",},0 );
         });
 

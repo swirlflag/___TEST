@@ -4,17 +4,22 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js" integrity="sha512-WoO4Ih0CDOSLYafy22wZD/mcJ7k0ESLqtQsFa6zFKnEUrbtuGU+GkLtVhgt93xa2qewG5gKEC6CWlN8OaCTSVg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollToPlugin.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <title>Document</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
 <div id="app">
-    <div class="focuscrosshead">
-        <span>hello</span>
-    </div>
+
     <div class="cursor">
         <span class="cursor__pointer">
             <span class="cursor__visual"></span>
@@ -23,27 +28,26 @@
 
     <div class="float-nav">
         <ul>
-            <li><a href="#">지도</a></li>
-            <li><a href="#">영상</a></li>
+            <li><button class="-active">월드맵</button></li>
+            <li><button>티저 영상</button></li>
         </ul>
     </div>
 
     <div id="page-plate">
         <section class="section--map">
             <div class="worldmap">
+                <div class="focuscrosshead">
+                    <span>hello</span>
+                </div>
                 <div class="mappoints">
-                    <button class="point point--1">화산섬 아래 반도</button>
-                    <button class="point point--2">간지나는 계곡</button>
-                    <button class="point point--3">산맥 정상</button>
-                    <button class="point point--4">남대륙 만</button>
-                    <button class="point point--5">사막산 정상</button>
+
                 </div>
                 <canvas></canvas>
             </div>
         </section>
         <section class="section--video">
             <div class="sourcebox">
-                <iframe src="https://www.youtube.com/embed/m8Ll-uML7Z4?start=14?rel=0&enablejsapi=1" frameborder="0" allowfullscreen=""></iframe>
+                <video src="https://pvi.dn.nexoncdn.co.kr/prasia/map_prototype/testvideo.mp4" autoplay muted playsinline loop></video>
             </div>
         </section>
     </div>
@@ -56,7 +60,7 @@
 					<button class="modal__close">닫기</button>
 					<div class="modal__content">
 						<div class="sourcebox">
-							<iframe src="" frameborder="0" allowfullscreen=""></iframe>
+							<video src="https://pvi.dn.nexoncdn.co.kr/prasia/map_prototype/testvideo.mp4" autoplay muted playsinline loop></video>
 						</div>
 					</div>
 				</div>
@@ -68,6 +72,9 @@
 <script src="./script.js"></script>
 <script>
 
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
 
 const YOUTUBE_KEY = "m8Ll-uML7Z4?start=14";
 const $modalVideo = document.querySelector(".modal-item.type--video");
@@ -79,18 +86,25 @@ const perRound = (value) => {
 }
 
 const $app = document.querySelector("#app");
-const $canvas = document.querySelector(".worldmap canvas");
+const $page = $app.querySelector("#page-plate");
+const $sections = $app.querySelectorAll("section");
+const $canvas = $app.querySelector(".worldmap canvas");
 const ctx = $canvas.getContext("2d");
 const mapSource = new Image();
 
-const $mappoints = document.querySelector(".mappoints");
+const $mappoints = $app.querySelector(".mappoints");
 
-const $crosshead = document.querySelector(".focuscrosshead");
-const $crossheadtext = document.querySelector(".focuscrosshead span");
+const $crosshead = $app.querySelector(".focuscrosshead");
+const $crossheadtext = $app.querySelector(".focuscrosshead span");
+const $floatnav = $app.querySelector(".float-nav");
+const $floatnavItems = $floatnav.querySelectorAll("ul li button");
 
-const page = {
-    sectionIndex : 0,
-};
+const store = new StoreComponent({
+    sectionIndex: 0,
+    pointFocusIndex: -1,
+    isSectionMoving: false,
+    isPointFocusing: false,
+},{proxy: true});
 
 mapSource.src = "./map.jpg";
 
@@ -233,7 +247,15 @@ const pressMove = (e) => {
     const x = press.startFocusX - dx;
     const y = press.startFocusY - dy;
 
+    const dmax = Math.max(Math.abs(dx),Math.abs(dy));
+    if(dmax > 300 && store.isPointFocusing) {
+        store.setState("pointFocusIndex" , -1);
+        pressDown(e);
+        return;
+    }
+
     setFocus(x,y);
+
 };
 const pressUp = () => {
     press.isPress = false;
@@ -267,6 +289,7 @@ window.addEventListener("touchend", (e) => {
 });
 
 const setFocus = (willX, willY) => {
+
     willX = willX === undefined ? focus.x : willX;
     willY = willY === undefined ? focus.y : willY;
 
@@ -369,6 +392,45 @@ window.addEventListener("mousewheel" , (e) => {
     setFocus();
 });
 
+window.addEventListener("mousewheel", (e) => {
+    if(store.isSectionMoving) {
+        return;
+    }
+    const direction = e.deltaY > 0;
+    let nextIndex = store.sectionIndex;
+
+    if(direction) {
+        nextIndex = nextIndex + 1 <= $sections.length ? $sections.length - 1 : nextIndex + 1;
+    }else {
+        nextIndex = nextIndex - 1 <= -1 ? 0 : nextIndex - 1;
+    }
+    store.setState("sectionIndex", nextIndex, {exact: true});
+});
+
+[...$floatnavItems].forEach((button,i) => {
+    button.addEventListener("click", () => {
+        if(store.isSectionMoving) {
+            return;
+        }
+        store.setState("sectionIndex", i);
+    });
+});
+
+store.watch("sectionIndex", (now) => {
+
+    [...$floatnavItems].forEach((button,i) => {
+        button.classList[now === i ? "add" : "remove"]("-active");
+    });
+
+    store.setState("isSectionMoving", true);
+
+    gsap.to(window, {scrollTo: $sections[now], ease: "power3.out", duration: 0.6, onComplete: () => {
+        store.setState("isSectionMoving", false);
+    }});
+
+});
+
+
 
 const drawMap = () => {
 
@@ -459,40 +521,99 @@ const draw = () => {
 
 draw();
 
-const myPoints = [
-    [46,35], // 화산섬 아래 반도
-    [46,54], // 말라붙은 계곡
-    [64,58], // 산맥 정상
-    [53,76], // 남대륙 만
-    [35,53], // 사막산 정상
+const myPoints2 = [
+    {
+        name: "화산섬 아래 반도",
+        text: "Nullam rutrum elit nec neque tristique, ac",
+        coord: [46,35],
+    },
+    {
+        name: "말라붙은 계곡",
+        text: "uspendisse commodo velit in tincidunt sagittis.",
+        coord: [46,54],
+    },
+    {
+        name: "산맥 정상",
+        text: "Quisque est orci, efficitur in pellentesque id,",
+        coord: [64,58],
+    },
+    {
+        name: "남대륙 만",
+        text: "Praesent odio tellus, condimentum a sollicitudin ut,",
+        coord: [53,76],
+    },
+    {
+        name: "사막산 정상",
+        text: "pretium ut est. Praesent pharetra vestibulum egestas.",
+        coord: [35,53],
+    },
 ];
+// <i class="fa-solid "></i>
+let template_mappoint = ``;
+[...myPoints2].forEach((point,i) => {
+    template_mappoint += `
+        <div class="point point--${i}" style="left:${point.coord[0]}%;top:${point.coord[1]}%">
+            <button>${point.name}</button>
+            <div>
+                <p>${point.text}</p>
+                <i class="fa fa-video"></i>
+                <i class="fa fa-forward"></i>
+                <i class="fa fa-window-close"></i>
+            </div>
+        </div>
+    `;
+});
+$mappoints.innerHTML = template_mappoint;
 
 const $mappoint_itmes = document.querySelectorAll(".mappoints .point");
 
-const testAction = (xPercentMap,yPercentMap) => {
-    map.power = 0.05;
-    focus.x = map.x;
-    focus.y = map.y;
-    focus.scale = map.focusScale;
-    setScale(2);
-    setFocusMapPercent(xPercentMap,yPercentMap);
-    $canvas.classList.add("-perspective");
-
-    setTimeout(() => {
-        modal.video.open({onClose: () => {
-            setScale(defaultValue.limitUnderScale);
-            $canvas.classList.remove("-perspective");
-            setFocus();
-            map.power = defaultValue.mapPower;
-        }});
-    },500);
-};
-
 [...$mappoint_itmes].forEach((item,i) => {
-    item.addEventListener("click", () => {
-        testAction(...myPoints[i]);
+
+    const $button = item.querySelector("button");
+    const $video = item.querySelector("i.fa-video");
+    const $next = item.querySelector("i.fa-forward");
+    const $close = item.querySelector("i.fa-window-close");
+
+    $button.addEventListener("click", () => {
+        store.setState("pointFocusIndex", i);
     });
+
+    $video.addEventListener("click" , () => {
+        modal.video.open();
+    });
+
+    $next.addEventListener("click" , () => {
+        const nextIndex = store.pointFocusIndex + 1 >= myPoints2.length ? 0 : store.pointFocusIndex + 1;
+        store.setState("pointFocusIndex", nextIndex);
+    });
+
+    $close.addEventListener("click" , () => {
+        store.setState("pointFocusIndex", -1);
+    });
+
 });
+
+store.watch("pointFocusIndex", (now,prev) => {
+
+    $mappoint_itmes[prev] && $mappoint_itmes[prev].classList.remove("-active");
+
+    if(now < 0) {
+        store.setState("isPointFocusing", false);
+        map.power = defaultValue.mapPower;
+        setScale(defaultValue.limitUnderScale);
+        setFocus();
+        $canvas.classList.remove("-perspective");
+        return;
+    }
+
+    store.setState("isPointFocusing", true);
+    map.power = 0.13;
+    setScale(2);
+    setFocusMapPercent(...myPoints2[now].coord);
+    $mappoint_itmes[now].classList.add("-active");
+    $canvas.classList.add("-perspective");
+});
+
 
 const tl_init = gsap.timeline({paused: true});
 tl_init.fromTo(document.body, {autoAlpha: 0}, {autoAlpha: 1, duration: 1, ease: "power1.in"},0.3);
@@ -515,22 +636,22 @@ window.addEventListener("DOMContentLoaded", () => {
 const guidev = {
     "중심 확인선 켜기": false,
     "직접 이동: 화산섬 아래 반도": () => {
-        testAction(...myPoints[0]);
+        store.setState("pointFocusIndex", 0);
     },
     "직접 이동: 말라붙은 계곡": () => {
-        testAction(...myPoints[1]);
+        store.setState("pointFocusIndex", 1);
     },
     "직접 이동: 산맥 정상": () => {
-        testAction(...myPoints[2]);
+        store.setState("pointFocusIndex", 2);
     },
     "직접 이동: 남대륙 만": () => {
-        testAction(...myPoints[3]);
+        store.setState("pointFocusIndex", 3);
     },
     "직접 이동: 사막산 정상": () => {
-        testAction(...myPoints[4]);
+        store.setState("pointFocusIndex", 4);
     },
+};
 
-}
 const gui = new dat.GUI();
 const guiclose = gui.domElement.querySelector(".close-button");
 let isOpen = localStorage.guiopen ? true : false;
