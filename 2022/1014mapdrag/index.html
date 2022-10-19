@@ -20,6 +20,14 @@
             <span class="cursor__visual"></span>
         </span>
     </div>
+
+    <div class="float-nav">
+        <ul>
+            <li><a href="#">지도</a></li>
+            <li><a href="#">영상</a></li>
+        </ul>
+    </div>
+
     <div id="page-plate">
         <section class="section--map">
             <div class="worldmap">
@@ -34,7 +42,9 @@
             </div>
         </section>
         <section class="section--video">
-            s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>s2<br>
+            <div class="sourcebox">
+                <iframe src="https://www.youtube.com/embed/m8Ll-uML7Z4?start=14?rel=0&enablejsapi=1" frameborder="0" allowfullscreen=""></iframe>
+            </div>
         </section>
     </div>
 
@@ -78,6 +88,9 @@ const $mappoints = document.querySelector(".mappoints");
 const $crosshead = document.querySelector(".focuscrosshead");
 const $crossheadtext = document.querySelector(".focuscrosshead span");
 
+const page = {
+    sectionIndex : 0,
+};
 
 mapSource.src = "./map.jpg";
 
@@ -102,8 +115,8 @@ const size = {
 };
 
 const defaultValue = {
-    mapPower: 0.2,
-    cursorPower: 0.3,
+    mapPower: 0.25,
+    cursorPower: 0.35,
     initScale: 0.75,
     limitUnderScale: 0.75,
     limitOverScale: 1.3,
