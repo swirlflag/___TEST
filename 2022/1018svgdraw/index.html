@@ -7,225 +7,26 @@
     <title>Document</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollToPlugin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js"></script>
     <script src="./DrawSVGPlugin.js"></script>
-    <style>
-        :root {
-            /* --blendColor : rgba(255,255,255,0.6); */
-            --blendColor : #aaa;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: 'Roboto', sans-serif;
-            color: #fff;
-            background-color: #000;
-        }
-
-        #app {
-            box-sizing: border-box;
-        }
-
-        @keyframes rotate {
-            0% {transform: rotate(0deg);}
-            100% {transform: rotate(360deg);}
-        }
-
-        .bg-blend {
-            background-image: url("./texture1.png");
-            background-color: #000;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            position: fixed;
-            left: 0;
-            z-index: -2;
-            display: inline-block;
-            pointer-events: none !important;
-            width: 100vw; height: 100vh;
-            left: 0; top: 0;
-            /* background-size: 100%;
-            left: 50%; top: 50%;
-            width: max(130vw, 130vh); height: max(130vw, 130vh);
-            animation: rotateCircle 350s ease; */
-        }
-        .bg-vignette {
-            width: 100%; height: 100%;
-            left: 0 ;top: 0;
-            display: inline-block;
-            position: fixed;
-            z-index: -1;
-            background: #00000000;
-            background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 50%);
-            pointer-events: none !important;
-            opacity: 0.7;
-        }
-        .trigger {
-            height: 100vh;
-            width: 100%;
-        }
-
-        .fly {
-            position: fixed;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .fly > div{
-            box-sizing: border-box;
-        }
-        .fly-logo {
-            font-weight: 700;
-            text-align: center;
-            mix-blend-mode: lighten;
-        }
-        .logo {
-            width: 400px; height: 400px;
-        }
-        .logo img{
-            width: 100%; height: 100%;
-            object-fit: contain;
-            object-position: center;
-        }
-        .fly-shape {
-            mix-blend-mode: difference;
-            background-color: #000;
-        }
-        .shape-wrap {
-            display: flex;
-        }
-
-        .shape-wrap > .shape{
-            margin: 10px;
-        }
-
-
-        @keyframes rotateCircle {
-            0% {transform: translate3d(-50%, -50%,0) rotate(0deg);}
-            100% {transform: translate3d(-50%, -50%,0) rotate(360deg);}
-        }
-        @keyframes rotateCircle2 {
-            0% {transform: translate3d(-50%, -50%,0) rotate(180deg);}
-            100% {transform: translate3d(-50%, -50%,0) rotate(-180deg);}
-        }
-        .fly-circle {
-            opacity: 0.4;
-        }
-        .fly-circle span{
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            width: min(20vw, 20vh); height: min(20vw, 20vh);
-            left: 50%; top: 50%;
-            transform: translate3d(-50%, -50%,0);
-            /* animation: rotateCircle 50s linear infinite; */
-        }
-        .fly-circle span:nth-child(2n){
-            /* animation-name: rotateCircle2; */
-        }
-        .fly-circle svg{
-            width: 100%; height: 100%;
-            display: inline-block;
-            stroke: rgba(255,255,255,1);
-            /* stroke: rgba(0, 0, 0, 0.904); */
-        }
-        /* .fly-circle span:nth-child(1){width: min(42vw, 42vh); height: min(42vw, 42vh); animation-duration: 50s; opacity: 0.8;}
-        .fly-circle span:nth-child(2){width: min(45vw, 45vh); height: min(45vw, 45vh); animation-duration: 67s; opacity: 0.7;}
-        .fly-circle span:nth-child(3){width: min(53vw, 53vh); height: min(53vw, 53vh); animation-duration: 71s; opacity: 0.3;}
-        .fly-circle span:nth-child(3){width: min(56vw, 56vh); height: min(56vw, 56vh); animation-duration: 31s; opacity: 0.4;}
-        .fly-circle span:nth-child(4){width: min(80vw, 80vh); height: min(80vw, 80vh); animation-duration: 100s; opacity: 0.3;}
-        .fly-circle span:nth-child(5){width: min(110vw, 110vh); height: min(110vw, 110vh); animation-duration: 103s; opacity: 0.4; } */
-
-        .fly-text {
-            font-size: 110px;
-            font-weight: 100;
-            mix-blend-mode: difference;
-        }
-        .trigger-logo {
-            height: 200px;
-        }
-        .trigger-shape {
-            height: 500vh;
-        }
-        .trigger-text {
-            padding-top: 20vh;
-        }
-        svg {
-            width: 100%; height: 100%;
-            overflow: visible;
-        }
-        .shape {
-            /* width: 220px; height: 220px; */
-            width: 140px; height: 140px;
-            position: relative;
-            /* filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); */
-        }
-        .shape > svg {
-            position: absolute;
-            width: 100%; height: 100%;
-            position: absolute;
-            left: 0; top: 0;
-        }
-        .shape .shape__stroke {
-            stroke: var(--blendColor);
-        }
-        .shape .shape__fill {
-            fill: var(--blendColor);
-        }
-        .shape .shape__mask {
-            stroke: var(--blendColor);
-        }
-        .blend {
-            mix-blend-mode: difference;
-            background-color: #000;
-        }
-        .blend__texture{
-            mix-blend-mode: overlay;
-            /* mix-blend-mode: darken; */
-            /* background-image: url("./texture2.png"); */
-            background-image: url("./texture3.png");
-            /* background: linear-gradient(106deg, rgba(255,0,0,1) 20%, rgba(151,255,0,1) 41%, rgba(38,130,179,1) 60%, rgba(166,0,255,1) 82%); */
-            background-repeat: no-repeat;
-            /* background-size: 17%; */
-            background-size: cover;
-            width: 100%; height: 100%;
-            position: absolute;
-            left: 0; top: 0;
-            z-index: 2;
-            pointer-events: none;
-            display: inline-block;
-        }
-
-
-        @media all and (max-width: 768px) {
-            .shape-wrap {
-                flex-direction: column;
-            }
-        }
-
-    </style>
-
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <div id="app">
         <span class="bg-vignette"></span>
         <span class="bg-blend"></span>
 
-        <div class="trigger trigger-logo"></div>
+        <div class="trigger trigger-entry"></div>
         <div class="trigger trigger-shape"></div>
         <div class="trigger trigger-text"></div>
 
-        <div class="fly fly-logo">
-            <div class="logo">
-                <img src="./logo.png" alt="">
-            </div>
+        <div class="fly fly-entry">
+            <p>...Loading...</p>
+            <p>Wars of Prasia</p>
+            <button></button>
         </div>
 
         <div class="fly fly-circle blend">
@@ -271,8 +72,17 @@
             </div>
         </div>
 
-        <div class="fly fly-text">
-            <p>2023.13.32</p>
+        <div class="fly fly-date">
+           <p>2023.13.32</p>
+        </div>
+
+        <div class="fly fly-finish">
+            <!-- <div class="sourcebox">
+                <video src="https://pvi.dn.nexoncdn.co.kr/prasia/svg_prototype/hero.mp4" muted playsinline></video>
+            </div> -->
+            <div class="sourcebox">
+                <img src="./logo.png" alt="">
+            </div>
         </div>
 
     </div>
@@ -308,8 +118,6 @@
 
         const $shapes = document.querySelectorAll(".shape");
 
-        const abddddx = ``;
-
         [...$shapes].forEach((shape,i) => {
             const type = [...shape.classList].reduce((p,c) => c.indexOf("type--") > -1 ? c.split("type--")[1] : null);
             if(!type ||!typeDatas[type]) {
@@ -336,22 +144,33 @@
             shape.classList.add(`shape--${i+1}`);
         });
 
+        const $body = document.body;
         const $app = document.querySelector("#app");
 
         const $bg_vignette = $app.querySelector(".bg-vignette");
 
         const $trigger_logo = $app.querySelector(".trigger-logo");
+        const $trigger_entry = $app.querySelector(".trigger-entry");
         const $trigger_shape = $app.querySelector(".trigger-shape");
         const $trigger_text = $app.querySelector(".trigger-text");
 
+        const $fly_entry = $app.querySelector(".fly.fly-entry");
+        const $entryButton = $app.querySelector(".fly.fly-entry button");
+        const $entryLoading = $app.querySelector(".fly.fly-entry p:nth-child(1)");
+        const $entryTitle = $app.querySelector(".fly.fly-entry p:nth-child(2)");
         const $fly_logo = $app.querySelector(".fly.fly-logo");
-        const $logo = $fly_logo.querySelector(".logo");
+        // const $logo = $fly_logo.querySelector(".logo");
 
         const $fly_shape = $app.querySelector(".fly.fly-shape");
         const $shapewrap = $app.querySelector(".shape-wrap");
 
-        const $fly_text = $app.querySelector(".fly.fly-text");
-        const $text = $fly_text.querySelector("p");
+        const $fly_date = $app.querySelector(".fly.fly-date");
+        const $datetext = $app.querySelector(".fly.fly-date p");
+
+        const $fly_finish = $app.querySelector(".fly.fly-finish");
+        const $finishtext = $fly_finish.querySelector("p");
+        const $finishsource = $fly_finish.querySelector(".sourcebox");
+        const $finishvideo = $fly_finish.querySelector("video");
 
         // const tl3 = gsap.timeline();
         const $circleSpans = $app.querySelectorAll(".fly-circle span");
@@ -368,31 +187,53 @@
         let tl3 = gsap.timeline({paused: true});
         let st3 = null;
 
-        // gsap.fromTo($logo, {autoAlpha: 0, scale: 2, ease: "power2.out", duration: 0.3});
+        let tl4 = gsap.timeline({paused: true});
 
-        gsap.to($logo, {
-            scale: 1.1,
+        let tl5 = gsap.timeline({paused: true});
+
+        let isWatchVideoBefore = false;
+
+    // timeline 0 (init loading)
+        let tl0 = gsap.timeline({paused: true});
+
+        $body.classList.add("-freeze");
+        tl0.fromTo($entryLoading, {autoAlpha:1 }, {autoAlpha: 0, ease: "power2.out", duration: 0.7}, 0.5);
+        tl0.from($entryTitle, {autoAlpha:0, letterSpacing: "0.2em", ease: "power2.out", duration: 1}, "<+=0.7");
+        tl0.from($entryButton, {autoAlpha:0, y: 20, ease: "power2.out", duration: 0.7}, "<+=0.5");
+        tl0.add(() => {
+            $body.classList.remove("-freeze");
+            $fly_entry.classList.add("-loadend");
+        }, ">");
+
+        tl0.play();
+
+        gsap.to($fly_entry, {
             autoAlpha: 0,
-            ease: "power2.in",
+            ease: "power1.inOut",
             duration: 0.8,
             scrollTrigger: {
-                trigger: $trigger_logo,
+                trigger: $trigger_entry,
                 start: "100% 0%",
                 end: "100% 0%",
                 toggleActions: "play play play reverse",
+                // markers: true,
             },
         });
 
+        $entryButton.addEventListener("click", () => {
+            gsap.to(window, {scrollTo: 1000});
+        });
+
     // timeline 1
-        tl1.fromTo($shapewrap, {scale: 9,}, {scale: 1, ease: "power1.out", duration: $shapes.length * 0.75,},0);
+        tl1.fromTo($shapewrap, {scale: 8,}, {scale: 1, ease: "power1.out", duration: $shapes.length * 1,},0);
         // tl1.fromTo($shapes, {width: "min(20vw, 20vh)", height: "min(20vw, 20vh)"}, {width: "min(10vw, 10vh)", height: "min(10vw, 10vh)", ease: "power1.out", duration: $shapes.length * 0.75,},0);
-        tl1.from($bg_vignette, {opacity: 0.3, ease: "power1.out", duration: $shapes.length * 0.75,},0);
+        tl1.from($bg_vignette, {opacity: 0.3, ease: "power1.out", duration: $shapes.length * 0.7,},0);
 
         [...$shapes].forEach((shape,i) => {
             const $stroke = shape.querySelector(".shape__stroke");
             const $mask = shape.querySelector(".shape__mask");
-            const stagger = i * 0.3;
-            tl1.from(shape, {opacity: 0 , ease: "power1.in", duration: 0.5,},0 + stagger);
+            const stagger = i * 0.4;
+            tl1.from(shape, {opacity: 0 , ease: "power1.in", duration: 1,},0 + stagger);
             // tl1.fromTo(shape, {y: i%2 ? 20 : -20,} , {y: 0, ease: "power1.in", duration: 3,},0 + stagger);
             tl1.fromTo($stroke, {drawSVG: "0%",} , {drawSVG: "100%", ease: "power2.inOut", duration: 3,},0 + stagger);
             tl1.fromTo($mask, {drawSVG: "0%",} , {drawSVG: "100%", ease: "power1.inOut", duration: 1,},1.5 + stagger);
@@ -417,7 +258,7 @@
             const circle = span.querySelector("circle");
 
             tl2.from(span, {opacity: 0, ease: "power1.out", duration: 0.2, },stagger);
-            tl2.fromTo(span, {width: "min(200vw, 200vh)", height: "min(200vw, 200vh)"}, {width: "min(15vw, 15vh)", height: "min(15vw, 15vh)", rotate: i%2 ? 360 : -360,ease: "power1.out", duration: 0.7, },stagger);
+            tl2.fromTo(span, {width: "min(175vw, 175vh)", height: "min(175vw, 175vh)"}, {width: "min(20vw, 20vh)", height: "min(20vw, 20vh)", rotate: i%2 ? 360 : -360,ease: "power1.out", duration: 0.7, },stagger);
             tl2.to(span, {opacity: 0, ease: "power1.out",  duration: 0.2, },0.6 + stagger);
         });
 
@@ -436,6 +277,7 @@
         tl3.addLabel("outMask",0);
         tl3.addLabel("outStroke", 0);
         tl3.addLabel("inText", 1.5);
+        tl3.addLabel("inVideo", 0.7);
 
         // tl3.fromTo($fly_shape, {scale: 1,}, {scale: 1.1, ease: "power1.inOut", duration: 1.2,},0);
 
@@ -450,16 +292,14 @@
             // tl3.to($stroke,  {drawSVG: "0%",ease: "power2.out", duration: 0.8,}, ">");
         });
 
-        [...$circleSpans].forEach((span,i) => {
-            const svg = span.querySelector("svg");
-            const circle = span.querySelector("circle");
-            // tl3.to(svg, {scale: 2, ease: "power2.out"},0 );
-            // tl3.fromTo(circle, {drawSVG: "0% 95%"}, {drawSVG: "50% 50%", duration: 1 , ease: "power3.inOut",},0 );
-            // tl3.to(circle, {opacity:0, duration: 1 , ease: "power1.inOut",},0 );
-        });
+        tl3.from($datetext, {autoAlpha: 0, letterSpacing: "0.1em", ease: "power1.inOut", duration: 1}, 1);
+        tl3.fromTo($datetext, {autoAlpha: 1} ,{autoAlpha: 0, ease: "power1.inOut", duration: 1}, 2.2);
+        tl3.fromTo($finishsource, {autoAlpha: 0, scale:1.05 },{autoAlpha: 1, scale:1, ease: "power1.inOut", duration: 1.4}, 2.5);
 
-        tl3.from($text, { autoAlpha: 0, ease: "power1.inOut", duration: 0.7,},"inText");
-        tl3.from($text, {letterSpacing: "0.2em", ease: "power2.inOut", duration: 1,},"inText");
+        // timeline 4 (play after video)
+        // tl4.to($finishsource, { scale: 0.95, y: -50,ease: "power1.inOut", duration: 0.9,},0);
+        tl4.from($finishtext, {y: -20,autoAlpha: 0, letterSpacing: "0.15em", ease: "power2.inOut", duration: 1.2,},1);
+
 
         tl3.eventCallback("onReverseComplete", () => {
             st1.enable(1);
@@ -470,8 +310,7 @@
 
         st3 = ScrollTrigger.create({
             trigger: $trigger_text,
-            animation:tl3,
-            // markers: true,
+            animation: tl3,
             start: "0% 0%",
             end: "100% 0%",
             onEnter: () => {
@@ -479,9 +318,29 @@
                 tl1.totalProgress(1,false);
                 st2.disable(false,false);
                 tl2.totalProgress(1,false);
+
+                // if(!isWatchVideoBefore) {
+                //     $body.classList.add("-freeze");
+                //     $finishvideo.play();
+                //     const endedEvent = () => {
+                //         $body.classList.remove("-freeze");
+                //         isWatchVideoBefore = true;
+                //         tl4.play();
+                //         $finishvideo.removeEventListener("ended" , endedEvent);
+                //     }
+                //     $finishvideo.addEventListener("ended" , endedEvent);
+                // }else {
+                //     tl4.play();
+                // }
+            },
+            onLeaveBack: () => {
+                tl4.reverse();
             },
             toggleActions: "play play play reverse",
         });
+
+
+        // isWatchVideoBefore = true;
 
     </script>
 </body>

@@ -60,7 +60,7 @@
 					<button class="modal__close">닫기</button>
 					<div class="modal__content">
 						<div class="sourcebox">
-							<video src="https://pvi.dn.nexoncdn.co.kr/prasia/map_prototype/testvideo.mp4" autoplay muted playsinline loop></video>
+							<video src="https://pvi.dn.nexoncdn.co.kr/prasia/map_prototype/testvideo2.mp4" autoplay muted playsinline loop></video>
 						</div>
 					</div>
 				</div>
@@ -131,9 +131,9 @@ const size = {
 const defaultValue = {
     mapPower: 0.25,
     cursorPower: 0.35,
-    initScale: 0.75,
-    limitUnderScale: 0.75,
-    limitOverScale: 1.3,
+    initScale: 0.1,
+    limitCloseoutScale: 0.7,
+    limitCloseupScale: 1.4,
     focusScale: 2.7,
 };
 
@@ -380,11 +380,11 @@ window.addEventListener("mousewheel" , (e) => {
     if(e.deltaY > 0) {
         // 축소
             setScale(focus.scale - 0.05);
-        // if(focus.scale > defaultValue.limitUnderScale) {
+        // if(focus.scale > defaultValue.limitCloseoutScale) {
         // }
     }else {
         // 확대
-        if(focus.scale < defaultValue.limitOverScale) {
+        if(focus.scale < defaultValue.limitCloseupScale) {
             setScale(focus.scale + 0.05);
         }
     }
@@ -595,38 +595,76 @@ const $mappoint_itmes = document.querySelectorAll(".mappoints .point");
 
 store.watch("pointFocusIndex", (now,prev) => {
 
-    $mappoint_itmes[prev] && $mappoint_itmes[prev].classList.remove("-active");
-
     if(now < 0) {
         store.setState("isPointFocusing", false);
         map.power = defaultValue.mapPower;
-        setScale(defaultValue.limitUnderScale);
+        setScale(defaultValue.limitCloseoutScale);
         setFocus();
         $canvas.classList.remove("-perspective");
         return;
     }
 
     store.setState("isPointFocusing", true);
-    map.power = 0.13;
+    map.power = 0.05;
     setScale(2);
     setFocusMapPercent(...myPoints2[now].coord);
-    $mappoint_itmes[now].classList.add("-active");
+    // $mappoint_itmes[now].classList.add("-active");
+    setTimeout(() => {
+        modal.video.open({onClose : () => {
+            store.setState("isPointFocusing", false);
+            map.power = defaultValue.mapPower;
+            setScale(defaultValue.limitCloseoutScale);
+            setFocus()
+        }});
+    },500)
     $canvas.classList.add("-perspective");
+
+    // $mappoint_itmes[prev] && $mappoint_itmes[prev].classList.remove("-active");
+
+    // if(now < 0) {
+    //     store.setState("isPointFocusing", false);
+    //     map.power = defaultValue.mapPower;
+    //     setScale(defaultValue.limitCloseoutScale);
+    //     setFocus();
+    //     $canvas.classList.remove("-perspective");
+    //     return;
+    // }
+
+    // store.setState("isPointFocusing", true);
+    // map.power = 0.13;
+    // setScale(2);
+    // setFocusMapPercent(...myPoints2[now].coord);
+    // $mappoint_itmes[now].classList.add("-active");
+    // $canvas.classList.add("-perspective");
 });
 
 
-const tl_init = gsap.timeline({paused: true});
-tl_init.fromTo(document.body, {autoAlpha: 0}, {autoAlpha: 1, duration: 1, ease: "power1.in"},0.3);
-tl_init.add(() => {
-    // map.power = 0.05;
-    // setScale(defaultValue.limitUnderScale);
-    setTimeout(() => {
-        map.power = defaultValue.mapPower;
-        focus.isFreeze = false;
-    },500);
-},0.3);
+
 
 window.addEventListener("DOMContentLoaded", () => {
+
+    const tl_init = gsap.timeline({paused: true});
+    // setScale(defaultValue.limitCloseoutScale);
+
+    tl_init.fromTo(document.body, {autoAlpha: 0}, {autoAlpha: 1, duration: 1, ease: "power1.in"},0);
+
+    tl_init.add(() => {
+
+        setTimeout(() => {
+            map.power = 1;
+            setScale(defaultValue.initScale);
+        },0);
+        setTimeout(() => {
+            map.power = 0.05;
+            setScale(defaultValue.limitCloseoutScale);
+        },100)
+        setTimeout(() => {
+            map.power = defaultValue.mapPower;
+            focus.isFreeze = false;
+        },1600);
+
+    },0.2);
+
     tl_init.play();
     focus.isFreeze = true;
 });
