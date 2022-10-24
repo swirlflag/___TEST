@@ -323,8 +323,8 @@ const targetPathDetect = (e,...targets) => {
 
 }
 
-class NexonMap2D {
-	constructor(payload) {
+class NexonImageDrag2D {
+	constructor(payload = {}) {
 		const requireChecked = this._checkRequired(payload);
 		if(!requireChecked.value) {
 			throw requireChecked.message;
@@ -334,25 +334,30 @@ class NexonMap2D {
 			canvas,
 			image,
 			area,
-			wheelStep = 0.05,
+			wheelScale = false,
+			wheelScaleStep = 0.05,
 			initX = 50,
 			initY = 50,
-			initScale = 0.1,
+			power = 0.25,
+			scale = 1,
+			limitCloseoutScale = 0.1,
+			limitCloseupScale = 3,
 		} = payload;
 
 		this.default = {
-			mapPower: 0.25,
-			cursorPower: 0.35,
-			limitCloseoutScale: 0.1,
-			limitCloseupScale: 3,
-			focusScale: 2.7,
-			initScale,
+			limitCloseoutScale,
+			limitCloseupScale,
+			scale,
 			initX,
 			initY,
+			power,
 		};
 
+		this.power = power;
 		this.isFreeze = false;
 		this.isActive = false;
+		this.wheelScale = wheelScale;
+		this.wheelScaleStep = wheelScaleStep;
 
 		this.size = {
 			ww: window.innerWidth,
@@ -364,7 +369,7 @@ class NexonMap2D {
 		this.focus = {
 			x: 0,
 			y: 0,
-			scale: this.default.initScale,
+			scale,
 			width: 0,
 			height: 0,
 			xPercent: 50,
@@ -374,32 +379,20 @@ class NexonMap2D {
 		};
 
 		this.map = {
-			image,
 			x: 0,
 			y: 0,
-			scale: this.default.initScale,
+			scale,
 			width: 0,
 			height: 0,
-			power: this.default.mapPower,
 		};
 
 		this.mouse = {
 			x: 0,
 			y: 0,
-			wheelStep,
-		};
-
-		this.cursor = {
-			x: 0,
-			y: 0,
-			power: this.default.cursorPower,
 		};
 
 		this.press = {
 			isPress: false,
-			time: 0,
-			timer: null,
-
 			startFocusX : 0,
 			startFocusY : 0,
 			startPressX: 0,
@@ -411,11 +404,10 @@ class NexonMap2D {
 		this.el = {
 			canvas: canvas,
 			area: area,
+			image: image,
 		};
 
-		this.events = {
-
-		},
+		this.events = {};
 
 		this.ctx = canvas.getContext("2d");
 
@@ -431,12 +423,12 @@ class NexonMap2D {
 		};
 
 		if(!(canvas instanceof HTMLCanvasElement)) {
-			checked.message = "필수: 실행 옵션 객체 내 canvas에 canvas DOM을 전달해주세요. new NexonMap2D({canvas: HTMLCanvasElement})"
+			checked.message = "필수: 실행 옵션 객체 내 canvas에 canvas DOM을 전달해주세요. new NexonImageDrag2D({canvas: HTMLCanvasElement})"
 			return checked;
 		}
 
 		if(!(image instanceof HTMLImageElement)) {
-			checked.message = "필수: 실행 옵션 객체 내 image에 이미지 객체를 전달해주세요. new NexonMap2D({canvas: HTMLImageElement})"
+			checked.message = "필수: 실행 옵션 객체 내 image에 이미지 객체를 전달해주세요. new NexonImageDrag2D({canvas: HTMLImageElement})"
 			return checked;
 		}
 
@@ -451,13 +443,13 @@ class NexonMap2D {
 	}
 
 	_setupinitSize() {
-		this.focus.width = this.map.image.width * this.focus.scale;
-		this.focus.height = this.map.image.height * this.focus.scale;
+		this.focus.width = this.el.image.width * this.focus.scale;
+		this.focus.height = this.el.image.height * this.focus.scale;
 		this.map.width = this.focus.width;
 		this.map.height = this.focus.height;
 
-		this.ctx.canvas.width = window.innerWidth;
-		this.ctx.canvas.height = window.innerHeight;
+		this.el.canvas.width = window.innerWidth;
+		this.el.canvas.height = window.innerHeight;
 
 		this.setScale(this.focus.scale, true);
 
@@ -465,7 +457,7 @@ class NexonMap2D {
 	}
 
 	_setupImage() {
-		this.map.image.onload = () => {
+		this.el.image.onload = () => {
 			if(this.isActive) {
 				this._setupinitSize();
 			}
@@ -475,6 +467,7 @@ class NexonMap2D {
 	_setupElement() {
 		if(this.el.area) {
 			this.el.area.style.willChange = "width, height, transform";
+			this.el.area.style.boxSizing = "border-box";
 		}
 	}
 
@@ -486,21 +479,28 @@ class NexonMap2D {
 			this.size.cx = window.innerWidth/2;
 			this.size.cy = window.innerHeight/2;
 
-			this.ctx.canvas.width = this.size.ww;
-			this.ctx.canvas.height = this.size.wh;
+			this.el.canvas.width = this.size.ww;
+			this.el.canvas.height = this.size.wh;
 
 			this.setFocusMapPercent(focus.xPercentMap, focus.yPercentMap);
 		};
 
 		this.events.mousewheel = (e) => {
+			if(this.isFreeze) {
+				return;
+			}
+			if(!this.wheelScale) {
+				return;
+			}
+
 			const direction = e.deltaY > 0;
 			if(direction) {
 				if(this.focus.scale > this.default.limitCloseoutScale) {
-					this.setScale(this.focus.scale - this.mouse.wheelStep);
+					this.setScale(this.focus.scale - this.wheelScaleStep);
 				}
 			}else {
 				if(this.focus.scale < this.default.limitCloseupScale) {
-					this.setScale(this.focus.scale + this.mouse.wheelStep);
+					this.setScale(this.focus.scale + this.wheelScaleStep);
 				}
 			}
 
@@ -533,11 +533,6 @@ class NexonMap2D {
 
 	}
 
-	_render() {
-		this._drawMap();
-		requestAnimationFrame(this._render.bind(this));
-	}
-
 	_pressDown(x, y, path) {
 		if(this.isFreeze) {
 			return;
@@ -550,7 +545,6 @@ class NexonMap2D {
 					break;
 				}
 				if(i === path.length -1) {
-				console.log('return');
 					return;
 				}
 			}
@@ -602,15 +596,15 @@ class NexonMap2D {
 			scale: this.focus.scale - this.map.scale,
 		};
 
-		const x = this.map.x + (d.x * this.map.power);
-		const y = this.map.y + (d.y * this.map.power);
-		const scale = this.map.scale + (d.scale * this.map.power);
+		const x = Math.abs(d.x) < 0.001 ? this.focus.x : this.map.x + (d.x * this.power);
+		const y = Math.abs(d.y) < 0.001 ? this.focus.y : this.map.y + (d.y * this.power);
+		const scale = Math.abs(d.scale) < 0.000001 ? this.focus.scale : this.map.scale + (d.scale * this.power);
 
 		this.map.x = x;
 		this.map.y = y;
 		this.map.scale = scale;
-		this.map.width = this.map.image.width * this.map.scale;
-		this.map.height = this.map.image.height * this.map.scale;
+		this.map.width = this.el.image.width * this.map.scale;
+		this.map.height = this.el.image.height * this.map.scale;
 
 		if(this.el.area) {
 			this.el.area.style.transform = `translate3d(${-x}px,${-y}px,0)`;
@@ -618,7 +612,15 @@ class NexonMap2D {
 			this.el.area.style.height = `${this.map.height}px`;
 		}
 
-		this.ctx.drawImage(this.map.image, -this.map.x, -this.map.y, this.map.width , this.map.height);
+		this.ctx.drawImage(this.el.image, -this.map.x, -this.map.y, this.map.width , this.map.height);
+	}
+
+	_render() {
+		if(!this.isActive) {
+			return;
+		}
+		this._drawMap();
+		requestAnimationFrame(this._render.bind(this));
 	}
 
 	setFocus(willX = this.focus.x, willY = this.focus.y, force = false) {
@@ -657,6 +659,10 @@ class NexonMap2D {
 		this.setFocus(x,y);
 	}
 
+	setPower(power = this.default.power) {
+		this.power = power;
+	}
+
 	setScale(scale = 1, force = false) {
 		scale = scale <= 0.001 ? 0.001 : scale;
 
@@ -668,16 +674,16 @@ class NexonMap2D {
 		origin.x = origin.x - (this.size.cx - (1/this.focus.scale * this.size.cx));
 		origin.y = origin.y - (this.size.cy - (1/this.focus.scale * this.size.cy));
 
-		if(this.map.image.width * scale < this.size.ww) {
-			scale = (this.size.ww+1) / (this.map.image.width);
+		if(this.el.image.width * scale < this.size.ww) {
+			scale = (this.size.ww+1) / (this.el.image.width);
 		}
-		if(this.map.image.height * scale < this.size.wh) {
-			scale = (this.size.wh+1) / (this.map.image.height);
+		if(this.el.image.height * scale < this.size.wh) {
+			scale = (this.size.wh+1) / (this.el.image.height);
 		}
 
 		this.focus.scale = scale;
-		this.focus.width = this.map.image.width * scale;
-		this.focus.height = this.map.image.height * scale;
+		this.focus.width = this.el.image.width * scale;
+		this.focus.height = this.el.image.height * scale;
 
 		if(force) {
 			this.map.scale = scale;
@@ -694,7 +700,7 @@ class NexonMap2D {
 	create() {
 		this.isActive = true;
 
-		if(this.map.image.complete) {
+		if(this.el.image.complete) {
 			this._setupinitSize();
 		}
 
@@ -709,6 +715,8 @@ class NexonMap2D {
 		window.addEventListener("touchend", this.events.touchend);
 
 		this._render();
+
+		return this;
 	}
 
 	destroy() {
@@ -723,6 +731,146 @@ class NexonMap2D {
 		window.removeEventListener("touchstart", this.events.touchstart);
 		window.removeEventListener("touchmove", this.events.touchmove);
 		window.removeEventListener("touchend", this.events.touchend);
+
+		return this;
 	}
 
+}
+
+class CustomCursor {
+	constructor(payload = {}) {
+		const {
+			power = 0.3,
+		} = payload;
+
+		this.isFreeze = false;
+		this.isActive = false;
+		this.el = {};
+		this.events = {};
+		this.power = power;
+		this.mouse = {
+			x: 0,
+			y: 0,
+		};
+		this.cursor = {
+			x: 0,
+			y: 0,
+		};
+
+		this._init();
+	}
+
+	_init() {
+		this._setupElement();
+		this._setupEvent();
+	}
+
+	_setupElement() {
+		const template = `
+			<div class="cursor">
+				<span class="cursor__pointer">
+					<span class="cursor__visual"></span>
+				</span>
+			</div>
+		`;
+		const fragment = document.createElement("div");
+
+		fragment.innerHTML = template;
+
+		this.el.root = fragment.querySelector(".cursor");
+		this.el.pointer = fragment.querySelector(".cursor__pointer");
+		this.el.visual = fragment.querySelector(".cursor__visual");
+
+		this.el.root.style.cssText = `
+			display: inline-flex;
+			position: fixed;
+			width: 0;
+			height: 0;
+			z-index: 100;
+			pointer-events: none !important;
+		`;
+		this.el.pointer.style.cssText = `
+			display: inline-flex;
+			will-change: transform;
+			left: 0; top: 0;
+			position: absolute;
+			z-index: 100;
+			pointer-events: none !important;
+		`;
+
+		this.el.visual.style.cssText = `
+			display: inline-flex;
+			will-change: transform;
+			overflow: hidden;
+			position: relative;
+			pointer-events: none !important;
+		`;
+
+		document.body.prepend(fragment.children[0]);
+	}
+
+	_setupEvent() {
+
+		this.events.mousemove = (e) => {
+			if(this.isFreeze) {
+				return;
+			}
+			this.mouse.x = e.clientX;
+			this.mouse.y = e.clientY;
+			for(let i = 0, l = e.path.length; i < l; ++i) {
+				if(e.path[i].tagName === "A" || e.path[i].tagName === "BUTTON") {
+					this.el.root.classList.add("-hover");
+					break;
+				}
+				this.el.root.classList.remove("-hover");
+			}
+		}
+
+		this.events.mousedown = () => {
+			this.el.root.classList.add("-press");
+		}
+
+		this.events.mouseup = () => {
+			this.el.root.classList.remove("-press");
+		}
+
+	}
+
+	_render() {
+		if(!this.isActive) {
+			return;
+		}
+		this._drawCursor();
+		requestAnimationFrame(this._render.bind(this));
+	}
+
+	_drawCursor() {
+		const dx = this.mouse.x - this.cursor.x;
+		const dy = this.mouse.y - this.cursor.y;
+
+		const x = (this.cursor.x + (dx * this.power));
+		const y = (this.cursor.y + (dy * this.power));
+
+		this.cursor.x = x;
+		this.cursor.y = y;
+
+		this.el.pointer.style.transform = `translate3d(${x}px,${y}px,0)`;
+	}
+
+	create() {
+		this.isActive = true;
+		window.addEventListener("mousedown", this.events.mousedown);
+		window.addEventListener("mousemove", this.events.mousemove);
+		window.addEventListener("mouseup", this.events.mouseup);
+		this._render();
+		return this;
+	}
+
+	destroy() {
+		this.isActive = false;
+		window.removeEventListener("mousedown", this.events.mousedown);
+		window.removeEventListener("mousemove", this.events.mousemove);
+		window.removeEventListener("mouseup", this.events.mouseup);
+		return this;
+	}
 }

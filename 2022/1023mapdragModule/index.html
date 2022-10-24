@@ -20,12 +20,6 @@
 
 <div id="app">
 
-    <div class="cursor">
-        <span class="cursor__pointer">
-            <span class="cursor__visual"></span>
-        </span>
-    </div>
-
     <div id="page-plate">
         <section class="section--map">
             <div class="worldmap">
@@ -56,7 +50,6 @@
 		</div>
     </div>
 </div>
-
 <script src="./script.js"></script>
 <script>
 
@@ -76,227 +69,31 @@ const perRound = (value) => {
 const $app = document.querySelector("#app");
 const $page = $app.querySelector("#page-plate");
 const $sections = $app.querySelectorAll("section");
-const $canvas = $app.querySelector(".worldmap canvas");
-const ctx = $canvas.getContext("2d");
-const mapSource = new Image();
-
-const $mappoints = $app.querySelector(".mappoints");
 
 const $crosshead = $app.querySelector(".focuscrosshead");
 const $crossheadtext = $app.querySelector(".focuscrosshead span");
 
-mapSource.src = "./map.jpg";
+const $mapCanvas = $app.querySelector(".worldmap canvas");
+const $mapPoints = $app.querySelector(".mappoints");
+const $mapImage = new Image();
+$mapImage.src = "./map.jpg";
 
-const mm = new NexonMap2D({
-    canvas: $canvas,
-    image: mapSource,
-    // area: $mappoints,
-    initX: 0,
+const myMap = new NexonImageDrag2D({
+    canvas: $mapCanvas,
+    image: $mapImage,
+    area: $mapPoints,
+    initX: 50,
     initY: 50,
-    wheelStep: 0.1,
+    initScale: 0.8,
+    wheelScale: true,
+    wheelScaleStep: 0.1,
+    power: 0.25,
 });
 
-mm.create();
+const myCursor = new CustomCursor();
 
-// window.addEventListener("mousewheel", (e) => {
-//     if(store.isSectionMoving) {
-//         return;
-//     }
-//     const direction = e.deltaY > 0;
-//     let nextIndex = store.sectionIndex;
-
-//     if(direction) {
-//         nextIndex = nextIndex + 1 <= $sections.length ? $sections.length - 1 : nextIndex + 1;
-//     }else {
-//         nextIndex = nextIndex - 1 <= -1 ? 0 : nextIndex - 1;
-//     }
-//     store.setState("sectionIndex", nextIndex, {exact: true});
-// });
-
-// [...$floatnavItems].forEach((button,i) => {
-//     button.addEventListener("click", () => {
-//         if(store.isSectionMoving) {
-//             return;
-//         }
-//         store.setState("sectionIndex", i);
-//     });
-// });
-
-// store.watch("sectionIndex", (now) => {
-
-//     [...$floatnavItems].forEach((button,i) => {
-//         button.classList[now === i ? "add" : "remove"]("-active");
-//     });
-
-//     store.setState("isSectionMoving", true);
-
-//     gsap.to(window, {scrollTo: $sections[now], ease: "power3.out", duration: 0.6, onComplete: () => {
-//         store.setState("isSectionMoving", false);
-//     }});
-
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// 대충만들고
-// cursor
-const $cursor = document.querySelector(".cursor");
-const $cursorPointer = document.querySelector(".cursor__pointer");
-const $cursorVisual = document.querySelector(".cursor__visual");
-
-// window.addEventListener("mousemove", (e) => {
-//     mouse.x = e.clientX;
-//     mouse.y = e.clientY;
-//     for(let i = 0, l = e.path.length; i < l; ++i) {
-//         if(e.path[i].tagName === "A" || e.path[i].tagName === "BUTTON") {
-//         // console.log('hoveR!');
-//             $cursor.classList.add("-hover");
-//             break;
-//         }
-//         $cursor.classList.remove("-hover");
-//     }
-// });
-// window.addEventListener("mousedown" , () => {
-//     $cursor.classList.add("-press");
-// });
-// window.addEventListener("mouseup" , () => {
-//     $cursor.classList.remove("-press");
-// });
-
-const drawCursor = () => {
-    const dx = mouse.x - cursor.x;
-    const dy = mouse.y - cursor.y;
-
-    const x = (cursor.x + (dx * cursor.power));
-    const y = (cursor.y + (dy * cursor.power));
-
-    cursor.x = x;
-    cursor.y = y;
-
-    $cursorPointer.style.transform = `translate3d(${x}px,${y}px,0)`;
-};
-
-const draw = () => {
-    requestAnimationFrame(draw);
-    drawMap();
-    drawCursor();
-};
-
-// draw();
-
-const myPoints2 = [
-    {
-        name: "화산섬 아래 반도",
-        text: "Nullam rutrum elit nec neque tristique, ac",
-        coord: [46,35],
-    },
-    {
-        name: "말라붙은 계곡",
-        text: "uspendisse commodo velit in tincidunt sagittis.",
-        coord: [46,54],
-    },
-    {
-        name: "산맥 정상",
-        text: "Quisque est orci, efficitur in pellentesque id,",
-        coord: [64,58],
-    },
-    {
-        name: "남대륙 만",
-        text: "Praesent odio tellus, condimentum a sollicitudin ut,",
-        coord: [53,76],
-    },
-    {
-        name: "사막산 정상",
-        text: "pretium ut est. Praesent pharetra vestibulum egestas.",
-        coord: [35,53],
-    },
-];
-// <i class="fa-solid "></i>
-let template_mappoint = ``;
-[...myPoints2].forEach((point,i) => {
-    template_mappoint += `
-        <div class="point point--${i}" style="left:${point.coord[0]}%;top:${point.coord[1]}%">
-            <button>${point.name}</button>
-            <div>
-                <p>${point.text}</p>
-                <i class="fa fa-video"></i>
-                <i class="fa fa-forward"></i>
-                <i class="fa fa-window-close"></i>
-            </div>
-        </div>
-    `;
-});
-// $mappoints.innerHTML = template_mappoint;
-
-const $mappoint_itmes = document.querySelectorAll(".mappoints .point");
-
-[...$mappoint_itmes].forEach((item,i) => {
-
-    const $button = item.querySelector("button");
-    const $video = item.querySelector("i.fa-video");
-    const $next = item.querySelector("i.fa-forward");
-    const $close = item.querySelector("i.fa-window-close");
-
-    $button.addEventListener("click", () => {
-        store.setState("pointFocusIndex", i);
-    });
-
-    $video.addEventListener("click" , () => {
-        modal.video.open();
-    });
-
-    $next.addEventListener("click" , () => {
-        const nextIndex = store.pointFocusIndex + 1 >= myPoints2.length ? 0 : store.pointFocusIndex + 1;
-        store.setState("pointFocusIndex", nextIndex);
-    });
-
-    $close.addEventListener("click" , () => {
-        store.setState("pointFocusIndex", -1);
-    });
-
-});
-
-// store.watch("pointFocusIndex", (now,prev) => {
-
-//     if(now < 0) {
-//         store.setState("isPointFocusing", false);
-//         map.power = defaultValue.mapPower;
-//         setScale(defaultValue.limitCloseoutScale);
-//         setFocus();
-//         $canvas.classList.remove("-perspective");
-//         return;
-//     }
-
-//     store.setState("isPointFocusing", true);
-//     map.power = 0.05;
-//     setScale(2);
-//     setFocusMapPercent(...myPoints2[now].coord);
-//     // $mappoint_itmes[now].classList.add("-active");
-//     setTimeout(() => {
-//         modal.video.open({onClose : () => {
-//             store.setState("isPointFocusing", false);
-//             map.power = defaultValue.mapPower;
-//             setScale(defaultValue.limitCloseoutScale);
-//             setFocus()
-//         }});
-//     },500)
-//     $canvas.classList.add("-perspective");
-// });
-
-
+myMap.create();
+myCursor.create();
 
 </script>
 </body>

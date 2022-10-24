@@ -272,6 +272,7 @@ body {
     background-color: #000;
     overflow: hidden;
     color: #fff;
+    cursor: none;
 }
 body * {
     font-family: 'Roboto','Noto Sans KR', sans-serif ;
@@ -456,15 +457,7 @@ section {
     color: #fff;
 }
 
-.cursor {
-    position: fixed;
-    width: 0; height: 0;
-    display: inline-block;
-    background-color: transparent;
-    z-index: 11;
-    pointer-events: none !important;
-    /* mix-blend-mode: difference; */
-}
+
 .cursor.-press{
 
 }
@@ -472,24 +465,14 @@ section {
     mix-blend-mode: difference;
 }
 .cursor__pointer{
-    display: inline-block;
-    will-change: transform;
-    left: 0; top: 0;
-    position: absolute;
-    z-index: 11;
 }
 .cursor__visual{
-    display: inline-block;
     width: 30px; height: 30px;
     border-radius: 9999px;
-    z-index: 11;
-    display: inline-block;
-    position: relative;
     top: -15px; left: -15px;
     border: 1px solid #fff;
     transition: transform 90ms ease, background-color 600ms ease;
     will-change: transform;
-    overflow: hidden;
 }
 
 .cursor.-press .cursor__visual {
