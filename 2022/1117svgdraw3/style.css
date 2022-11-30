@@ -1,0 +1,326 @@
+/* ::-webkit-scrollbar{
+    width: 7px;
+    border-right: 3px solid transparent;
+}
+::-webkit-scrollbar-thumb{
+    background: linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.2) 70%, rgba(255,255,255,0) 70%, rgba(255,255,255,0) 100%);
+}
+::-webkit-scrollbar-track {
+    background-color: transparent;
+} */
+::-webkit-scrollbar {
+  display: none;
+}
+
+:root {
+    /* --blendColor : rgba(255,255,255,0.6); */
+    --blendColor : #aaa;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+html,body {
+}
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    overflow: overlay;
+    background-color: #000;
+}
+body.-freeze {
+    overflow: hidden;
+}
+
+
+#app {
+    box-sizing: border-box;
+}
+
+
+@keyframes rotate {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+}
+
+.bg-blend {
+    background-image: url("./texture1.png");
+    background-color: #000;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: fixed;
+    left: 0;
+    z-index: -2;
+    display: inline-block;
+    pointer-events: none !important;
+    width: 100vw; height: 100vh;
+    left: 0; top: 0;
+    /* background-size: 100%;
+    left: 50%; top: 50%;
+    width: max(130vw, 130vh); height: max(130vw, 130vh);
+    animation: rotateCircle 350s ease; */
+}
+.bg-vignette {
+    width: 100%; height: 100%;
+    left: 0 ;top: 0;
+    display: inline-block;
+    position: fixed;
+    z-index: -1;
+    background: #00000000;
+    background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 50%);
+    pointer-events: none !important;
+    opacity: 0.7;
+    opacity: 0 !important;
+}
+.trigger {
+    height: 100vh;
+    width: 100%;
+}
+
+.fly {
+    position: fixed;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.fly > div{
+    box-sizing: border-box;
+}
+.fly-entry {
+    width: 100%; height: 100%;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 100;
+    font-size: 18px;
+    background-color: rgba(0,0,0,0.4);
+    transition: background-color 600ms ease;
+}
+.fly-entry.-loadend {
+    background-color: rgba(0,0,0,0.3);
+}
+.fly-entry p{
+    letter-spacing: 0.13em;
+    font-style: italic;
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate3d(-50%,-50%,0);
+}
+.fly-entry p:nth-child(2){
+    /* opacity: 0; */
+}
+
+.fly-entry button{
+    cursor: pointer;
+    pointer-events: all ;
+    width: 35px; height: 48px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-color: transparent;
+    position: absolute;
+    left: 50%; bottom: 10vh;
+    transform: translate3d(-50%, 0,0);
+    transition: filter 120ms ease;
+    background-image: url("./source/mouse.png");
+}
+.fly-entry button:hover{
+    filter: brightness(1.1) contrast(1.1);
+}
+
+@keyframes mousescroll {
+    0% {transform: translate3d(0,-20%,0);}
+    100% {transform: translate3d(0,30%,0);}
+}
+.fly-entry button::before{
+    content: "";
+    width: 7px; height: 11px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    position: absolute;
+    left: calc(50% -  3px); top: 10px;
+    background-image: url("./source/mouseroll.png");
+    animation: mousescroll 700ms ease-in-out infinite alternate;
+}
+.fly-finish {
+    font-weight: 100;
+    text-align: center;
+    mix-blend-mode: lighten;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+.fly-finish .sourcebox{
+    height: auto;
+    max-width: 500px;
+    width: 100%; height: 100%;
+    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative;
+    opacity: 0;
+}
+
+.fly-finish .sourcebox::before{
+    content: "";
+    width: 100%; height: 100%;
+    display: inline-block;
+    position: absolute;
+    left: 0; top: 0;
+    background: rgba(0,0,0,0);
+    background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 30%, rgba(0,0,0,1) 70%);
+    display: none;
+}
+.fly-finish .sourcebox video{
+    max-width: 100%; max-height: 100%;
+    display: inline-block;
+}
+.fly-finish .sourcebox img{
+    max-width: 100%; max-height: 100%;
+    display: inline-block;
+}
+.fly-date p{
+    font-size: 50px;
+    font-weight: 100;
+    /* position: absolute; */
+    /* bottom: 60px; */
+    color: rgba(255,255,255,0.8);
+    position: relative;
+    font-family: 'Playfair Display', serif;
+}
+/* .logo {
+    width: 400px; height: 400px;
+}
+.logo img{
+    width: 100%; height: 100%;
+    object-fit: contain;
+    object-position: center;
+} */
+.fly-shape {
+    mix-blend-mode: difference;
+    background-color: #000;
+}
+.shape-wrap {
+    display: flex;
+}
+
+.shape-wrap > .shape{
+    margin: 10px;
+}
+
+
+@keyframes rotateCircle {
+    0% {transform: translate3d(-50%, -50%,0) rotate(0deg);}
+    100% {transform: translate3d(-50%, -50%,0) rotate(360deg);}
+}
+@keyframes rotateCircle2 {
+    0% {transform: translate3d(-50%, -50%,0) rotate(180deg);}
+    100% {transform: translate3d(-50%, -50%,0) rotate(-180deg);}
+}
+.fly-circle {
+    opacity: 0.4;
+}
+.fly-circle span{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: min(20vw, 20vh); height: min(20vw, 20vh);
+    left: 50%; top: 50%;
+    transform: translate3d(-50%, -50%,0);
+    /* animation: rotateCircle 50s linear infinite; */
+}
+.fly-circle span:nth-child(2n){
+    /* animation-name: rotateCircle2; */
+}
+.fly-circle svg{
+    width: 100%; height: 100%;
+    display: inline-block;
+    stroke: rgba(255,255,255,1);
+    /* stroke: rgba(0, 0, 0, 0.904); */
+}
+/* .fly-circle span:nth-child(1){width: min(42vw, 42vh); height: min(42vw, 42vh); animation-duration: 50s; opacity: 0.8;}
+.fly-circle span:nth-child(2){width: min(45vw, 45vh); height: min(45vw, 45vh); animation-duration: 67s; opacity: 0.7;}
+.fly-circle span:nth-child(3){width: min(53vw, 53vh); height: min(53vw, 53vh); animation-duration: 71s; opacity: 0.3;}
+.fly-circle span:nth-child(3){width: min(56vw, 56vh); height: min(56vw, 56vh); animation-duration: 31s; opacity: 0.4;}
+.fly-circle span:nth-child(4){width: min(80vw, 80vh); height: min(80vw, 80vh); animation-duration: 100s; opacity: 0.3;}
+.fly-circle span:nth-child(5){width: min(110vw, 110vh); height: min(110vw, 110vh); animation-duration: 103s; opacity: 0.4; } */
+
+.trigger-entry {
+    height: 200px;
+    border-top: 1px solid #fff;
+}
+.trigger-shape {
+    height: 500vh;
+    border-top: 1px solid #fff;
+
+}
+.trigger-text {
+    padding-top: 20vh;
+    border-top: 1px solid #fff;
+
+}
+svg {
+    width: 100%; height: 100%;
+    overflow: visible;
+}
+.shape {
+    /* width: 220px; height: 220px; */
+    width: 140px; height: 140px;
+    position: relative;
+    /* filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); */
+}
+.shape > svg {
+    position: absolute;
+    width: 100%; height: 100%;
+    position: absolute;
+    left: 0; top: 0;
+}
+.shape .shape__stroke {
+    stroke: var(--blendColor);
+}
+.shape .shape__fill {
+    fill: var(--blendColor);
+}
+.shape .shape__mask {
+    stroke: var(--blendColor);
+}
+
+.blend {
+    mix-blend-mode: difference;
+    background-color: #000;
+}
+.blend__texture{
+    mix-blend-mode: overlay;
+    /* mix-blend-mode: darken; */
+    /* background-image: url("./texture2.png"); */
+    background-image: url("./texture3.png");
+    /* background: linear-gradient(106deg, rgba(255,0,0,1) 20%, rgba(151,255,0,1) 41%, rgba(38,130,179,1) 60%, rgba(166,0,255,1) 82%); */
+    background-repeat: no-repeat;
+    /* background-size: 17%; */
+    background-size: cover;
+    width: 100%; height: 100%;
+    position: absolute;
+    left: 0; top: 0;
+    z-index: 2;
+    pointer-events: none;
+    display: inline-block;
+}
+
+
+@media all and (max-width: 768px) {
+    .shape-wrap {
+        flex-direction: column;
+    }
+}

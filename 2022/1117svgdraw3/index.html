@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollToPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js"></script>
+    <script src="./DrawSVGPlugin.js"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div id="app">
+        <span class="bg-vignette"></span>
+        <span class="bg-blend"></span>
+
+        <div class="trigger trigger-entry">entry trigger</div>
+        <div class="trigger trigger-shape">shape trigger</div>
+        <div class="trigger trigger-text">text trigger</div>
+
+        <div class="fly fly-entry">
+            <p>...Loading...</p>
+            <p>Wars of Prasia</p>
+            <button></button>
+        </div>
+
+        <div class="fly fly-circle blend">
+            <span>
+                <svg width="100" height="100" viewBox="0 0 100 100" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path vector-effect="non-scaling-stroke" stroke-miterlimit="10" d="M43.142 91.679C23.411 88.062 8.45703 70.777 8.45703 50C8.45703 39.853 12.024 30.539 17.972 23.243M73.608 85.74C67.03 89.941 59.214 92.375 50.832 92.375M22.587 18.411C30.083 11.703 39.982 7.625 50.832 7.625C74.235 7.625 93.207 26.597 93.207 50C93.207 58.929 90.445 67.212 85.73 74.043"  />
+                </svg>
+            </span>
+            <span>
+                <svg width="100" height="100" viewBox="0 0 100 100" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path vector-effect="non-scaling-stroke" stroke-miterlimit="10" d="M18.437 78.2712C11.714 70.7712 7.626 60.8622 7.625 49.9982C7.625 27.4552 25.229 9.02322 47.438 7.69922M84.38 74.7762C76.684 85.4362 64.151 92.3732 50 92.3732C40.404 92.3732 31.554 89.1842 24.45 83.8072M53.396 7.75722C75.211 9.48722 92.375 27.7372 92.375 49.9982C92.375 58.0762 90.114 65.6272 86.191 72.0522"/>
+                </svg>
+            </span>
+            <span>
+                <svg width="100" height="100" viewBox="0 0 100 100" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path vector-effect="non-scaling-stroke" stroke-miterlimit="10" d="M11.8905 33.813C18.2495 18.441 33.3935 7.625 51.0635 7.625C63.0895 7.625 73.9475 12.636 81.6605 20.684M57.8695 91.832C55.6535 92.189 53.3805 92.375 51.0635 92.375C31.1965 92.375 14.5225 78.704 9.9375 60.257M85.0955 24.747C90.3365 31.8 93.4375 40.538 93.4375 50C93.4375 66.963 83.4705 81.598 69.0745 88.368" />
+                </svg>
+            </span>
+            <span>
+                <svg width="100" height="100" viewBox="0 0 100 100" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path vector-effect="non-scaling-stroke" stroke-miterlimit="10" d="M43.142 91.679C23.411 88.062 8.45703 70.777 8.45703 50C8.45703 39.853 12.024 30.539 17.972 23.243M73.608 85.74C67.03 89.941 59.214 92.375 50.832 92.375M22.587 18.411C30.083 11.703 39.982 7.625 50.832 7.625C74.235 7.625 93.207 26.597 93.207 50C93.207 58.929 90.445 67.212 85.73 74.043" />
+                </svg>
+            </span>
+            <span>
+                <svg width="100" height="100" viewBox="0 0 100 100" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path vector-effect="non-scaling-stroke" stroke-miterlimit="10" d="M18.437 78.2712C11.714 70.7712 7.626 60.8622 7.625 49.9982C7.625 27.4552 25.229 9.02322 47.438 7.69922M84.38 74.7762C76.684 85.4362 64.151 92.3732 50 92.3732C40.404 92.3732 31.554 89.1842 24.45 83.8072M53.396 7.75722C75.211 9.48722 92.375 27.7372 92.375 49.9982C92.375 58.0762 90.114 65.6272 86.191 72.0522"/>
+                </svg>
+            </span>
+            <span>
+                <svg width="100" height="100" viewBox="0 0 100 100" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path vector-effect="non-scaling-stroke" stroke-miterlimit="10" d="M11.8905 33.813C18.2495 18.441 33.3935 7.625 51.0635 7.625C63.0895 7.625 73.9475 12.636 81.6605 20.684M57.8695 91.832C55.6535 92.189 53.3805 92.375 51.0635 92.375C31.1965 92.375 14.5225 78.704 9.9375 60.257M85.0955 24.747C90.3365 31.8 93.4375 40.538 93.4375 50C93.4375 66.963 83.4705 81.598 69.0745 88.368"/>
+                </svg>
+            </span>
+        </div>
+
+        <div class="fly fly-shape blend">
+            <span class="blend__texture"></span>
+
+            <div class="shape-wrap">
+                <div class="shape type--w"></div>
+                <!-- <div class="shape type--a"></div>
+                <div class="shape type--a"></div> -->
+                <div class="shape type--r"></div>
+                <div class="shape type--r"></div>
+            </div>
+        </div>
+
+        <div class="fly fly-date">
+           <p>2023.13.32</p>
+        </div>
+
+        <div class="fly fly-finish">
+            <!-- <div class="sourcebox">
+                <video src="https://pvi.dn.nexoncdn.co.kr/prasia/svg_prototype/hero.mp4" muted playsinline></video>
+            </div> -->
+            <div class="sourcebox">
+                <img src="./logo.png" alt="">
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
+        const typeDatas = {
+            w: {
+                stroke: `M83.222,1.176c0,0-4.41,0.366-5.193,3.956v94.043h14.051V18.523 c0,0,0.02-3.653,4.581-3.653h1.224V1.176H83.222z M16.939,40.74V14.567l16.799,15.217L56.647,8.479l-6.109-7.304L33.739,16.393 L16.939,1.176H7.164l-3.97,3.956v42.914c0,0,40.93,3.356,40.93,28.606c0,0,0.757,12.479-12.828,12.479h-6.109 c-8.466-2.523-8.554-10.652-8.554-10.652V68.13h9.775v-9.737L3.194,58.392v25.262c0,0,1.043,13.109,17.41,15.216h18.022 c18.997,0,19.548-21.607,19.548-21.607C58.174,47.736,16.939,40.74,16.939,40.74z M47.397,33.74l9.25,9.217l9.251-9.217 l-9.251-9.217L47.397,33.74z`,
+                mask: `M56.646,2.56L33.739,22.099l-16.8-14.932h-5.798L9.076,8.914v34.631c0,0,38.919,5.561,42.097,29.15c0,0,4.052,19.539-16.044,21.365h-11.2c0,0-13.583,0.557-13.423-12.946V62.958h19.46L50,39.5L64.125,26l9.25-15.125L75.75,8l20.375-0.125v1L85.25,9L85,102.875`,
+            },
+            p: {
+                stroke: `M44.502,38.435V25.044 h13.439v13.391H44.502z M21.593,53.348h49.483C82.758,53.348,84.21,43,84.21,43V16.827H21.593V7.087h76.057V43 c0,16.118-18.021,20.087-18.021,20.087H15.79v16.739c0,0-0.83,6.909,7.635,9.435h34.102l16.297-14.304l16.189,14.304h6.109V99 H85.432L73.824,88.348L62.218,99l0,0h-47.65C2.357,99,2.35,86.827,2.35,86.827V4.957L6.321,1h9.469v46.566 C15.79,47.566,15.938,53.348,21.593,53.348z`,
+                mask: `M19,11.5h77l-6.75-2.375v34.5c0,0-0.875,13.625-14.75,13.75h-53c0,0-9.625,0.875-9.625-5.25V5.75h-2.5l-1.5,1.75V83c0,0-1.75,11.25,16.875,11.25h35.5l-3.625,1.5l18-14.625L72,81.625l17.125,13l-3.5-0.75H101`,
+            },
+            a: {
+                stroke: `M85.542,1H72.061v81.82 c0,0-0.01,16.181,25.738,16.181V85.872c-12.756,0-12.257-9.464-12.257-9.464V1z M44.791,85.567h13.481V99H44.791V85.567z M44.791,47.717c0,0-1.866-11.905-15.014-11.905v-0.009c-13.147,0-14.094,11.907-14.094,11.907v37.246l11.031-20.454l4.596,3.969 L19.667,99H2.202V46.184c3.213-20.025,27.576-18.929,27.576-18.929v0.01c0,0,25.282-1.097,28.495,18.926v32.964l-13.481,0.002 V47.717z M2.202,4.968L6.491,1h51.781v12.212H2.202V4.968z`,
+                mask: `M107.125 92.125H96.125C96.125 92.125 78.625 91.625 78.625 76.625V-2.5M-7.625 6.875H66.25M51.875 105.5V82.125M30.375 62.75L19.875 85.625C19.875 85.625 17.75 93 13.125 93H10.75C10.75 93 8.25 93.25 8.25 89.375V52.375C8.25 52.375 6 32.25 30.375 31.75C30.375 31.75 51.875 31.625 51.875 48.75V84.75`,
+            },
+            o: {
+                stroke: `M27.396,72.208v0.01c0,0,11.547,0.552,19.706-6.337l0.152-0.009 c8.184,6.888,18.85,6.336,18.85,6.336v-0.01c0,0,22.223,1.094,25.436-18.864V18.043c0,0,0.02-3.652,4.582-3.652h1.527V1H83.292 c0,0-4.411,0.366-5.192,3.957l-0.042,46.247c0,0-0.307,11.259-12.259,11.259v0.008c-12.373,0-12.135-11.253-12.135-11.253V1 l-13.44,0.01v50.207c0,0-0.174,11.262-12.829,11.262V62.47c-11.656,0-11.607-11.259-11.607-11.259V1.01L6.32,1L2.349,4.957v48.992 C5.552,73.91,27.396,72.208,27.396,72.208z M97.648,94.435v-14H84.209v4.87c0,4.027-4.276,3.956-4.276,3.956H6.93l-3.97,3.957V99 h91.329C97.892,98.221,97.648,94.435,97.648,94.435z`,
+                mask: `M-0.875 94.5H79.375C79.375 94.5 90.875 95.875 90.875 84.5V73.75M8.625 -2.875V50.625C8.625 50.625 9.5 67.125 26.25 67.125C26.25 67.125 46.625 68.375 46.625 50M46.625 -3.625V49.375C46.625 49.375 45 67.285 67.5 67.143C67.5 67.143 84.75 66.5 84.75 50V16.25C84.75 16.25 84.102 7.5 90.875 7.5H101.875`,
+            },
+            r: {
+                stroke: `M71.075,82.261 c0,0,0.401,7.534,8.554,12.478c0,0,6.797,4.262,18.021,4.262V84.695c-11.623-1.807-12.523-7.913-12.523-7.913v-49l12.523-5.479V1 H4.793L2.35,3.435v7.305h81.249v3.652l-17.104,7v11.565l4.581,3.957V82.261z M30.146,25.957c0,0,25.204-0.983,28.407,18.978v31.848 l-13.44,0.002V47.673c0,0-1.86-11.978-14.967-11.978S15.79,47.673,15.79,47.673v29.111L2.35,76.782V44.934 C5.553,24.974,30.146,25.957,30.146,25.957z M58.857,99H2.35V85.608h56.507V99z`,
+                mask: `M-4.167 6.00004H80.166C80.166 6.00004 91.333 5.16704 91.333 10.833V13.833C91.333 13.833 91.665 17 88.499 18.833L81.999 21.833C78.371 22.937 74.378 24.806 74.359 27.904C74.359 27.904 74.166 30.083 75.499 31.249C75.499 31.249 77.833 34.332 77.833 38.457V75.332C77.833 75.332 77.582 93.499 101.999 92.582M9.083 79.75V48.583C9.083 48.583 6.5 30.583 31.083 30.583C31.083 30.583 51.75 30 51.75 48.166V79.75M-4.625 92.617H65.25`,
+            }
+        };
+
+        const $shapes = document.querySelectorAll(".shape");
+
+        [...$shapes].forEach((shape,i) => {
+            const type = [...shape.classList].reduce((p,c) => c.indexOf("type--") > -1 ? c.split("type--")[1] : null);
+            if(!type ||!typeDatas[type]) {
+                return;
+            }
+
+            const fillWidth = 18.5;
+
+            const template = `
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="shape__stroke" fill="none" stroke-width="1.5" vector-effect="non-scaling-stroke" d="${typeDatas[type].stroke}"/>
+                </svg>
+
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="shape__fill"  mask="url(#mask-shape--${i})" vector-effect="non-scaling-stroke" d="${typeDatas[type].stroke}"/>
+                    <defs>
+                        <mask id="mask-shape--${i}">
+                            <path class="shape__mask" fill-rule="evenodd" clip-rule="evenodd" fill="none" stroke-miterlimit="10" stroke-width="${fillWidth}" d="${typeDatas[type].mask}"/>
+                        </mask>
+                    </defs>
+                </svg>
+            `;
+            shape.innerHTML = template;
+            shape.classList.add(`shape--${i+1}`);
+        });
+
+        const $body = document.body;
+        const $app = document.querySelector("#app");
+
+        const $bg_vignette = $app.querySelector(".bg-vignette");
+
+        const $trigger_logo = $app.querySelector(".trigger-logo");
+        const $trigger_entry = $app.querySelector(".trigger-entry");
+        const $trigger_shape = $app.querySelector(".trigger-shape");
+        const $trigger_text = $app.querySelector(".trigger-text");
+
+        const $fly_entry = $app.querySelector(".fly.fly-entry");
+        const $entryButton = $app.querySelector(".fly.fly-entry button");
+        const $entryLoading = $app.querySelector(".fly.fly-entry p:nth-child(1)");
+        const $entryTitle = $app.querySelector(".fly.fly-entry p:nth-child(2)");
+        const $fly_logo = $app.querySelector(".fly.fly-logo");
+        // const $logo = $fly_logo.querySelector(".logo");
+
+        const $fly_shape = $app.querySelector(".fly.fly-shape");
+        const $shapewrap = $app.querySelector(".shape-wrap");
+
+        const $fly_date = $app.querySelector(".fly.fly-date");
+        const $datetext = $app.querySelector(".fly.fly-date p");
+
+        const $fly_finish = $app.querySelector(".fly.fly-finish");
+        const $finishtext = $fly_finish.querySelector("p");
+        const $finishsource = $fly_finish.querySelector(".sourcebox");
+        const $finishvideo = $fly_finish.querySelector("video");
+
+        // const tl3 = gsap.timeline();
+        const $circleSpans = $app.querySelectorAll(".fly-circle span");
+        const $circlePaths = $app.querySelectorAll(".fly-circle circle");
+
+        // console.log();
+
+        let tl1 = gsap.timeline({paused: true});
+        let st1 = null;
+
+        let tl2 = gsap.timeline({paused: true});
+        let st2 = null;
+
+        let tl3 = gsap.timeline({paused: true});
+        let st3 = null;
+
+        let tl4 = gsap.timeline({paused: true});
+
+        let tl5 = gsap.timeline({paused: true});
+
+        let isWatchVideoBefore = false;
+
+    // timeline 0 (init loading)
+        let tl0 = gsap.timeline({paused: true});
+
+        $body.classList.add("-freeze");
+        tl0.fromTo($entryLoading, {autoAlpha:1 }, {autoAlpha: 0, ease: "power2.out", duration: 0.7}, 0.5);
+        tl0.from($entryTitle, {autoAlpha:0, letterSpacing: "0.2em", ease: "power2.out", duration: 1}, "<+=0.7");
+        tl0.from($entryButton, {autoAlpha:0, y: 20, ease: "power2.out", duration: 0.7}, "<+=0.5");
+        tl0.add(() => {
+            $body.classList.remove("-freeze");
+            $fly_entry.classList.add("-loadend");
+        }, ">");
+
+        tl0.play();
+
+        gsap.to($fly_entry, {
+            autoAlpha: 0,
+            ease: "power1.inOut",
+            duration: 0.8,
+            scrollTrigger: {
+                trigger: $trigger_entry,
+                start: "100% 0%",
+                end: "100% 0%",
+                toggleActions: "play play play reverse",
+                // markers: true,
+            },
+        });
+
+        $entryButton.addEventListener("click", () => {
+            gsap.to(window, {scrollTo: 1000});
+        });
+
+    // timeline 1
+
+        const shapeSize = $shapes[0].offsetWidth;
+        const shapeStartScale = 8;
+
+        tl1.from($shapewrap, {opacity: 0, duration: 0.5,}, 0);
+
+        tl1.from($bg_vignette, {opacity: 0.3, ease: "power1.out", duration: $shapes.length * 0.7,},0);
+
+        const $shape_strokes = document.querySelectorAll(".shape__stroke");
+        const $shape_masks = document.querySelectorAll(".shape__mask");
+        const shapeStagger = 0.2;
+
+        tl1.fromTo($shapes, { width: shapeSize * shapeStartScale, height: shapeSize * shapeStartScale }, { width: shapeSize, height: shapeSize, ease: "linear", duration: $shapes.length * 1, autoRound: false},0 );
+        tl1.fromTo($shapes, {y: (i) => i%2 ? "5%" : "-5%",} , {y: 0, ease: "linear", duration: 3, stagger: shapeStagger}, 0);
+        tl1.fromTo($shape_strokes, {autoAlpha: 0}, {autoAlpha: 1, duration: 0.2, stagger: shapeStagger }, 0);
+        tl1.fromTo($shape_strokes,{drawSVG: "0%"}, {drawSVG: "100%", ease: "power2.inOut", duration: 3 , stagger: shapeStagger}, 0);
+        tl1.fromTo($shape_masks, {drawSVG: "0%",} , {drawSVG: "100%", ease: "power1.inOut", duration: 1, stagger: shapeStagger},1.5);
+
+        st1 = ScrollTrigger.create({
+            trigger: $trigger_shape,
+            animation: tl1,
+            scrub: 1.8,
+            start: "0% 0%",
+            end: "100% 0%",
+            onLeaveBack: () => {
+                tl1.progress(0);
+            },
+        });
+
+
+    // timeline 2
+        [...$circleSpans].forEach((span,i) => {
+            const stagger = i*0.3;
+            const svg = span.querySelector("svg");
+            const circle = span.querySelector("circle");
+
+            tl2.from(span, {opacity: 0, ease: "power1.out", duration: 0.2, },stagger);
+            tl2.fromTo(span, {width: "min(175vw, 175vh)", height: "min(175vw, 175vh)"}, {width: "min(20vw, 20vh)", height: "min(20vw, 20vh)", rotate: i%2 ? 360 : -360,ease: "power1.out", duration: 0.7, },stagger);
+            tl2.to(span, {opacity: 0, ease: "power1.out",  duration: 0.2, },0.6 + stagger);
+        });
+
+        st2 = ScrollTrigger.create({
+            trigger: $trigger_shape,
+            animation: tl2,
+            scrub: 2,
+            start: "0% 0%",
+            end: "100% 0%",
+            onLeaveBack: () => {
+                tl2.progress(0);
+            },
+        });
+
+    // timeline 3
+        tl3.addLabel("outMask",0);
+        tl3.addLabel("outStroke", 0);
+        tl3.addLabel("inText", 1.5);
+        tl3.addLabel("inVideo", 0.7);
+
+        // tl3.fromTo($fly_shape, {scale: 1,}, {scale: 1.1, ease: "power1.inOut", duration: 1.2,},0);
+
+        [...$shapes].forEach((shape,i) => {
+            const $stroke = shape.querySelector(".shape__stroke");
+            const $mask = shape.querySelector(".shape__mask");
+            const x = ($shapes.length - ((i+1)*2 -1)) * -16;
+            tl3.to(shape, {x, ease: "power1.inOut", duration: 1.5}, 0);
+            tl3.fromTo($mask, {autoAlpha: 1}, {autoAlpha: 0, ease: "power2.inOut", duration: 0.6}, "outMask");
+
+            tl3.fromTo($stroke, {drawSVG: "100%"}, {drawSVG: "0%",ease: "power2.inOut", duration: 1.5,}, "outStroke");
+
+            // tl3.fromTo($stroke, {drawSVG: "20% 100%",ease: "power2.in", duration: 1,}, "outStroke");
+            // tl3.to($stroke,  {drawSVG: "0%",ease: "power2.out", duration: 0.8,}, ">");
+        });
+
+        tl3.from($datetext, {autoAlpha: 0, letterSpacing: "0.1em", ease: "power1.inOut", duration: 1}, 1);
+        tl3.fromTo($datetext, {autoAlpha: 1} ,{autoAlpha: 0, ease: "power1.inOut", duration: 1}, 2.2);
+        tl3.fromTo($finishsource, {autoAlpha: 0, scale:1.05 },{autoAlpha: 1, scale:1, ease: "power1.inOut", duration: 1.4}, 2.5);
+
+        // timeline 4 (play after video)
+        // tl4.to($finishsource, { scale: 0.95, y: -50,ease: "power1.inOut", duration: 0.9,},0);
+        tl4.from($finishtext, {y: -20,autoAlpha: 0, letterSpacing: "0.15em", ease: "power2.inOut", duration: 1.2,},1);
+
+
+        tl3.eventCallback("onReverseComplete", () => {
+            st1.enable(1);
+            tl1.totalProgress(1,false);
+            st2.enable(1);
+            tl2.totalProgress(1,false);
+        });
+
+        st3 = ScrollTrigger.create({
+            trigger: $trigger_text,
+            animation: tl3,
+            start: "0% 0%",
+            end: "100% 0%",
+            onEnter: () => {
+                st1.disable(false,false);
+                tl1.totalProgress(1,false);
+                st2.disable(false,false);
+                tl2.totalProgress(1,false);
+
+                // if(!isWatchVideoBefore) {
+                //     $body.classList.add("-freeze");
+                //     $finishvideo.play();
+                //     const endedEvent = () => {
+                //         $body.classList.remove("-freeze");
+                //         isWatchVideoBefore = true;
+                //         tl4.play();
+                //         $finishvideo.removeEventListener("ended" , endedEvent);
+                //     }
+                //     $finishvideo.addEventListener("ended" , endedEvent);
+                // }else {
+                //     tl4.play();
+                // }
+            },
+            onLeaveBack: () => {
+                tl4.reverse();
+            },
+            toggleActions: "play play play reverse",
+        });
+
+
+        // isWatchVideoBefore = true;
+
+    </script>
+</body>
+</html>
+

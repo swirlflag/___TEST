@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html,body {
+            height: 100%;
+        }
+        #app {
+            width: 100%; height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("texture_1.png");
+        }
+        .box {
+            width: 500px; height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 70px;
+            font-weight: 900;
+            white-space: nowrap;
+            text-align: center;
+            border: 1px dashed #d3d;
+            color: rgba(255,255,255,1);
+        }
+
+        .blend {
+            mix-blend-mode: difference;
+            background-color: #000;
+            position: relative;
+        }
+        .blend::after{
+            background-image: url("texture_2.png");
+            content: "";
+            position: absolute;
+            left: 0; top: 0;
+            display: inline-block;
+            width: 100%; height: 100%;
+            mix-blend-mode: multiply;
+            background-color: #000;
+            box-sizing: border-box;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="box blend">
+        <span>TEST BOX</span>
+    </div>
+</div>
+</body>
+</html>

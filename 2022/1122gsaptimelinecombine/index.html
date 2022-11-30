@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+    <style>
+    .box {
+        width: 200px;height: 200px;
+        background-color: #d3d;
+    }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="box">
+        box
+    </div>
+</div>
+
+<script>
+const $box = document.querySelector('.box');
+const master = gsap.timeline({paused: true});
+const t1 = gsap.timeline();
+const t2 = gsap.timeline();
+
+t1.to($box, { x: 100 , ease: "power2.out", duration: 1 });
+t2.to($box, { y: 100 , ease: "power2.out", duration: 1 });
+
+master.add(t1);
+master.add(t2);
+// master.add(t2,0);
+
+master.play();
+
+</script>
+</body>
+</html>

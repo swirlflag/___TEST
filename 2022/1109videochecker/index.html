@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>루핑영상체크</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+}
+html, body {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+#app {
+    width: 100%; height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.control {
+    position: absolute;
+    top: 0; left: 0;
+    z-index: 2;
+}
+video {
+    width: 100%; height: 100%;
+    display: inline-flex;
+
+    box-sizing: border-box;
+    object-fit: cover;
+    object-position: center;
+}
+</style>
+</head>
+<body>
+<div id="app">
+    <div class="control">
+        <input type="text" placeholder="비디오 url을 입력하세요" value="https://nxm-mt.akamaized.net/Contents/v4.nexon.com/events/kr-event_221107_season5_k2c28nca/bg_media_1_pc.mp4">
+        <button class="submit">적용</button>
+        <button class="reset">리셋</button>
+    </div>
+    <video loop muted playsinline autoplay src=""></video>
+</div>
+
+
+<script>
+const $input = document.querySelector(".control input");
+const $submit = document.querySelector(".control .submit");
+const $reset = document.querySelector(".control .reset");
+const $video = document.querySelector("video");
+
+const localurl = localStorage.getItem("videourl");
+
+if(localurl) {
+    $input.value = localurl;
+}
+
+$reset.addEventListener("click", () => {
+    $input.value = "";
+});
+
+$submit.addEventListener("click", () => {
+    $video.src = $input.value;
+    localStorage.setItem("videourl", $input.value);
+    $video.onload = () => {
+        $video.play();
+    };
+});
+</script>
+</body>
+</html>
