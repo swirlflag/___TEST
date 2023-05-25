@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <style>
+        .swiper-container {
+            overflow: hidden;
+            border: 1px solid #d3d;
+        }
+
+        .swiper-slide {
+            border: 1px solid #000;
+            width: 300px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    0
+                </div>
+                <div class="swiper-slide">
+                    1
+                </div>
+                <div class="swiper-slide">
+                    2
+                </div>
+                <div class="swiper-slide">
+                    3
+                </div>
+                <div class="swiper-slide">
+                    4
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const container = document.querySelector('.swiper-container');
+        const swiper = new Swiper(container, {
+            slidesPerView: "auto",
+            centeredSlides: true,
+            loop: true,
+            spaceBetween: 10,
+            loopedSlides: 2,
+            watchSlidesVisibility: true,
+        });
+        window.sss = swiper;
+        const length = 5;
+
+        const go = (to) => {
+            const from = swiper.realIndex;
+
+            if (from === to) {
+                return;
+            }
+
+            if (from === 0 && to === length - 1) {
+                swiper.slidePrev();
+                return;
+            }
+            if (from === length - 1 && to === 0) {
+                swiper.slideNext();
+                return;
+            }
+
+            if (from > to) {
+                swiper.slidePrev();
+            } else {
+                swiper.slideNext();
+            }
+        };
+
+    </script>
+</body>
+
+</html>

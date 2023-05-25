@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+
+<style>
+body {
+    background-color: #333;
+}
+/* @keyframes drawX { 100% { background-position-x: -4230px; }} */
+@keyframes drawX { 100% { background-position-x: 103.44827%; }}
+/* @keyframes drawY { 100% { background-position-y: -1404px; } } */
+@keyframes drawY { 100% { background-position-y: 120%; } }
+.source {
+    background-image: url("./map_flag_1.png");
+    background-size: auto;
+    width: 141px; height: 234px;
+    border: 1px solid #d3d;
+    background-position: 0 0 ;
+    animation: drawX 1s steps(30) infinite, drawY 6s steps(6) infinite;
+}
+
+</style>
+</head>
+<body>
+<div id="app">
+<div class="source"></div>
+</div>
+</body>
+</html>

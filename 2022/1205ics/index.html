@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    * {
+        margin: 0; padding: 0;
+    }
+    #app {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+    }
+    div {
+        display: flex;
+        flex-direction: column;
+        padding: 20px 0;
+    }
+    div + div{
+        border-top: 1px dashed #333;
+    }
+    p {
+        font-weight: 700;
+        margin: 0;
+    }
+    h2 {
+        font-weight: 700;
+        font-size: 24px;
+    }
+    a.testlink {
+        padding: 10px;
+        border-radius: 10px;
+        background-color: dodgerblue;
+        margin: 10px;
+        width: auto;
+        color: #fff;
+        font-weight: 700;
+        font-size: 20px;
+    }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p>
+            PC는 어플리케이션 동작을 목표하지 않으므로 제외합니다.
+            <br>
+            PC의 경우 하단의 일반 링크 등으로 대체합니다.
+        </p>
+        <div>
+            <h2>1. ios</h2>
+            <p>
+                <i>+ 이케아 레퍼런스와 호출후 UI 형태가 다릅니다</i>
+            </p>
+            <a class="testlink" href="webcal://wp.vod.nexoncdn.co.kr/TEST/ics/testnew.ics">webcal ics</a>
+        </div>
+
+        <div>
+            <h2>2. ios safari</h2>
+            <p>
+                사파리 외의 브라우저에서는 동작하지 않습니다. (다운로드 하지만 연동할수 없음)
+                <br>ios에서 1번 형식으로 통일하시면 사용하지 않아도 됩니다.
+            </p>
+            <a class="testlink" href="https://wp.vod.nexoncdn.co.kr/TEST/ics/testnew.ics">https ics</a>
+        </div>
+
+        <div>
+            <h2>3. android</h2>
+            <p>
+                파일을 다운로드 후 열기를 눌러 캘린더와 연동합니다.
+            </p>
+            <a class="testlink" href="https://wp.vod.nexoncdn.co.kr/TEST/ics/testnew.ics">https ics </a>
+            <!-- <a class="testlink" href="calshow://wp.vod.nexoncdn.co.kr/TEST/ics/testnew.ics">calshow ics</a> -->
+        </div>
+        <div>
+            <h2>4. 일반 링크 </h2>
+            <p>
+                안드로이드에서도 추천합니다.
+            </p>
+            <!-- <a class="testlink" target="_blank" href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20221205T020000Z%2F20221205T020000Z&details=dastest%20desc&location=ds&text=test%20title">google link</a> -->
+            <a class="testlink" target="_blank" href="https://www.google.com/calendar/render?action=TEMPLATE&text=ics%20%ED%85%8C%EC%8A%A4%ED%8A%B8%20%EC%A0%9C%EB%AA%A9&dates=20221220T022500Z/20221220T023000Z&details=ics%20%ED%85%8C%EC%8A%A4%ED%8A%B8%20%EC%A0%9C%EB%AA%A9%0D%0ADate%20and%20Time%3A%20Dec%2020%2C%202022%202%3A25%20AM%20-%202%3A30%20AM%0D%0AVenue%3A%20Venue%20TEST%20%0D%0Aics%20%ED%85%8C%EC%8A%A4%ED%8A%B8%20%ED%8C%8C%EC%9D%BC%EC%9E%85%EB%8B%88%EB%8B%A4.&location=Venue%20TEST%20&trp=true&sf=true&output=xml#f" target="_blank" class="testbtn">google link</a>
+            <a class="testlink" target="_blank" href="https://outlook.live.com/calendar/0/deeplink/compose?body=dastest%20desc&enddt=2022-12-05T02%3A00%3A00%2B00%3A00&location=ds&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=2022-12-05T02%3A00%3A00%2B00%3A00&subject=test%20title">outlook link</a>
+        </div>
+
+        <br>
+        <h2>0. 이케아 레퍼런스</h2>
+        <p>
+            기존 이케아 방식 :
+            <br>ios는 사파리에서만 캘린더 연동, 타 브라우저는 파일 다운로드 형태
+            <br>안드로이드는 일반 링크 형식
+        </p>
+        <a target="_blank" href="https://www.ikea.com/kr/ko/customer-service/services/ikea-live-pubc6c00650?utm_source=Kakao&utm_medium=Standard_display&utm_campaign=kr_activate_launch2_0_fy23_BLAVINGADHalloween&utm_content=Message4_1013">ikea 레퍼런스 사이트</a>
+    </div>
+</body>
+</html>

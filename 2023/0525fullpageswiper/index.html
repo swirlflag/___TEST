@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .swiper-slide {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .swiper-slide:nth-child(1) {
+            background-color: #aca;
+        }
+
+        .swiper-slide:nth-child(2) {
+            background-color: #aac;
+        }
+
+        .swiper-slide:nth-child(3) {
+            background-color: #cca;
+        }
+
+        .swiper-slide:nth-child(4) {
+            background-color: #acc;
+        }
+
+        .swiper-slide:nth-child(5) {
+            background-color: #cac;
+        }
+
+        .scrollbox {
+            width: 200px;
+            height: 200px;
+            border: 1px dotted #d3d;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script>
+        class Fullpage {
+            constructor(target, options = {}) {
+                this.swiper = null;
+                this.options = options;
+                this.isSlideTo = false;
+                this.el = {
+                    target,
+                    wrapper: null,
+                    slides: [],
+                };
+
+                this._setupSwiper();
+                this._setupElement();
+                this._setupEvent();
+
+                return this;
+            }
+
+            _getSlideValue(slide) {
+                return {
+                    FH: slide.offsetHeight,
+                    SH: slide.scrollHeight,
+                    ST: slide.scrollTop,
+                };
+            }
+
+            _setupElement() {
+                this.el.wrapper = this.el.target.querySelector(".swiper-wrapper");
+                this.el.slides = this.el.target.querySelectorAll(".swiper-slide");
+
+                this.el.target.classList.add("fullpage-section");
+
+                const isInstallStyle = document.head.querySelector("[data-swiper-fullpage-style]");
+
+                if (!isInstallStyle) {
+                    const styleTag = document.createElement("style");
+
+                    styleTag.innerHTML = `
+        				.fullpage-section {
+        					width: 100%;
+        					height: 100%;
+        					max-width: 100vw;
+        					max-height: 100vh;
+        					overflow: hidden;
+        					display: flex;
+        					box-sizing: border-box;
+        				}
+        				.fullpage-section.-animated {
+        					pointer-events: none;
+        				}
+        				.fullpage-section .swiper-wrapper {
+        					width: 100%;
+        					height: 100%;
+        					display: flex;
+        					flex-direction: column;
+        					box-sizing: border-box;
+        					will-change: transform ;
+        				}
+        				.fullpage-section .swiper-slide {
+        					width: 100%;
+        					height: 100%;
+        					box-sizing: border-box;
+        					overflow: hidden;
+        				}
+        				.fullpage-section .swiper-slide.-scrollable {
+        					overflow-y: auto;
+        				}
+        			`;
+
+                    styleTag.dataset.swiperFullpageStyle = true;
+                    document.head.appendChild(styleTag);
+                    this.el.styleTag = styleTag;
+                }
+            }
+
+            _setupSwiper() {
+                const options = {
+                    direction: "vertical",
+                    updateOnWindowResize: true,
+                    mousewheel: {
+                        forceToAxis: true,
+                    },
+                    resistanceRatio: 0,
+                    touchRatio: 0.2,
+                    speed: 700,
+                    parallax: true,
+                    ...this.options,
+                };
+                this.swiper = new Swiper(this.el.target, options);
+            }
+
+            _checkScrollable = () => {
+                const slide = this.el.slides[this.swiper.realIndex];
+                const { FH, SH } = this._getSlideValue(slide);
+                const isScrollable = FH < SH;
+
+                if (isScrollable) {
+                    slide.classList.add("-scrollable");
+                    this.swiper.disable();
+                } else {
+                    slide.classList.remove("-scrollable");
+                    this.swiper.enable();
+                }
+
+                this.el.target.classList.remove("-animated");
+            };
+
+            _settingScrollPoint = (type = "prev") => {
+                this.el.target.classList.add("-animated");
+                const slide = this.el.slides[this.swiper.realIndex];
+                const { FH, SH } = this._getSlideValue(slide);
+
+                // const isScrollable = FH < SH && (slide.dataset.scrollRestore !== "false" || );
+                const isScrollable = FH < SH;
+                // const isScrollCorrection = data - scrollfix;
+
+                const isScrollFix = slide.dataset.scrollfix === "" || slide.dataset.scrollfix;
+
+                if (!isScrollable) {
+                    this.swiper.enable();
+                    return;
+                }
+                if (isScrollFix) {
+                    return;
+                }
+                if (this.isSlideTo) {
+                    this.isSlideTo = false;
+                    slide.scrollTop = 1;
+                    return;
+                }
+                if (type === "next") {
+                    slide.scrollTop = 1;
+                    return;
+                }
+                if (type === "prev") {
+                    slide.scrollTop = SH - FH - 1;
+                    return;
+                }
+            };
+
+            _setupEvent() {
+                // 스크롤 이벤트
+                this.el.slides.forEach((slide) => {
+                    slide.addEventListener("scroll", () => {
+                        if (this.swiper.animating) {
+                            return;
+                        }
+
+                        const { FH, SH, ST } = this._getSlideValue(slide);
+                        const { realIndex } = this.swiper;
+
+                        const isPrev = ST <= 0 && realIndex !== 0;
+
+                        if (isPrev) {
+                            this.swiper.enable();
+                            this.swiper.slidePrev();
+                            slide.scrollTop = 1;
+                            return;
+                        }
+
+                        const isNext = FH + ST >= SH && realIndex < this.el.slides.length - 1;
+                        if (isNext) {
+                            this.swiper.enable();
+                            this.swiper.slideNext();
+                            slide.scrollTop = SH - FH - 1;
+                            return;
+                        }
+                    });
+                });
+
+                this.swiper.on("slidePrevTransitionStart", () => {
+                    this._settingScrollPoint("prev");
+                });
+                this.swiper.on("slideNextTransitionStart", () => {
+                    this._settingScrollPoint("next");
+                });
+
+                this.swiper.on("slideChangeTransitionEnd", () => {
+                    this._checkScrollable();
+                });
+
+                window.addEventListener("resize", this._checkScrollable);
+
+                this._checkScrollable();
+            }
+
+            slideTo(...args) {
+                this.isSlideTo = true;
+                this.swiper.enable();
+                this.swiper.slideTo(...args);
+            }
+            slidePrev(...args) {
+                this.swiper.enable();
+                this.swiper.slidePrev(...args);
+            }
+            slideNext(...args) {
+                this.swiper.enable();
+                this.swiper.slideNext(...args);
+            }
+
+            destroy() {
+                window.removeEventListener("resize", this._checkScrollable);
+                this.swiper.destroy();
+                this.el.styleTag.remove();
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="swiper-container fullpage-section">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">1</div>
+                <div class="swiper-slide">2</div>
+                <div class="swiper-slide">
+                    start
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    <div class="scrollbox">scrollbox</div>
+                    fin
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                </div>
+                <div class="swiper-slide">4</div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script>
+        const container = document.querySelector('.fullpage-section');
+        const fullpage = new Fullpage(container);
+
+        document.querySelector('#app').style.height = window.innerHeight + 'px';
+
+        window.addEventListener('resize', () => {
+            document.querySelector('#app').style.height = window.innerHeight + 'px';
+        });
+    </script>
+</body>
+
+</html>
