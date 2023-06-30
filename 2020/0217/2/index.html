@@ -1,109 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Document</title>
 
-<link rel="stylesheet" href="skew.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="skew.css">
 </head>
+
 <body>
 
-<div id="wrap">
+    <div id="wrap">
 
-    <nav>
+        <nav>
 
-        <span class="word word-f">F</span>
-        <span class="word word-x">X</span>
-        <span class="word word-n">N</span>
-        <span class="word word-t">T</span>
+            <span class="word word-f">F</span>
+            <span class="word word-x">X</span>
+            <span class="word word-n">N</span>
+            <span class="word word-t">T</span>
 
-        <div class="gnb">
-            <img src="./img/gnb.png" alt="">
-        </div>
-        <div class="code">
-            <img src="./img/code.png" alt="">
-        </div>
-        <div class="text">
-            <img src="./img/text.png" alt="">
-        </div>
-
-        <div class="clock">
-            <div class="clock-block">
-                <span class="day">00</span>:<span class="hour">00</span>:<span class="min">00</span>:<span class="sec">00</span>
+            <div class="gnb">
+                <img src="./img/gnb.png" alt="">
             </div>
-        </div>
-    </nav>
+            <div class="code">
+                <img src="./img/code.png" alt="">
+            </div>
+            <div class="text">
+                <img src="./img/text.png" alt="">
+            </div>
 
-    <div id="split-view"></div>
+            <div class="clock">
+                <div class="clock-block">
+                    <span class="day">00</span>:<span class="hour">00</span>:<span class="min">00</span>:<span
+                        class="sec">00</span>
+                </div>
+            </div>
+        </nav>
 
-</div>
+        <div id="split-view"></div>
 
-
-
-<script src="dx_easePack.js"></script>
-<script src="skew.js"></script>
-<script>
-
-const slideList = [
-    {
-        url : "./img/01.png",
-        backgroundColor : '#d7d8da',
-    }
-    ,
-    {
-        url : "./img/02.png",
-        backgroundColor : '#bbbbbb',
-    }
-    ,
-    {
-        url : "./img/03.png",
-        backgroundColor : '#cbcfd2',
-    }
-    ,
-    {
-        url : "./img/04.png",
-        backgroundColor : '#fff',
-    }
-    ,
-];
-
-const wrap = document.querySelector('#split-view');
-
-const myslider = new Slider_fxnt(wrap);
-
-for(let i = 0 ; i < slideList.length; ++i){
-    myslider.addImage(slideList[i]);
-}
-myslider.useSlider();
-
-const day = document.querySelector('.clock  .day');
-const hour = document.querySelector('.clock  .hour');
-const min = document.querySelector('.clock  .min');
-const sec = document.querySelector('.clock  .sec');
-
-const addZero = (number) => {
-    if(number < 10){
-        number = '0' + number;
-    }
-
-    return number;
-}
-
-setInterval(() => {
-    const nowTime = new Date();
-    day.innerText = addZero(nowTime.getDate());
-    hour.innerText = addZero(nowTime.getHours());
-    min.innerText = addZero(nowTime.getMinutes());
-    sec.innerText = addZero(nowTime.getSeconds());
-},1000);
-
-wrap.addEventListener('click', () => {
-    myslider.nextSlide();
-})
+    </div>
 
 
-</script>
+
+    <script src="dx_easePack.js"></script>
+    <script src="skew.js"></script>
+    <script>
+
+        const slideList = [
+            {
+                url: "./img/01.png",
+                backgroundColor: '#d7d8da',
+            }
+            ,
+            {
+                url: "./img/02.png",
+                backgroundColor: '#bbbbbb',
+            }
+            ,
+            {
+                url: "./img/03.png",
+                backgroundColor: '#cbcfd2',
+            }
+            ,
+            {
+                url: "./img/04.png",
+                backgroundColor: '#fff',
+            }
+            ,
+        ];
+
+        const wrap = document.querySelector('#split-view');
+
+        const myslider = new Slider_fxnt(wrap);
+
+        for (let i = 0; i < slideList.length; ++i) {
+            myslider.addImage(slideList[i]);
+        }
+        myslider.useSlider();
+
+        const day = document.querySelector('.clock  .day');
+        const hour = document.querySelector('.clock  .hour');
+        const min = document.querySelector('.clock  .min');
+        const sec = document.querySelector('.clock  .sec');
+
+        const addZero = (number) => {
+            if (number < 10) {
+                number = '0' + number;
+            }
+
+            return number;
+        }
+
+        setInterval(() => {
+            const nowTime = new Date();
+            day.innerText = addZero(nowTime.getDate());
+            hour.innerText = addZero(nowTime.getHours());
+            min.innerText = addZero(nowTime.getMinutes());
+            sec.innerText = addZero(nowTime.getSeconds());
+        }, 1000);
+
+        wrap.addEventListener('click', () => {
+            myslider.nextSlide();
+        })
+
+
+    </script>
 </body>
+
 </html>

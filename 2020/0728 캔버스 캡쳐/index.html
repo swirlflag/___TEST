@@ -1,61 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
-<style>
-*{margin: 0;padding: 0;}
-html,body {height: 100%;}
-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-#target {
-    width: 400px; height: 400px;
-    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
-    border-radius: 50px;
-    position: relative;
-    overflow: hidden;
-}
-#target img {
-    width: 100%; height: 100%;
-}
-#typing-input, #typing-model {
-    display: inline-block;
-    box-sizing: border-box;
-    position: absolute;
-    top: 0;left: 0;
-    width: 100%; height: 100%;
-    font-size: 30px;
-    background-color: transparent;
-    color: #fff;
-    padding: 40px;
-    outline: none;
-    letter-spacing: 0em;
-    font-family: 'Apple Gothic SD Neo';
-    border: none;
-    font-weight: 700;
-}
-#typing-input {
-    resize: none;
-}
-#typing-model {
-    pointer-events: none;
-    visibility: hidden;
-}
-#download{
-    padding: 10px;
-    border: 1px solid #000;
-    background-color: transparent;
-    outline: none;
-    margin-top: 20px;
-    border-radius: 10px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #target {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(90deg, rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
+            border-radius: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #target img {
+            width: 100%;
+            height: 100%;
+        }
+
+        #typing-input,
+        #typing-model {
+            display: inline-block;
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-size: 30px;
+            background-color: transparent;
+            color: #fff;
+            padding: 40px;
+            outline: none;
+            letter-spacing: 0em;
+            font-family: 'Apple Gothic SD Neo';
+            border: none;
+            font-weight: 700;
+        }
+
+        #typing-input {
+            resize: none;
+        }
+
+        #typing-model {
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        #download {
+            padding: 10px;
+            border: 1px solid #000;
+            background-color: transparent;
+            outline: none;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+    </style>
 </head>
+
 <body>
     <div id="target">
         <img src="./background.jpeg" alt="" crossorigin="anonymous">
@@ -63,47 +84,48 @@ body {
         <p id="typing-model"></p>
     </div>
     <button id="download">다운로드하기 !</button>
-</div>
+    </div>
 
-<script src="./html2canvas.min.js"></script>
-<script>
+    <script src="./html2canvas.min.js"></script>
+    <script>
 
-const dummyName = '마승현';
-const target = document.querySelector('#target');
-const typingInput = document.querySelector('#typing-input');
-const typingModel = document.querySelector('#typing-model');
+        const dummyName = '마승현';
+        const target = document.querySelector('#target');
+        const typingInput = document.querySelector('#typing-input');
+        const typingModel = document.querySelector('#typing-model');
 
-const downloadButton = document.querySelector('#download');
+        const downloadButton = document.querySelector('#download');
 
-downloadButton.addEventListener('click' , (e) => {    
-    const originValue = typingInput.value;
-    let parseValue = '';
+        downloadButton.addEventListener('click', (e) => {
+            const originValue = typingInput.value;
+            let parseValue = '';
 
-    for(let i = 0, l = originValue.length; i < l; ++i){
-        const v = originValue[i];
-        parseValue += v === '\n' ? '<br>': v;
-    }
+            for (let i = 0, l = originValue.length; i < l; ++i) {
+                const v = originValue[i];
+                parseValue += v === '\n' ? '<br>' : v;
+            }
 
-    typingInput.style.visibility = 'hidden';
-    typingModel.innerHTML = parseValue;
-    typingModel.style.visibility = 'visible';
-    
-    html2canvas(target).then((copy) => {
-        let dataUrl = copy.toDataURL('image/png',1.0);
-        const downloadImage     = document.createElement('img');
-        const downloadTrigger   = document.createElement('a');
-        downloadImage.src = dataUrl;
-        downloadTrigger.download = `${dummyName}님의 한마디`;
-        downloadTrigger.href = dataUrl;
-        downloadTrigger.click();
-        console.log(typingModel.innerHTML);
-    }).then(() => {
-        typingInput.style.visibility = 'visible';
-        typingModel.innerHTML = '';
-        typingModel.style.visibility = 'hidden';
-    });
+            typingInput.style.visibility = 'hidden';
+            typingModel.innerHTML = parseValue;
+            typingModel.style.visibility = 'visible';
 
-});
-</script>
+            html2canvas(target).then((copy) => {
+                let dataUrl = copy.toDataURL('image/png', 1.0);
+                const downloadImage = document.createElement('img');
+                const downloadTrigger = document.createElement('a');
+                downloadImage.src = dataUrl;
+                downloadTrigger.download = `${dummyName}님의 한마디`;
+                downloadTrigger.href = dataUrl;
+                downloadTrigger.click();
+                console.log(typingModel.innerHTML);
+            }).then(() => {
+                typingInput.style.visibility = 'visible';
+                typingModel.innerHTML = '';
+                typingModel.style.visibility = 'hidden';
+            });
+
+        });
+    </script>
 </body>
+
 </html>

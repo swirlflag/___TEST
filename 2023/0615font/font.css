@@ -1,0 +1,15 @@
+@font-face {
+	font-family: "Sandoll Gawain";
+	font-weight: 300;
+	src: url("Sandoll Gawain 01 Lt.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Sandoll Gawain";
+	font-weight: 400;
+	src: url("Sandoll Gawain 02 Rg.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Sandoll Gawain";
+	font-weight: 500;
+	src: url("Sandoll Gawain 03 Md.woff2") format("woff2");
+}

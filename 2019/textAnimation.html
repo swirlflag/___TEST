@@ -1,151 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Document</title>
-<style>
-* {
-    font-size: 70px;
-    font-weight: bold;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            font-size: 70px;
+            font-weight: bold;
+        }
+    </style>
 </head>
+
 <body>
 
-<!-- <div id="target">
+    <!-- <div id="target">
 Lorem Ipsum is simply dummy text of the printing
 </div> -->
-<div id="target">
-eXperience
-</div>
+    <div id="target">
+        eXperience
+    </div>
 
-<!-- <div id="target">
+    <!-- <div id="target">
     a a a a a a
 </div> -->
 
 
 
-<script>
+    <script>
 
-const target = document.querySelector('#target');
+        const target = document.querySelector('#target');
 
-// const filpText = (target,intervalDelay = 50) => {
-//     const dommy         = ['1','2','3','4','5', '6', '7','8','9','H','E','L','O'];
-//     const dommyLength   = dommy.length;
-//     const innerText     = target.innerText;
-//     target.innerText    = null;
-//     innerText.split('').map((realText, idx) => {
-//         const span  = document.createElement('span');
-//         realText    = realText.toUpperCase();
-//         span.style.display          = 'inline-block';
-//         span.style.verticalAlign    = 'top';
-//         target.append(span);
-//         const changeText = setInterval(() => {
-//             const randomText    = dommy[Math.floor(Math.random() * dommyLength)];
-//             span.innerText      = randomText;
-//             randomText === realText && clearInterval(changeText);
-//         },intervalDelay);
-//     });
-// }
+        // const filpText = (target,intervalDelay = 50) => {
+        //     const dommy         = ['1','2','3','4','5', '6', '7','8','9','H','E','L','O'];
+        //     const dommyLength   = dommy.length;
+        //     const innerText     = target.innerText;
+        //     target.innerText    = null;
+        //     innerText.split('').map((realText, idx) => {
+        //         const span  = document.createElement('span');
+        //         realText    = realText.toUpperCase();
+        //         span.style.display          = 'inline-block';
+        //         span.style.verticalAlign    = 'top';
+        //         target.append(span);
+        //         const changeText = setInterval(() => {
+        //             const randomText    = dommy[Math.floor(Math.random() * dommyLength)];
+        //             span.innerText      = randomText;
+        //             randomText === realText && clearInterval(changeText);
+        //         },intervalDelay);
+        //     });
+        // }
 
-// filpText(target,10);
-
-
-const flipTextAppear = (target, answerText) => {
-    // const dommy                 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const dommy                 = 'abcdefghijklmnopqrstuvwxyz';
-    // const dommy                 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-    const dommyLength           = dommy.length;
-
-    const minFlipCount          = 3;
-    const maxFlipCount          = 10;
-    const flipIntervalTime      = 10;
-    const nextFlipDelayTime     = 40;
-    const beforeCharacter       = '_';
-
-    answerText = answerText || target.innerText;
-
-    let textPointer             = 0;
-    target.innerText            = null;
-
-    answerText.split('').map((realText, idx) => {
-        const span  = document.createElement('span');
-        span.style.display          = 'inline-block';
-        span.style.verticalAlign    = 'top';
-        span.innerText              = beforeCharacter;
-        target.append(span);
-    });
-
-    const flip = (targetSpan, idx) => {
-        if(!targetSpan){return};
-        setTimeout(() => {
-            let flipCount = 0;
-            const correctText = answerText[idx] === ' ' ?  '&nbsp;' : answerText[idx];
-            const flipInterval = setInterval(() => {
-                ++flipCount;
-                const randomText = dommy[Math.floor(Math.random() * dommyLength)];
-                targetSpan.innerHTML = randomText;
-                if(flipCount < minFlipCount){return}
-                if(flipCount >= maxFlipCount || randomText === correctText){
-                    targetSpan.innerHTML = correctText;
-                    clearInterval(flipInterval);
-                }
-            }, flipIntervalTime);
-            flip(target.children[++textPointer], ++idx);
-        },nextFlipDelayTime)
-    }
-    flip(target.children[textPointer], 0);
-}
+        // filpText(target,10);
 
 
-const flipTextDisappear = (target,intervalDelay = 5) => {
-    const dommy                 = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&?/|';
-    const dommyLength           = dommy.length;
-    const answerText            = target.innerText;
-    const minFlipCount          = 0;
-    const maxFlipCount          = 10;
-    const flipIntervalTime      = 20;
-    const nextFlipDelayTime     = 30;
-    let textPointer             = answerText.length;
-    target.innerText            = null;
+        const flipTextAppear = (target, answerText) => {
+            // const dommy                 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const dommy = 'abcdefghijklmnopqrstuvwxyz';
+            // const dommy                 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    answerText.split('').map((realText, idx) => {
-        const span  = document.createElement('span');
-        span.style.display          = 'inline-block';
-        span.style.verticalAlign    = 'top';
-        span.innerHTML              = realText === ' '  ? '&nbsp;' : realText;
-        target.append(span);
-    });
+            const dommyLength = dommy.length;
 
-    const flip = (targetSpan, idx) => {
-        if(!targetSpan){return};
-        setTimeout(() => {
-            let flipCount = 0;
-            console.log(target.children[0])
-            const correctText = targetSpan.innerText;
-            const flipInterval = setInterval(() => {
-                ++flipCount;
-                const randomText = dommy[Math.floor(Math.random() * dommyLength)];
-                targetSpan.innerHTML = randomText;
-                if(flipCount < minFlipCount){
-                    return
-                }
-                if(flipCount >= maxFlipCount || randomText === correctText){
-                    targetSpan.innerHTML = '';
-                    clearInterval(flipInterval);
-                }
-            }, flipIntervalTime);
-            flip(target.children[--textPointer], --idx);
-        },nextFlipDelayTime)
-    }
+            const minFlipCount = 3;
+            const maxFlipCount = 10;
+            const flipIntervalTime = 10;
+            const nextFlipDelayTime = 40;
+            const beforeCharacter = '_';
 
-    flip(target.children[textPointer - 1], answerText.length);
-}
+            answerText = answerText || target.innerText;
+
+            let textPointer = 0;
+            target.innerText = null;
+
+            answerText.split('').map((realText, idx) => {
+                const span = document.createElement('span');
+                span.style.display = 'inline-block';
+                span.style.verticalAlign = 'top';
+                span.innerText = beforeCharacter;
+                target.append(span);
+            });
+
+            const flip = (targetSpan, idx) => {
+                if (!targetSpan) { return };
+                setTimeout(() => {
+                    let flipCount = 0;
+                    const correctText = answerText[idx] === ' ' ? '&nbsp;' : answerText[idx];
+                    const flipInterval = setInterval(() => {
+                        ++flipCount;
+                        const randomText = dommy[Math.floor(Math.random() * dommyLength)];
+                        targetSpan.innerHTML = randomText;
+                        if (flipCount < minFlipCount) { return }
+                        if (flipCount >= maxFlipCount || randomText === correctText) {
+                            targetSpan.innerHTML = correctText;
+                            clearInterval(flipInterval);
+                        }
+                    }, flipIntervalTime);
+                    flip(target.children[++textPointer], ++idx);
+                }, nextFlipDelayTime)
+            }
+            flip(target.children[textPointer], 0);
+        }
 
 
-</script>
+        const flipTextDisappear = (target, intervalDelay = 5) => {
+            const dommy = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&?/|';
+            const dommyLength = dommy.length;
+            const answerText = target.innerText;
+            const minFlipCount = 0;
+            const maxFlipCount = 10;
+            const flipIntervalTime = 20;
+            const nextFlipDelayTime = 30;
+            let textPointer = answerText.length;
+            target.innerText = null;
+
+            answerText.split('').map((realText, idx) => {
+                const span = document.createElement('span');
+                span.style.display = 'inline-block';
+                span.style.verticalAlign = 'top';
+                span.innerHTML = realText === ' ' ? '&nbsp;' : realText;
+                target.append(span);
+            });
+
+            const flip = (targetSpan, idx) => {
+                if (!targetSpan) { return };
+                setTimeout(() => {
+                    let flipCount = 0;
+                    console.log(target.children[0])
+                    const correctText = targetSpan.innerText;
+                    const flipInterval = setInterval(() => {
+                        ++flipCount;
+                        const randomText = dommy[Math.floor(Math.random() * dommyLength)];
+                        targetSpan.innerHTML = randomText;
+                        if (flipCount < minFlipCount) {
+                            return
+                        }
+                        if (flipCount >= maxFlipCount || randomText === correctText) {
+                            targetSpan.innerHTML = '';
+                            clearInterval(flipInterval);
+                        }
+                    }, flipIntervalTime);
+                    flip(target.children[--textPointer], --idx);
+                }, nextFlipDelayTime)
+            }
+
+            flip(target.children[textPointer - 1], answerText.length);
+        }
+
+
+    </script>
 </body>
+
 </html>

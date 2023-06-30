@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&amp;display=swap" rel="stylesheet">
+    <title>slotmachine</title>
+    <style>
+        body {
+            margin: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        #t1 {
+            display: inline-flex;
+            font-weight: bold;
+            font-size: 40px;
+            line-height: 1;
+            padding: 20px 40px;
+            border: 1px solid #000;
+        }
+
+        .controls {
+            font-weight: 400;
+            flex-direction: column;
+        }
+
+        .controls>div {
+            display: flex;
+            margin-top: 2px;
+        }
+
+        .controls>div>span {
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        .controls>div>input {
+            border: 1px solid #000;
+            border-radius: 0;
+            outline: none;
+        }
+
+        .controls>button {
+            outline: none;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 0;
+            background-color: #fff;
+            border: 1px solid #000;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div id="t1" class="text"></div>
+        <div class="controls">
+            <div>
+                <input type="number" value="123456789" id="input-number">
+                <span>Number String</span>
+            </div>
+            <div>
+                <input type="number" value="100" id="input-stagger">
+                <span>stagger</span>
+            </div>
+            <div>
+                <input type="number" value="500" id="input-delay">
+                <span>delay</span>
+            </div>
+            <button>
+                Start
+            </button>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+
+    <script>
+        const machine = new SlotMachineNumber();
+        const target = document.querySelector("#t1");
+
+        const startMachineByValue = () => {
+            const valueNumber = parseInt(document.querySelector("#input-number").value);
+            const valueStagger = parseInt(
+                document.querySelector("#input-stagger").value
+            );
+            const valueDelay = parseInt(document.querySelector("#input-delay").value);
+
+            machine.play({
+                target: target,
+                number: valueNumber,
+                delay: valueDelay,
+                stagger: valueStagger,
+                random: true,
+                locale: true,
+            });
+        };
+
+        startMachineByValue();
+
+        const button = document.querySelector("button");
+
+        button.addEventListener("click", startMachineByValue);
+
+        // a.play({ target: "span", number: "auto", stagger: 50, delay: 1400 });
+
+    </script>
+</body>
+
+</html>
