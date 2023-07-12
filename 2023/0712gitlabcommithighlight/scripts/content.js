@@ -33,6 +33,8 @@ const DICT_prefix = {
 	},
 };
 
+let options = {};
+
 const LIST_gitMessagePrefixTypes = ["Merge branch "];
 
 const STR_alreadyClassName = "nexon-gitlab-styler-styled";
@@ -66,7 +68,9 @@ const renderHighLight = () => {
 		if (prefix) {
 			const [key, value] = prefix;
 			el.style.backgroundColor = value.color;
-			el.innerText = el.innerText.replace(`${key}:`, value.emoji);
+			if(options['use-emoji']){
+				el.innerText = el.innerText.replace(`${key}:`, value.emoji);
+			}
 			return;
 		}
 
@@ -83,9 +87,18 @@ const renderHighLight = () => {
 	});
 };
 
-const tick = () => {
+const tick = async () => {
 	renderHighLight();
+
+	const { gitlabStylerOptions } = await chrome.storage.sync.get("gitlabStylerOptions");
+	options = gitlabStylerOptions;
+
 	setTimeout(tick, INT_tickrate);
 };
 
-tick();
+const initContent = () => {
+	console.log("initContent");
+	tick();
+}
+
+initContent();
