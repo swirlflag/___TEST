@@ -1,0 +1,15 @@
+{
+	"manifest_version": 3,
+	"name": "Gitlab Styler",
+	"version": "1.0",
+	"description": "Gitlab Styler",
+	"content_scripts": [
+		{
+			"js": ["scripts/content.js"],
+			"matches": ["https://gitlab.nexon.com/*"]
+		}
+	],
+	"action": {
+		"default_popup": "index.html"
+	}
+}

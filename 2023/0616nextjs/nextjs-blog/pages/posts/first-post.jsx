@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Script from "next/script";
 import Layout from "../../components/layout";
+import Alert from "../../components/Alert";
 
 const FirstPost = () => {
 	return (
@@ -20,6 +21,7 @@ const FirstPost = () => {
 						)
 					}
 				/>
+				<Alert type="success">alert texst</Alert>
 				<h1>First Post</h1>
 				<Link href="/">go home</Link>
 				<br />
