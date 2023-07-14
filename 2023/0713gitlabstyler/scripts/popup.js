@@ -6,6 +6,10 @@ const DATA_options = {
     }
 }
 
+const resetStyledElement = async () => {
+    await chrome.storage.sync.set({gitlabStylerResetElement: true});
+};
+
 const savingOption = () => {
     const toSaveOption = {};
     Object.entries(DATA_options).forEach((item) => {
@@ -36,7 +40,10 @@ const setupRenderElements = () => {
 
 
 const setupBindEvents = () => {
-    el_savebutton && el_savebutton.addEventListener("click", savingOption);
+    el_savebutton && el_savebutton.addEventListener("click", () => {
+        resetStyledElement();
+        savingOption();
+    });
 };
 
 const setupSyncStorage =  () => {

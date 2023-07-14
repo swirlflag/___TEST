@@ -6,7 +6,7 @@
 	"content_scripts": [
 		{
 			"js": ["scripts/content.js"],
-			"matches": ["https://gitlab.nexon.com/*", "http://127.0.0.1:5500/*"]
+			"matches": ["https://gitlab.nexon.com/*"]
 		}
 	],
 	"action": {

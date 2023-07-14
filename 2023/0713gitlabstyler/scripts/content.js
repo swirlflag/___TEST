@@ -1,46 +1,49 @@
 const DICT_prefix = {
 	feat: {
-		color: "rgba(209, 255, 211, 0.3)",
+		color: "rgba(0,255,11, 0.1)",
 		emoji: "✨",
 	},
 	hotfix: {
-		color: "rgba(255, 0, 85, 0.1)",
+		color: "rgba(255,0,0,0.1)",
 		emoji: "🚑️",
 	},
 	fix: {
-		color: "rgba(5, 95, 240, 0.12)",
+		color: "rgba(0,98,255, 0.12)",
 		emoji: "🐛",
 	},
 	test: {
-		color: "rgba(255, 128, 0, 0.2)",
+		color: "rgba(255,128,0,0.15)",
 		emoji: "🧪",
 	},
 	refactor: {
-		color: "rgba(186, 255, 241, 0.1)",
+		color: "rgba(0,224,255,0.15)",
 		emoji: "♻️",
 	},
 	wip: {
-		color: "rgba(255, 246, 150, 0.1)",
+		color: "rgba(255, 233, 0, 0.18)",
 		emoji: "🚧",
 	},
 	style: {
-		color: "rgba(234, 0, 255, 0.1)",
+		color: "rgba(255, 0, 229, 0.08)",
 		emoji: "🎨",
 	},
 	etc: {
-		color: "rgba(0,0,0, 0.1)",
+		color: "rgba(0,0,0, 0.12)",
 		emoji: "🏷️",
 	},
 };
 
-let options = {};
+const storage = {
+	options: {},
+	reset: false,
+}
 
 const LIST_gitMessagePrefixTypes = ["Merge branch "];
 
 const STR_alreadyClassName = "nexon-gitlab-styler-styled";
 
 const LIST_querySelectors = [
-	".commit-title",
+	".commit-box > .commit-title",
 	".commit-row-message",
 	".tree-commit-link",
 ];
@@ -48,6 +51,16 @@ const LIST_querySelectors = [
 const INT_tickrate = 1000;
 
 const renderHighLight = () => {
+
+	if(storage.reset) {
+		const el_reset_targets = [...document.querySelectorAll(`.${STR_alreadyClassName}`)];
+		el_reset_targets.forEach((el) => {
+			el.classList.remove(STR_alreadyClassName);
+		});
+		chrome.storage.sync.set({gitlabStylerResetElement: false});
+		storage.reset = false;
+	}
+
 	const el_commit_messages = [
 		...document.querySelectorAll(
 			LIST_querySelectors.map(
@@ -68,7 +81,7 @@ const renderHighLight = () => {
 		if (prefix) {
 			const [key, value] = prefix;
 			el.style.backgroundColor = value.color;
-			if(options['use-emoji']){
+			if(storage.options['use-emoji']){
 				el.innerText = el.innerText.replace(`${key}:`, value.emoji);
 			}
 			return;
@@ -79,25 +92,33 @@ const renderHighLight = () => {
 		);
 
 		if (isGitMessage) {
-			el.style.fontStyle = "italic";
-			el.style.opacity = 0.5;
-			el.style.fontWeight = 300;
+			[...el.parentElement.children].forEach((child) => {
+				if(child.tagName === "A") {
+					child.style.fontStyle = "italic";
+					child.style.opacity = 0.5;
+					child.style.fontWeight = 300;
+				}
+			});
 			return;
 		}
 	});
+
 };
 
 const tick = async () => {
-	renderHighLight();
+	if(chrome.storage) {
+		const { gitlabStylerOptions } = await chrome.storage.sync.get("gitlabStylerOptions");
+		const { gitlabStylerResetElement } = await chrome.storage.sync.get("gitlabStylerResetElement");
+		storage.options = gitlabStylerOptions || {};
+		storage.reset = gitlabStylerResetElement;
+	}
 
-	const { gitlabStylerOptions } = await chrome.storage.sync.get("gitlabStylerOptions");
-	options = gitlabStylerOptions;
+	renderHighLight();
 
 	setTimeout(tick, INT_tickrate);
 };
 
 const initContent = () => {
-	console.log("initContent");
 	tick();
 }
 
