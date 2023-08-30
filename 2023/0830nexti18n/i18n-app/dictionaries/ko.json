@@ -1,0 +1,9 @@
+{
+    "server-component": {
+        "welcome": "웰컴"
+    },
+    "counter": {
+        "increment": "증가",
+        "decrement": "감소"
+    }
+}

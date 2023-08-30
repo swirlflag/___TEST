@@ -106,7 +106,7 @@ const renderHighLight = () => {
 };
 
 const tick = async () => {
-	if(chrome.storage) {
+	if(chrome?.storage?.sync) {
 		const { gitlabStylerOptions } = await chrome.storage.sync.get("gitlabStylerOptions");
 		const { gitlabStylerResetElement } = await chrome.storage.sync.get("gitlabStylerResetElement");
 		storage.options = gitlabStylerOptions || {};
@@ -118,8 +118,34 @@ const tick = async () => {
 	setTimeout(tick, INT_tickrate);
 };
 
+const checkDeployRepo = () => {
+	const isDeployment = window.location.href.indexOf('/deployment') > -1;
+
+	if (!isDeployment) {
+		return;
+    }
+
+	const navSidebar = document.querySelector(".nav-sidebar");
+	const navBar = document.querySelector(".navbar");
+	const titleContainer = document.querySelector(".title-container");
+
+	navSidebar.style.filter = `invert(1)`;
+	navBar.style.backgroundColor = `#000`;
+
+	const deployTitle = document.createElement("p");
+	deployTitle.innerText = "⚠️ THIS IS DEPLOY REPO";
+	deployTitle.style.color = "#fff";
+	deployTitle.style.display = "inline-flex";
+	deployTitle.style.fontSize = "14px";
+	deployTitle.style.fontWeight = "700";
+	deployTitle.style.alignItems = "center";
+	deployTitle.style.margin = "0 0";
+	titleContainer.append(deployTitle);
+};
+
 const initContent = () => {
 	tick();
+	checkDeployRepo();
 }
 
 initContent();

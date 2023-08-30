@@ -1,197 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
+            html,
+            body,
+            #app {
+                width: 100%;
+                height: 100%;
+            }
 
-        html,
-        body,
-        #app {
-            width: 100%;
-            height: 100%;
-        }
+            .svgfilter {
+                display: inline-flex;
+                overflow: hidden;
+                width: 0;
+                height: 0;
+                position: fixed;
+                z-index: -9999;
+                opacity: 0;
+                visibility: hidden;
+                /* pointer-events: none; */
+            }
 
-        .svgfilter {
-            display: inline-flex;
-            overflow: hidden;
-            width: 0;
-            height: 0;
-            position: fixed;
-            z-index: -9999;
-            opacity: 0;
-            visibility: hidden;
-            /* pointer-events: none; */
-        }
+            .svgfilter svg {
+                vertical-align: top;
+            }
 
-        .svgfilter svg {
-            vertical-align: top;
-        }
+            ul {
+                display: flex;
+                flex-direction: column;
+            }
 
-        ul {
-            display: flex;
-            flex-direction: column;
-        }
+            li {
+                flex-direction: column;
+                max-width: 500px;
+                padding: 20px;
+                border: 1px dashed #d3d;
+            }
 
-        li {
-            flex-direction: column;
-            max-width: 500px;
-            padding: 20px;
-            border: 1px dashed #d3d;
-        }
+            li p {
+                margin-bottom: 20px;
+                font-weight: 700;
+                font-size: 20px;
+            }
 
-        li p {
-            margin-bottom: 20px;
-            font-weight: 700;
-            font-size: 20px;
-        }
+            .myimage {
+                width: 100%;
+                /* filter: url(#blur) url(#dropshadow); */
+                border: 1px solid #d3d;
+            }
 
-        .myimage {
-            width: 100%;
-            /* filter: url(#blur) url(#dropshadow); */
-            border: 1px solid #d3d;
-        }
+            .myimage > img {
+                width: 100%;
+                vertical-align: top;
+                /* filter: url(#blur); */
+            }
+        </style>
+    </head>
 
-        .myimage>img {
-            width: 100%;
-            vertical-align: top;
-            /* filter: url(#blur); */
-        }
-    </style>
-</head>
+    <body>
+        <div id="app">
+            <div class="svgfilter">
+                <svg>
+                    <filter id="blur">
+                        <feGaussianBlur
+                            stdDeviation="0"
+                            in="SourceGraphic"
+                            result="BLUR"
+                        ></feGaussianBlur>
+                    </filter>
 
-<body>
-    <div id="app">
-        <div class="svgfilter">
-            <svg>
+                    <filter id="dropshadow">
+                        <feDropShadow
+                            in="SourceGraphic"
+                            dx="10"
+                            dy="10"
+                        ></feDropShadow>
+                    </filter>
 
-                <filter id="blur">
-                    <feGaussianBlur stdDeviation="0" in="SourceGraphic" result="BLUR"></feGaussianBlur>
-                </filter>
+                    <!-- 밝은 확장-->
+                    <filter id="morphology-dilate">
+                        <feMorphology
+                            in="SourceGraphic"
+                            operator="dilate"
+                            radius="5"
+                        ></feMorphology>
+                    </filter>
 
-                <filter id="dropshadow">
-                    <feDropShadow in="SourceGraphic" dx="10" dy="10"></feDropShadow>
-                </filter>
+                    <!-- 어두운 축소 -->
+                    <filter id="morphology-erode">
+                        <feMorphology
+                            in="SourceGraphic"
+                            operator="erode"
+                            radius="1"
+                        ></feMorphology>
+                    </filter>
 
-                <!-- 밝은 확장-->
-                <filter id="morphology-dilate">
-                    <feMorphology in="SourceGraphic" operator="dilate" radius="5"></feMorphology>
-                </filter>
+                    <!-- 난기류의 노이즈만 생성 -->
+                    <filter id="turbulence">
+                        <feTurbulence
+                            in="SourceGRaphic"
+                            baseFrequency="0.01 0.02"
+                            numOctaves="1"
+                            result="NOISE"
+                        ></feTurbulence>
+                    </filter>
 
-                <!-- 어두운 축소 -->
-                <filter id="morphology-erode">
-                    <feMorphology in="SourceGraphic" operator="erode" radius="1"></feMorphology>
-                </filter>
+                    <filter id="turbulence+DisplacementMap">
+                        <feTurbulence
+                            type="turbulence"
+                            baseFrequency="0.01 0.02"
+                            numOctaves="1"
+                            result="NOISE"
+                        ></feTurbulence>
+                        <feDisplacementMap
+                            in="SourceGraphic"
+                            in2="NOISE"
+                            scale="50"
+                        ></feDisplacementMap>
+                    </filter>
 
-                <!-- 난기류의 노이즈만 생성 -->
-                <filter id="turbulence">
-                    <feTurbulence in="SourceGRaphic" baseFrequency="0.01 0.02" numOctaves="1" result="NOISE">
-                    </feTurbulence>
-                </filter>
+                    <filter id="convolve">
+                        <feOffset
+                            in="SourceGraphic"
+                            dx="-20"
+                            dy="10"
+                        ></feOffset>
+                    </filter>
 
-                <filter id="turbulence+DisplacementMap">
-                    <feTurbulence type="turbulence" baseFrequency="0.01 0.02" numOctaves="1" result="NOISE">
-                    </feTurbulence>
-                    <feDisplacementMap in="SourceGraphic" in2="NOISE" scale="50">
-                    </feDisplacementMap>
-                </filter>
+                    <filter id="wavy">
+                        <feTurbulence
+                            id="wavyturbulence"
+                            type="turbulence"
+                            numOctaves="1"
+                            result="NOISE"
+                        ></feTurbulence>
+                        <feDisplacementMap
+                            in="SourceGraphic"
+                            in2="NOISE"
+                            scale="50"
+                        ></feDisplacementMap>
+                        <animate
+                            xlink:href="#wavyturbulence"
+                            attributeName="baseFrequency"
+                            dur="60s"
+                            keyTimes="0;0.5;1"
+                            values="0.01 0.02;0.02 0.04;0.01 0.02"
+                            repeatCount="indefinite"
+                        ></animate>
+                    </filter>
 
-
-                <filter id="convolve">
-                    <feOffset in="SourceGraphic" dx="-20" dy="10"></feOffset>
-                </filter>
-
-                <filter id="wavy">
-                    <feTurbulence id="wavyturbulence" type="turbulence" numOctaves="1" result="NOISE"></feTurbulence>
-                    <feDisplacementMap in="SourceGraphic" in2="NOISE" scale="50"></feDisplacementMap>
-                    <animate xlink:href="#wavyturbulence" attributeName="baseFrequency" dur="60s" keyTimes="0;0.5;1"
-                        values="0.01 0.02;0.02 0.04;0.01 0.02" repeatCount="indefinite"></animate>
-                </filter>
-
-                <filter id="flag">
-                    <feTurbulence id="flagturbulence" type="turbulence" baseFrequency="0.01, 0.02" numOctaves="1"
-                        x="-10" result="NOISE" stitchTiles="noStitch">
-                        <!-- type="fractalNoise"
+                    <filter id="flag">
+                        <feTurbulence
+                            id="flagturbulence"
+                            type="turbulence"
+                            baseFrequency="0.01, 0.02"
+                            numOctaves="1"
+                            x="-10"
+                            result="NOISE"
+                            stitchTiles="noStitch"
+                        >
+                            <!-- type="fractalNoise"
                     type="turbulence" -->
-                    </feTurbulence>
-                    <feDisplacementMap in="SourceGraphic" in2="NOISE" scale="15"></feDisplacementMap>
+                        </feTurbulence>
+                        <feDisplacementMap
+                            in="SourceGraphic"
+                            in2="NOISE"
+                            scale="15"
+                        ></feDisplacementMap>
 
-                    <animate xlink:href="#flagturbulence" attributeName="baseFrequency" dur="5s" keyTimes="0;0.5;1"
-                        values="0.01 0.01; 0.02 0.02; 0.01 0.01" repeatCount="indefinite"></animate>
-                    <!-- <animate xlink:href="#flagturbulence" attributeName="x" dur="5s" keyTimes="0;0.5;1"
+                        <animate
+                            xlink:href="#flagturbulence"
+                            attributeName="baseFrequency"
+                            dur="5s"
+                            keyTimes="0;0.5;1"
+                            values="0.01 0.01; 0.02 0.02; 0.01 0.01"
+                            repeatCount="indefinite"
+                        ></animate>
+                        <!-- <animate xlink:href="#flagturbulence" attributeName="x" dur="5s" keyTimes="0;0.5;1"
                 values="0,-140,0" repeatCount="indefinite"></animate> -->
+                    </filter>
 
-                </filter>
-
-                <filter id="cloudy">
-                    <feTurbulence width="1000px" in="SourceGraphic" id="cloudyturbulence" type="turbulence"
-                        baseFrequency="0.01 0.02" numOctaves="3" result="NOISE">
-                    </feTurbulence>
-                    <feDisplacementMap in="SourceGraphic" in2="NOISE" scale="50"></feDisplacementMap>
-                    <!-- <feBlend
+                    <filter id="cloudy">
+                        <feTurbulence
+                            width="1000px"
+                            in="SourceGraphic"
+                            id="cloudyturbulence"
+                            type="turbulence"
+                            baseFrequency="0.01 0.02"
+                            numOctaves="3"
+                            result="NOISE"
+                        ></feTurbulence>
+                        <feDisplacementMap
+                            in="SourceGraphic"
+                            in2="NOISE"
+                            scale="50"
+                        ></feDisplacementMap>
+                        <!-- <feBlend
                     in="SourceGraphic"
                     in2="NOISE"
                     mode="overlay"
                     result="BLEND"
                 >
                 </feBlend> -->
-                    <animate xlink:href="#cloudyturbulence" attributeName="baseFrequency" dur="60s" keyTimes="0;0.5;1"
-                        values="0.01 0.02;0.02 0.04;0.01 0.02" repeatCount="indefinite">
-                    </animate>
-                </filter>
+                        <animate
+                            xlink:href="#cloudyturbulence"
+                            attributeName="baseFrequency"
+                            dur="60s"
+                            keyTimes="0;0.5;1"
+                            values="0.01 0.02;0.02 0.04;0.01 0.02"
+                            repeatCount="indefinite"
+                        ></animate>
+                    </filter>
 
-                <filter id="goo">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
-                    <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0
+                    <filter id="goo">
+                        <feGaussianBlur
+                            in="SourceGraphic"
+                            stdDeviation="5"
+                            result="blur"
+                        />
+                        <feColorMatrix
+                            in="blur"
+                            mode="matrix"
+                            values="1 0 0 0 0
                             0 1 0 0 0
                             0 0 1 0 0
-                            0 0 0 20 -15" result="goo" />
-                    <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-                </filter>
+                            0 0 0 20 -15"
+                            result="goo"
+                        />
+                        <feComposite
+                            in="SourceGraphic"
+                            in2="goo"
+                            operator="atop"
+                        />
+                    </filter>
 
-                <filter id="heavycloud" color-interpolation-filters="sRGB" x="0%" y="0%" height="100%" width="100%">
-                    <feTurbulence type="fractalNoise" result="cloudbase" baseFrequency=".0025" numOctaves="5"
-                        seed="24" />
+                    <filter
+                        id="heavycloud"
+                        color-interpolation-filters="sRGB"
+                        x="0%"
+                        y="0%"
+                        height="100%"
+                        width="100%"
+                    >
+                        <feTurbulence
+                            type="fractalNoise"
+                            result="cloudbase"
+                            baseFrequency=".0025"
+                            numOctaves="5"
+                            seed="24"
+                        />
 
-                    <feColorMatrix in="cloudbase" type="hueRotate" values="0" result="cloud">
-                        <animate attributeName="values" from="0" to="360" dur="20s" repeatCount="indefinite" />
-                    </feColorMatrix>
+                        <feColorMatrix
+                            in="cloudbase"
+                            type="hueRotate"
+                            values="0"
+                            result="cloud"
+                        >
+                            <animate
+                                attributeName="values"
+                                from="0"
+                                to="360"
+                                dur="20s"
+                                repeatCount="indefinite"
+                            />
+                        </feColorMatrix>
 
-                    <feDisplacementMap in="SourceGraphic" in2="NOISE" scale="50"></feDisplacementMap>
-                    <feColorMatrix in="cloud" result="wispy" type="matrix" values="4 0 0 0 -1
+                        <feDisplacementMap
+                            in="SourceGraphic"
+                            in2="NOISE"
+                            scale="50"
+                        ></feDisplacementMap>
+                        <feColorMatrix
+                            in="cloud"
+                            result="wispy"
+                            type="matrix"
+                            values="4 0 0 0 -1
                                                     4 0 0 0 -1
                                                     4 0 0 0 -1
                                                     1 0 0 0 0   
-                                                    " />
+                                                    "
+                        />
 
-                    <feFlood flood-color="#113388" result="blue" />
+                        <feFlood flood-color="#d3d" result="blue" />
 
-                    <feBlend mode="screen" in2="blue" in="wispy" />
+                        <feBlend mode="screen" in2="blue" in="wispy" />
 
-                    <feGaussianBlur stdDeviation="4" />
+                        <feGaussianBlur stdDeviation="4" />
 
-                    <feComposite operator="in" in2="SourceGraphic" />
+                        <feComposite operator="in" in2="SourceGraphic" />
+                    </filter>
 
-                </filter>
+                    <filter id="turb2">
+                        <feTurbulence
+                            id="turb2turb"
+                            type="fractalNoise"
+                            baseFrequency="0.01, 0.0001"
+                            numOctaves="1"
+                            result="TURB"
+                            seed="8"
+                        />
+                        <feDisplacementMap
+                            xChannelSelector="R"
+                            yChannelSelector="G"
+                            in="SourceGraphic"
+                            in2="TURB"
+                            result="DISP"
+                            scale="130"
+                        />
+                        <!-- <feGaussianBlur id="turb2blur" in="DISP" stdDeviation="7" result="BLUR" /> -->
+                        <!-- <feColorMatrix id="turb2matrix" in="BLUR" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -10" result="GOO" /> -->
 
-                <filter id="turb2">
-                    <feTurbulence id="turb2turb" type="fractalNoise" baseFrequency="0.01, 0.0001" numOctaves="1"
-                        result="TURB" seed='8' />
-                    <feDisplacementMap xChannelSelector="R" yChannelSelector="G" in="SourceGraphic" in2="TURB"
-                        result="DISP" scale="130" />
-                    <!-- <feGaussianBlur id="turb2blur" in="DISP" stdDeviation="7" result="BLUR" /> -->
-                    <!-- <feColorMatrix id="turb2matrix" in="BLUR" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -10" result="GOO" /> -->
-
-                    <!-- <animate
+                        <!-- <animate
                     xlink:href="#turb2turb"
                     attributeName="baseFrequency"
                     dur="2s"
@@ -200,96 +330,156 @@
                     repeatCount="indefinite"
                 >
                 </animate> -->
-                </filter>
+                    </filter>
 
-                <filter id="filter-goo">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
-                    <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
-                        result="goo" />
-                    <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-                </filter>
-                <filter id="filter-goo2">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"></feGaussianBlur>
-                    <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -5"
-                        result="goo"></feColorMatrix>
-                    <feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite>
-                </filter>
-                <filter id="filter-duotone-post-one">
-                    <feColorMatrix type="matrix"
-                        values="0.14453125 0 0 0 0.33203125 0.71875 0 0 0 0.27734375 -0.34765625 0 0 0 0.73046875 0 0 0 1 0">
-                    </feColorMatrix>
-                </filter>
+                    <filter id="filter-goo">
+                        <feGaussianBlur
+                            in="SourceGraphic"
+                            stdDeviation="12"
+                            result="blur"
+                        />
+                        <feColorMatrix
+                            in="blur"
+                            mode="matrix"
+                            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
+                            result="goo"
+                        />
+                        <feComposite
+                            in="SourceGraphic"
+                            in2="goo"
+                            operator="atop"
+                        />
+                    </filter>
+                    <filter id="filter-goo2">
+                        <feGaussianBlur
+                            in="SourceGraphic"
+                            stdDeviation="10"
+                            result="blur"
+                        ></feGaussianBlur>
+                        <feColorMatrix
+                            in="blur"
+                            mode="matrix"
+                            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -5"
+                            result="goo"
+                        ></feColorMatrix>
+                        <feComposite
+                            in="SourceGraphic"
+                            in2="goo"
+                            operator="atop"
+                        ></feComposite>
+                    </filter>
+                    <filter id="filter-duotone-post-one">
+                        <feColorMatrix
+                            type="matrix"
+                            values="0.14453125 0 0 0 0.33203125 0.71875 0 0 0 0.27734375 -0.34765625 0 0 0 0.73046875 0 0 0 1 0"
+                        ></feColorMatrix>
+                    </filter>
 
+                    <filter id="filter-turbulent-dissolve" x="0%" y="0%">
+                        <feTurbulence
+                            type="fractalNoise"
+                            baseFrequency="0.009"
+                        />
+                        <feColorMatrix type="luminanceToAlpha" />
+                        <feComponentTransfer>
+                            <feFuncA type="linear" slope="0.9">
+                                <animate
+                                    attributeName="slope"
+                                    values="0;0;0;0;0;0.5;1;1.5;2;2;2;2;2;2;1.5;1;0.5;0"
+                                    dur="3s"
+                                    repeatCount="indefinite"
+                                />
+                            </feFuncA>
+                        </feComponentTransfer>
+                        <feComponentTransfer>
+                            <feFuncA type="discrete" tableValues="0 1" />
+                        </feComponentTransfer>
+                        <feGaussianBlur stdDeviation="5" />
+                        <feComposite
+                            operator="in"
+                            in="SourceGraphic"
+                            result="overlay"
+                        />
+                        <feComposite
+                            operator="over"
+                            in="overlay"
+                            in2="underlay"
+                        />
+                    </filter>
 
-                <filter id="filter-turbulent-dissolve" x="0%" y="0%">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.009" />
-                    <feColorMatrix type="luminanceToAlpha" />
-                    <feComponentTransfer>
-                        <feFuncA type="linear" slope="0.9">
-                            <animate attributeName="slope" values="0;0;0;0;0;0.5;1;1.5;2;2;2;2;2;2;1.5;1;0.5;0" dur="3s"
-                                repeatCount="indefinite" />
-                        </feFuncA>
-                    </feComponentTransfer>
-                    <feComponentTransfer>
-                        <feFuncA type="discrete" tableValues="0 1" />
-                    </feComponentTransfer>
-                    <feGaussianBlur stdDeviation="5" />
-                    <feComposite operator="in" in="SourceGraphic" result="overlay" />
-                    <feComposite operator="over" in="overlay" in2="underlay" />
-                </filter>
-
-                <filter id="liquify">
-                    <feTurbulence baseFrequency="0.015" numOctaves="3" result="warp" type="fractalNoise"></feTurbulence>
-                    <feDisplacementMap id="dissolve" scale="155" in="SourceGraphic" in2="warp" scale="25"
-                        xChannelSelector="R" yChannelSelector="B"></feDisplacementMap>
-                </filter>
-
-            </svg>
+                    <filter id="liquify">
+                        <feTurbulence
+                            baseFrequency="0.015"
+                            numOctaves="3"
+                            result="warp"
+                            type="fractalNoise"
+                        ></feTurbulence>
+                        <feDisplacementMap
+                            id="dissolve"
+                            scale="155"
+                            in="SourceGraphic"
+                            in2="warp"
+                            scale="25"
+                            xChannelSelector="R"
+                            yChannelSelector="B"
+                        ></feDisplacementMap>
+                    </filter>
+                </svg>
+            </div>
+            <ul></ul>
         </div>
-        <ul>
-        </ul>
-    </div>
 
-    <script>
-        const $filter = document.querySelectorAll("svg filter");
-        const filterNames = [...$filter].map((item) => item.id);
+        <script>
+            const $filter = document.querySelectorAll("svg filter");
+            const filterNames = [...$filter].map((item) => item.id);
 
-        const $ul = document.querySelector("ul");
+            const $ul = document.querySelector("ul");
 
-        let myHTML = filterNames.map((name) => `
+            let myHTML = filterNames
+                .map(
+                    (name) => `
     <li>
         <p>${name}</p>
         <div class="myimage" style="filter: url(#${name})">
             <img src="./testjpeg.jpeg" alt="">
         </div>
     </li>
-`).join("");
+`
+                )
+                .join("");
 
-        $ul.innerHTML = myHTML;
+            $ul.innerHTML = myHTML;
 
+            const $blur = document.querySelector("#blur");
+            const $blurFeGaussianBlur = $blur.querySelector("feGaussianBlur");
+            gsap.to($blurFeGaussianBlur, {
+                attr: { stdDeviation: 20 },
+                ease: "power2.out",
+                duration: 3,
+                autoRound: false,
+            });
 
-        const $blur = document.querySelector("#blur");
-        const $blurFeGaussianBlur = $blur.querySelector("feGaussianBlur");
-        gsap.to($blurFeGaussianBlur, { attr: { stdDeviation: 20 }, ease: "power2.out", duration: 3, autoRound: false });
+            // const $erode = document.querySelector("#erode");
+            // const $erodeFeMorphology = $erode.querySelector("feMorphology");
+            // gsap.to($erodeFeMorphology, { attr: { radius: 5 }, ease: "power2.out", duration: 3, autoRound: false});
 
-        // const $erode = document.querySelector("#erode");
-        // const $erodeFeMorphology = $erode.querySelector("feMorphology");
-        // gsap.to($erodeFeMorphology, { attr: { radius: 5 }, ease: "power2.out", duration: 3, autoRound: false});
+            // let tl = gsap.timeline();
+            // 	tl.to('#turb2turb', 12.5, {attr:{"baseFrequency":" 0, 0", ease:Expo.easeOut}} )
+            // 	//   .to('#turb2blur', 1, {attr:{"stdDeviation":"0"}}, 3.0 )
+            // 	//   .to('#turb2matrix', 1, {attr:{"values":"1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"}, autoRound: true}, 3.0 );
+            // tl.timeScale( 1 );
 
-        // let tl = gsap.timeline();
-        // 	tl.to('#turb2turb', 12.5, {attr:{"baseFrequency":" 0, 0", ease:Expo.easeOut}} )
-        // 	//   .to('#turb2blur', 1, {attr:{"stdDeviation":"0"}}, 3.0 )
-        // 	//   .to('#turb2matrix', 1, {attr:{"values":"1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"}, autoRound: true}, 3.0 );
-        // tl.timeScale( 1 );
-
-        let tl = gsap.timeline();
-        tl.to('#turb2turb', { attr: { "baseFrequency": "0.005, 0", }, ease: "power2.inOut", duration: 2, yoyo: true, repeat: -1 })
-        //   .to('#turb2blur', 1, {attr:{"stdDeviation":"0"}}, 3.0 )
-        //   .to('#turb2matrix', 1, {attr:{"values":"1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"}, autoRound: true}, 3.0 );
-        tl.timeScale(1);
-
-
-    </script>
-</body>
-
+            let tl = gsap.timeline();
+            tl.to("#turb2turb", {
+                attr: { baseFrequency: "0.005, 0" },
+                ease: "power2.inOut",
+                duration: 2,
+                yoyo: true,
+                repeat: -1,
+            });
+            //   .to('#turb2blur', 1, {attr:{"stdDeviation":"0"}}, 3.0 )
+            //   .to('#turb2matrix', 1, {attr:{"values":"1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"}, autoRound: true}, 3.0 );
+            tl.timeScale(1);
+        </script>
+    </body>
 </html>
