@@ -1,5 +1,8 @@
+import { headers } from "next/headers";
+import { useEffect } from "react";
 const Hey = () => {
-    return <div>hey</div>;
-};
+    const header = headers();
 
+    return <div>{header}</div>;
+};
 export default Hey;

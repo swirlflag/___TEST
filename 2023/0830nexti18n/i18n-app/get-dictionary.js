@@ -1,5 +1,5 @@
 import "server-only";
-import type { Locale } from "./i18n-config";
+// import type { Locale } from "./i18n-config";
 import { i18n } from "./i18n-config";
 
 // We enumerate all dictionaries here for better linting and typescript support
@@ -11,5 +11,5 @@ const dictionaries = {
     ko: () => import("./dictionaries/ko.json").then((module) => module.default),
 };
 
-export const getDictionary = async (locale: Locale) =>
+export const getDictionary = async (locale) =>
     dictionaries[locale]?.() ?? dictionaries[i18n.defaultLocale]();

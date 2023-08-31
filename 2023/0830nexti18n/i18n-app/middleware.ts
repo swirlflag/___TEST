@@ -25,6 +25,9 @@ function getLocale(request: NextRequest): string | undefined {
 }
 
 export function middleware(request: NextRequest) {
+    // const res = NextResponse.next();
+    // console.log(request.headers.get("x-real-ip"));
+    // console.log(request.headers.get("x-forwarded-for"));
     const pathname = request.nextUrl.pathname;
     const {
         deniedCountrys,

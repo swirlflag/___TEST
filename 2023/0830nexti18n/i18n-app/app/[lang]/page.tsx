@@ -1,3 +1,4 @@
+import { CLIENT_RENEG_LIMIT } from "tls";
 import { getDictionary } from "../../get-dictionary";
 import { Locale } from "../../i18n-config";
 import Counter from "./components/counter";
