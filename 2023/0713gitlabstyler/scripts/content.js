@@ -1,151 +1,205 @@
 const DICT_prefix = {
-	feat: {
-		color: "rgba(0,255,11, 0.1)",
-		emoji: "✨",
-	},
-	hotfix: {
-		color: "rgba(255,0,0,0.1)",
-		emoji: "🚑️",
-	},
-	fix: {
-		color: "rgba(0,98,255, 0.12)",
-		emoji: "🐛",
-	},
-	test: {
-		color: "rgba(255,128,0,0.15)",
-		emoji: "🧪",
-	},
-	refactor: {
-		color: "rgba(0,224,255,0.15)",
-		emoji: "♻️",
-	},
-	wip: {
-		color: "rgba(255, 233, 0, 0.18)",
-		emoji: "🚧",
-	},
-	style: {
-		color: "rgba(255, 0, 229, 0.08)",
-		emoji: "🎨",
-	},
-	etc: {
-		color: "rgba(0,0,0, 0.12)",
-		emoji: "🏷️",
-	},
+    feat: {
+        color: "rgba(0,255,11, 0.1)",
+        emoji: "✨",
+    },
+    hotfix: {
+        color: "rgba(255,0,0,0.1)",
+        emoji: "🚑️",
+    },
+    fix: {
+        color: "rgba(0,98,255, 0.12)",
+        emoji: "🐛",
+    },
+    test: {
+        color: "rgba(255,128,0,0.15)",
+        emoji: "🧪",
+    },
+    refactor: {
+        color: "rgba(0,224,255,0.15)",
+        emoji: "♻️",
+    },
+    wip: {
+        color: "rgba(255, 233, 0, 0.18)",
+        emoji: "🚧",
+    },
+    style: {
+        color: "rgba(255, 0, 229, 0.08)",
+        emoji: "🎨",
+    },
+    etc: {
+        color: "rgba(0,0,0, 0.12)",
+        emoji: "🏷️",
+    },
 };
 
 const storage = {
-	options: {},
-	reset: false,
-}
+    options: {},
+    reset: false,
+};
 
 const LIST_gitMessagePrefixTypes = ["Merge branch "];
 
+const regex_mergeMessage = /Merge branch '([^']+)'.+into ([^\s]+)/;
+const regex_pullMessage = /Merge branch '([^']+)'.*of/;
 const STR_alreadyClassName = "nexon-gitlab-styler-styled";
 
 const LIST_querySelectors = [
-	".commit-box > .commit-title",
-	".commit-row-message",
-	".tree-commit-link",
+    ".commit-box > .commit-title",
+    ".commit-row-message",
+    ".tree-commit-link",
 ];
 
 const INT_tickrate = 1000;
 
 const renderHighLight = () => {
+    if (storage.reset) {
+        const el_reset_targets = [
+            ...document.querySelectorAll(`.${STR_alreadyClassName}`),
+        ];
+        el_reset_targets.forEach((el) => {
+            el.classList.remove(STR_alreadyClassName);
+        });
+        chrome.storage.sync.set({ gitlabStylerResetElement: false });
+        storage.reset = false;
+    }
 
-	if(storage.reset) {
-		const el_reset_targets = [...document.querySelectorAll(`.${STR_alreadyClassName}`)];
-		el_reset_targets.forEach((el) => {
-			el.classList.remove(STR_alreadyClassName);
-		});
-		chrome.storage.sync.set({gitlabStylerResetElement: false});
-		storage.reset = false;
-	}
+    const useEmoji = storage.options["use-emoji"];
 
-	const el_commit_messages = [
-		...document.querySelectorAll(
-			LIST_querySelectors.map(
-				(string) => `${string}:not([class*=${STR_alreadyClassName}])`
-			).join(",")
-		),
-	];
+    const el_commit_messages = [
+        ...document.querySelectorAll(
+            LIST_querySelectors.map(
+                (string) => `${string}:not([class*=${STR_alreadyClassName}])`
+            ).join(",")
+        ),
+    ];
 
-	el_commit_messages.forEach((el) => {
-		el.classList.add(STR_alreadyClassName);
+    el_commit_messages.forEach((el) => {
+        el.classList.add(STR_alreadyClassName);
 
-		const message = el.innerText;
+        const message = el.innerText;
 
-		const prefix = Object.entries(DICT_prefix).find(
-			([k]) => message.indexOf(`${k}:`) === 0
-		);
+        const prefix = Object.entries(DICT_prefix).find(
+            ([k]) => message.indexOf(`${k}:`) === 0
+        );
 
-		if (prefix) {
-			const [key, value] = prefix;
-			el.style.backgroundColor = value.color;
-			if(storage.options['use-emoji']){
-				el.innerText = el.innerText.replace(`${key}:`, value.emoji);
-			}
-			return;
-		}
+        if (prefix) {
+            const [key, value] = prefix;
+            el.style.backgroundColor = value.color;
+            el.style.borderRadius = "3px";
+            el.style.padding = "1px 3px";
+            el.style.boxSizing = "border-box";
+            if (useEmoji) {
+                el.innerText = el.innerText.replace(`${key}:`, value.emoji);
+            }
+            return;
+        }
 
-		const isGitMessage = LIST_gitMessagePrefixTypes.some(
-			(type) => message.indexOf(type) === 0
-		);
+        const matchMergeMessage = message.match(regex_mergeMessage);
 
-		if (isGitMessage) {
-			[...el.parentElement.children].forEach((child) => {
-				if(child.tagName === "A") {
-					child.style.fontStyle = "italic";
-					child.style.opacity = 0.5;
-					child.style.fontWeight = 300;
-				}
-			});
-			return;
-		}
-	});
+        if (matchMergeMessage) {
+            [...el.parentElement.children].forEach((child) => {
+                if (child.tagName !== "A" && child.tagName !== "H3") {
+                    return;
+                }
 
+                child.style.opacity = 0.6;
+                child.style.marginLeft = "35px";
+
+                const sourceBranch = matchMergeMessage[1];
+                const targetBranch = matchMergeMessage[2];
+
+                const messageString = `
+					<span style="padding:0px 2px; border-radius: 2px; box-sizing: border-box;border:1px solid rgba(60,60,255,0.2); background-color: rgba(60,60,255,0.05); color: rgba(60,60,255,1)">
+						${targetBranch}
+					</span>
+					<span style="transform: scale(1.3); color: rgba(60,60,255,1); display:inline-block">
+						&nbsp;🠔&nbsp;
+					</span>
+					<span style="padding:0px 2px; border-radius: 2px; box-sizing: border-box;border:1px solid rgba(0,0,0,0.2); background-color: rgba(0,0,0,0.02)">
+						${sourceBranch}
+					</span>
+				`;
+
+                child.innerHTML = messageString;
+            });
+            return;
+        }
+
+        const matchPullMessage = message.match(regex_pullMessage);
+
+        if (matchPullMessage) {
+            [...el.parentElement.children].forEach((child) => {
+                if (child.tagName !== "A" && child.tagName !== "H3") {
+                    return;
+                }
+                child.style.opacity = 0.6;
+                child.style.marginLeft = "35px";
+
+                const sourceBranch = matchPullMessage[1];
+
+                const messageString = `
+					<span style="padding:0px 2px; border-radius: 2px; box-sizing: border-box;border:1px solid rgba(255,100,100,0.2); background-color: rgba(255,100,100,0.05); color: rgba(255,100,100,1)">
+						 ${sourceBranch}
+					 </span>
+					<span style="transform: scale(1.3); color: rgba(255,100,100,1); display:inline-block">
+						&nbsp;🠗&nbsp;
+					</span>
+				 `;
+                child.innerHTML = messageString;
+            });
+            return;
+        }
+    });
 };
 
 const tick = async () => {
-	if(chrome?.storage?.sync) {
-		const { gitlabStylerOptions } = await chrome.storage.sync.get("gitlabStylerOptions");
-		const { gitlabStylerResetElement } = await chrome.storage.sync.get("gitlabStylerResetElement");
-		storage.options = gitlabStylerOptions || {};
-		storage.reset = gitlabStylerResetElement;
-	}
+    if (chrome?.storage?.sync) {
+        const { gitlabStylerOptions } = await chrome.storage.sync.get(
+            "gitlabStylerOptions"
+        );
+        const { gitlabStylerResetElement } = await chrome.storage.sync.get(
+            "gitlabStylerResetElement"
+        );
+        storage.options = gitlabStylerOptions || {};
+        storage.reset = gitlabStylerResetElement;
+    }
 
-	renderHighLight();
+    renderHighLight();
 
-	setTimeout(tick, INT_tickrate);
+    setTimeout(tick, INT_tickrate);
 };
 
 const checkDeployRepo = () => {
-	const isDeployment = window.location.href.indexOf('/deployment') > -1;
+    const isDeployment =
+        window.location.href.indexOf("/deployment/") > -1 ||
+        window.location.href.indexOf("/delploy/") > -1;
 
-	if (!isDeployment) {
-		return;
+    if (!isDeployment) {
+        return;
     }
 
-	const navSidebar = document.querySelector(".nav-sidebar");
-	const navBar = document.querySelector(".navbar");
-	const titleContainer = document.querySelector(".title-container");
+    const navSidebar = document.querySelector(".nav-sidebar");
+    const navBar = document.querySelector(".navbar");
+    const titleContainer = document.querySelector(".title-container");
 
-	navSidebar.style.filter = `invert(1)`;
-	navBar.style.backgroundColor = `#000`;
+    navSidebar.style.filter = `invert(1)`;
+    navBar.style.backgroundColor = `#000`;
 
-	const deployTitle = document.createElement("p");
-	deployTitle.innerText = "⚠️ THIS IS DEPLOY REPO";
-	deployTitle.style.color = "#fff";
-	deployTitle.style.display = "inline-flex";
-	deployTitle.style.fontSize = "14px";
-	deployTitle.style.fontWeight = "700";
-	deployTitle.style.alignItems = "center";
-	deployTitle.style.margin = "0 0";
-	titleContainer.append(deployTitle);
+    const deployTitle = document.createElement("p");
+    deployTitle.innerText = "⚠️ THIS IS DEPLOY REPO";
+    deployTitle.style.color = "#fff";
+    deployTitle.style.display = "inline-flex";
+    deployTitle.style.fontSize = "14px";
+    deployTitle.style.fontWeight = "700";
+    deployTitle.style.alignItems = "center";
+    deployTitle.style.margin = "0 0";
+    titleContainer.append(deployTitle);
 };
 
 const initContent = () => {
-	tick();
-	checkDeployRepo();
-}
+    tick();
+    checkDeployRepo();
+};
 
 initContent();
