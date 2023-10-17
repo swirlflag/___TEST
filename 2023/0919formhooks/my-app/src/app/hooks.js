@@ -1,9 +1,125 @@
-import { useMemo, useCallback, useReducer, useRef } from "react";
+import {
+    useState,
+    useMemo,
+    useCallback,
+    useReducer,
+    useRef,
+    useEffect,
+} from "react";
+
+export const useAsyncStatus = (options = { status: null, name: "" }) => {
+    const INITIAL = "initial";
+    const PENDING = "pending";
+    const SUCCESS = "success";
+    const FAILURE = "failure";
+
+    const _stayList = useRef([]);
+    const name = useRef(options.name);
+    const isLock = useRef(false);
+
+    const [status, setStatus] = useState(options.status || INITIAL);
+    const [error, setError] = useState(null);
+
+    const isInitial = useMemo(() => status === INITIAL);
+    const isPending = useMemo(() => status === PENDING);
+    const isSuccess = useMemo(() => status === SUCCESS);
+    const isFailure = useMemo(() => status === FAILURE);
+
+    const initial = () => {
+        if (isLock.current) {
+            return;
+        }
+        setStatus(INITIAL);
+        setError(null);
+    };
+    const pending = () => {
+        if (isLock.current) {
+            return;
+        }
+        setStatus(PENDING);
+        setError(null);
+    };
+    const success = () => {
+        if (isLock.current) {
+            return;
+        }
+        setStatus(SUCCESS);
+        setError(null);
+    };
+    const failure = (newError = null) => {
+        if (isLock.current) {
+            return;
+        }
+        setStatus(FAILURE);
+        setError(newError);
+    };
+    const custom = (customType = "custom", newError = null) => {
+        if (isLock.value) {
+            return;
+        }
+        setStatus(customType);
+        setError(newError);
+    };
+
+    const lock = () => {
+        isLock.current = true;
+    };
+    const unlock = () => {
+        isLock.current = false;
+    };
+
+    const stay = (...types) => {
+        return new Promise((resolve) => {
+            if (types.includes(status)) {
+                resolve();
+                return;
+            }
+            _stayList.current.push({
+                types: [...types],
+                action: () => {
+                    resolve();
+                },
+            });
+        });
+    };
+
+    useEffect(() => {
+        if (_stayList.current.length) {
+            const leftList = [];
+            for (let i = 0, l = _stayList.current.length; i < l; ++i) {
+                const target = _stayList.current[i];
+                if (target.types.includes(status)) {
+                    target.action();
+                } else {
+                    leftList.push(target);
+                }
+            }
+            _stayList.current = leftList;
+        }
+    }, [status]);
+
+    return {
+        status,
+        name: name.current,
+        error,
+        isInitial,
+        isPending,
+        isSuccess,
+        isFailure,
+        initial,
+        pending,
+        success,
+        failure,
+        lock,
+        unlock,
+        custom,
+        stay,
+    };
+};
 
 export const useRegistForm = (initialState = {}) => {
     initialState = {
         phone: "",
-        phoneCode: false,
         email: "",
         myNumber: 1,
         ...initialState,
@@ -18,17 +134,22 @@ export const useRegistForm = (initialState = {}) => {
             const value = ref.target.value;
             return value;
         },
+        os: (ref) => {},
     }));
 
     const validater = useRef({
-        phone: (string) => {
+        all: (state) => {
+            console.log(state);
+            return false;
+        },
+        phone: (state) => {
             const regexp = /^[0-9]{11}$/;
-            const value = regexp.test(string);
+            const value = regexp.test(state.phone);
             return value;
         },
-        email: (string) => {
+        email: (state) => {
             const regexp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$/;
-            const value = regexp.test(string);
+            const value = regexp.test(state.email);
             return value;
         },
     });
@@ -36,7 +157,7 @@ export const useRegistForm = (initialState = {}) => {
     const setValidater = useCallback((type, fn) => {
         validater.current = {
             ...validater.current,
-            [type]: fn,
+            [type]: () => fn(state),
         };
     });
 
@@ -68,16 +189,12 @@ export const useRegistForm = (initialState = {}) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const valid = useMemo(
-        () =>
-            Object.entries(validater.current).reduce((p, [k, v]) => {
-                console.log(v);
-                p[k] = v ? v(state[k]) : true;
-                console.log(p[k]);
-                return p;
-            }, {}),
-        [state]
-    );
+    const valid = useMemo(() => {
+        return Object.entries(validater.current).reduce((p, [k, v]) => {
+            p[k] = v ? v(state, k) : true;
+            return p;
+        }, {});
+    }, [state]);
 
     const set = useCallback(
         (type, value) => {
@@ -97,9 +214,22 @@ export const useRegistForm = (initialState = {}) => {
         typeFn && set(type, value);
     });
 
-    const call = useCallback(async (key) => {
-        return fetch(key);
-    });
+    // const airplanes = {
+    //     verifyPhone: () => {
+    //         /v1/Event/${$p.eventId}/msms/m/save
+    //         const baseURL = "https://";
+    //         return {
+    //             key: 1,
+    //             method: "POST",
+    //         };
+    //     },
+    // };
+
+    // const flight = async (type) => {
+    //     const airplane = airplanes[type]();
+    //     console.log(airplane);
+    //     const response = await fetch();
+    // };
 
     return {
         state,
@@ -111,5 +241,6 @@ export const useRegistForm = (initialState = {}) => {
         pattern,
         setValidater,
         setPattern,
+        // flight,
     };
 };

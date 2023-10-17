@@ -17,6 +17,8 @@ const Regist = () => {
         regForm.set("email", value);
     };
 
+    // regForm.setValidater("all", () => {});
+
     return (
         <>
             <div>
@@ -28,6 +30,8 @@ const Regist = () => {
                 valid phone: {valid.phone ? "true" : "false"}
                 <br />
                 valid email: {valid.email ? "true" : "false"}
+                <br />
+                all: {valid.all ? "true" : "false"}
             </div>
             <div>
                 <input type="text" value={phone} onChange={onInputPhone} />
