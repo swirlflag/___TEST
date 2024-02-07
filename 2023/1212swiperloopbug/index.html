@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+        />
+
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            .swiper-container {
+                border: 1px solid #000;
+                overflow: hidden;
+                box-sizing: border-box;
+                margin: 50px;
+                /* width: auto; */
+                width: 500px;
+            }
+            .swiper-wrapper {
+                box-sizing: border-box;
+            }
+            .swiper-slide {
+                /* width: 200px; */
+                height: 200px;
+                border: 1px solid #3d3;
+                box-sizing: border-box;
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">1</div>
+                <div class="swiper-slide">2</div>
+            </div>
+        </div>
+    </body>
+    <script>
+        new Swiper(document.querySelector(".swiper-container"), {
+            // watchOverflow: true,
+            slidesPerView: 1,
+            // initialSlide: 0,
+            // spaceBetween: 18,
+            loopedSlides: 2,
+            centeredSlides: true, //bug
+            loop: true,
+            touchRatio: 0.5,
+            speed: 500,
+        });
+    </script>
+</html>

@@ -413,13 +413,20 @@
                             numOctaves="3"
                             result="warp"
                             type="fractalNoise"
-                        ></feTurbulence>
+                        >
+                            <animate
+                                attributeName="baseFrequency"
+                                values="0.015; 0.03; 0.015; 0.03; 0.015"
+                                dur="10s"
+                                repeatCount="indefinite"
+                            />
+                        </feTurbulence>
+
                         <feDisplacementMap
                             id="dissolve"
                             scale="155"
                             in="SourceGraphic"
                             in2="warp"
-                            scale="25"
                             xChannelSelector="R"
                             yChannelSelector="B"
                         ></feDisplacementMap>

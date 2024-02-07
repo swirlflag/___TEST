@@ -23,9 +23,16 @@ const savingOption = () => {
 
 const el_optionpanel = document.querySelector(".option-panel");
 const el_savebutton = document.querySelector(".save-button");
+const el_listemoji = document.querySelector(".list-emoji");
 
 const setupRenderElements = () => {
-    const DOMstring = Object.entries(DATA_options)
+    const DOM_emojis = Object.entries(DATA_prefix).map((item, idx) => {
+        return `<li>${idx}</li>`
+    }).join("");
+
+    // el_listemoji.innerHTML = DOM_emojis;
+
+    const DOM_options = Object.entries(DATA_options)
         .map((item, idx) => {
             const [key, option] = item;
             return `
@@ -39,7 +46,7 @@ const setupRenderElements = () => {
         })
         .join("");
 
-    el_optionpanel.innerHTML = DOMstring;
+    el_optionpanel.innerHTML = DOM_options;
 };
 
 const setupBindEvents = () => {

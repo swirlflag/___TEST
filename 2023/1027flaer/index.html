@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            body {
+                background-color: #000;
+            }
+            @keyframes flare {
+                0%,
+                20% {
+                    clip-path: polygon(-5% 0%, 0% 0%, -20% 100%, -25% 100%);
+                }
+                100% {
+                    clip-path: polygon(120% 0%, 125% 0%, 105% 100%, 100% 100%);
+                }
+            }
+            #hey {
+                font-size: 50px;
+                font-weight: 900;
+                color: #fff;
+                display: inline-block;
+                position: relative;
+            }
+            #hey {
+                background-image: url("https://wp.vod.nexoncdn.co.kr/test/testpng.png");
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                width: 500px;
+                height: 500px;
+            }
+            #hey::before {
+                content: "";
+                background-image: url("https://wp.vod.nexoncdn.co.kr/test/testpng.png");
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                width: 100%;
+                position: absolute;
+                height: 100%;
+                left: 0;
+                top: 0;
+                filter: contrast(1.5) brightness(1.1);
+                animation: flare 2.5s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="hey"></div>
+    </body>
+</html>

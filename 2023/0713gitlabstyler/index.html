@@ -7,7 +7,7 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'Press Start 2P', 'Roboto', cursive;
 }
 body {
     background-color: #000;
@@ -41,7 +41,7 @@ h1 {
 }
 .label-checkbox {
     cursor: pointer;
-    font-size: 10px;
+    font-size: 14px;
     transition: opacity 140ms ease;
 }
 .label-checkbox input {
@@ -87,6 +87,7 @@ h1 {
     cursor: pointer;
     margin-top: 10px;
     width: 100%;
+    font-size: 15px;
     transition: transform 80ms ease;
     will-change: transform;
 }
@@ -97,16 +98,21 @@ h1 {
 .save-button:hover:active {
     transform: scale(0.95);
 }
+.list-emoji {
+}
 </style>
 </head>
 <body>
 <div id="app">
+<img width="30" height="30" style="margin-bottom: 10px;"src="./nexon.svg" alt="NEXON LOGO">
 <h1>NEXON GITLAB STYLER</h1>
+<ul class="list-emoji"></ul>
 <div class="option-panel">
 </div>
 <button class="save-button">
     SAVE
 </button>
+<script src="./scripts/data.js"></script>
 <script src="./scripts/popup.js"></script>
 </body>
 </html>
