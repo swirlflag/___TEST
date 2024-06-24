@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            @keyframes ani {
+                0% {
+                    /* stroke-dasharray:  */
+                    stroke-dashoffset: 0;
+                }
+                100% {
+                    stroke-dashoffset: 840;
+                }
+            }
+            svg {
+                animation: ani 3s linear infinite;
+                stroke-dasharray: 840;
+                stroke-dashoffset: 840;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <svg
+                width="321"
+                height="177"
+                viewBox="0 0 321 177"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M158.699 1C39.6955 20.9341 -126.909 66.3417 158.699 88.5C515.708 116.198 168.684 176 168.684 176"
+                    stroke="black"
+                />
+                <!-- stroke-dasharray="1 1"
+                    stroke-offset="0" -->
+            </svg>
+        </div>
+    </body>
+</html>
