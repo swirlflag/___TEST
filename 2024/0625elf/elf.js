@@ -1,9 +1,38 @@
+/**
+ * elf. ErrorLess Fetch
+ *
+ * @param {Object} $p - API 요청에 필요한 매개변수 객체입니다.
+ * @param {string} $p.ticket - API 티켓 식별자입니다.
+ * @param {string} [$p.method=elf.METHOD.GET] - 요청에 사용할 HTTP 메서드입니다.
+ * @param {Object} [elf.TICKET] - API 티켓을 포함하는 객체입니다.
+ * @param {Object} [$p.query] - 요청에 사용할 쿼리 매개변수입니다.
+ * @param {string} [$p.origin] - 요청의 출처 URL입니다.
+ * @param {string} [$p.url] - 요청의 전체 URL입니다. 제공되지 않으면, origin, path 및 query로 구성됩니다.
+ * @param {boolean} [$p.withCredential=false] - 요청에 자격 증명을 포함할지 여부입니다.
+ * @param {string} [$p.credentials="same-origin"] - 요청에 사용할 자격 증명 옵션입니다.
+ * @param {Object} [$p.headers] - 요청에 사용할 추가 헤더입니다.
+ * @param {Object} [$p.options] - fetch 요청에 사용할 추가 옵션입니다.
+ * @param {Object} [$p.data] - 요청 본문에 보낼 데이터입니다 (POST, PUT 등).
+ * @param {boolean} [$p.log=false] - 요청 및 응답 세부 정보를 로그로 남길지 여부입니다.
+ * @returns {Promise<Object>} - API 요청의 결과를 반환합니다.
+ * @throws {string} - API 티켓이 없거나 유효하지 않은 경우 오류를 발생시킵니다.
+ *
+ * @example
+ * const result = await elf({
+ *     ticket: "myApiTicket",
+ *     method: "POST",
+ *     url: "https://api.example.com/data",
+ *     data: { key: "value" },
+ *     log: true
+ * });
+ */
+
 const elf = async function ($p) {
     if (!$p.ticket) {
         throw "API 티켓이 필요합니다.";
     }
 
-    const method = $p.method || elf.METHOD.GET;
+    const method = $p?.method || elf.METHOD.GET;
     const ticket = elf.TICKET[$p.ticket];
 
     if (!ticket) {
@@ -16,16 +45,21 @@ const elf = async function ($p) {
         throw "등록된 API 티켓이 아닙니다.";
     }
 
-    const query = $p.query ? elf.util.objectToQuery($p.query) : "";
-
-    const url = `${airplane.origin}${$p.path}${query}`;
+    const query = $p?.query ? elf.util.objectToQuery($p.query) : "";
+    const origin = $p?.origin || airplane.origin;
+    const url = $p?.url || `${origin}${$p.path}${query}`;
+    const credentials =
+        $p.credentials || ($p.withCredential ? "include" : "same-origin");
 
     const options = {
         method,
         headers: {
             "Content-type": "application/json; charset=UTF-8",
             ...airplane?.headers,
+            ...$p?.headers,
         },
+        ...$p?.options,
+        credentials,
     };
 
     if ($p?.data) {
@@ -35,6 +69,8 @@ const elf = async function ($p) {
     let result = {};
     try {
         if ($p?.log) {
+            console.log(" ");
+            elf.util.log("----- ELF LOG START -----");
             elf.util.log("fetch()", url, options);
         }
         const response = await fetch(url, options);
@@ -43,7 +79,6 @@ const elf = async function ($p) {
         }
 
         let data = null;
-
         const errors = [];
 
         try {
@@ -59,9 +94,10 @@ const elf = async function ($p) {
         }
         const error = errors.length ? errors.join(" | ") : null;
 
-        const code = error
-            ? data?.code || data?.errorCode || data?.errorcode || "-1"
-            : "-0";
+        let code = data?.code || data?.errorCode || data?.errorcode;
+        if (!code) {
+            code = error ? "-1" : "-0";
+        }
 
         result = {
             ...response,
@@ -74,7 +110,7 @@ const elf = async function ($p) {
         };
     } catch (networkError) {
         if ($p?.log) {
-            elf.util.log("networkError: ", networkError);
+            elf.util.errorlog("networkError: ", networkError);
         }
         const error = `[NETWORK ERROR] message: ${networkError.message}`;
         result = {
@@ -88,11 +124,18 @@ const elf = async function ($p) {
 
     const { codeMessage, codeHint } = elf.util.getCodeMessage(
         result.code,
-        ticket
+        ticket,
+        result?.status
     );
 
     result.codeMessage = codeMessage;
     result.codeHint = codeHint;
+
+    if ($p.log) {
+        const log = result.ok ? elf.util.log : elf.util.errorlog;
+        log("result: ", result);
+        elf.util.log("----- ELF LOG END -------");
+    }
 
     return result;
 };
@@ -127,6 +170,13 @@ elf.util = {
             ...log
         );
     },
+    errorlog: (first, ...log) => {
+        console.log(
+            `%c${first}`,
+            "font-weight: 700;padding: 2px;background: rgb(230, 80, 100); color: #fff",
+            ...log
+        );
+    },
     objectToQuery: (...objs) => {
         return (
             "?" +
@@ -141,11 +191,13 @@ elf.util = {
         );
     },
 
-    getCodeMessage: (code = "-1", ticket = "CLIENT") => {
+    getCodeMessage: (code = "-1", ticket = "CLIENT", status = "000") => {
         const ticketSign = ticket.slice(0, 2);
         const codeMessage =
-            elf.CODEMESSAGE[code] || elf.CODEMESSAGE_DEFAULT[code];
-        const codeHint = `${ticketSign}:${code}`;
+            elf.CODEMESSAGE[ticket][code] ||
+            elf.CODEMESSAGE_DEFAULT[code] ||
+            "알 수 없는 오류가 발생했습니다.";
+        const codeHint = `${status}:${ticketSign}:${code}`;
 
         return {
             codeMessage,
@@ -164,101 +216,17 @@ elf.getAirplane = ($ticket, $p) => {
     return airplane;
 };
 
-elf.addAirport = ($options) => {
-    for ([k, v] of Object.entries($options)) {
+elf.setAirport = ($options) => {
+    [...Object.entries($options)].forEach(([k, v]) => {
         elf.TICKET[k] = k;
         elf.AIRPLANE[k] = v;
-        if (v.codeMessage) {
-            elf.CODEMESSAGE[k] = v.codeMessage;
+
+        const airplane = typeof v === "function" ? v() : v;
+
+        if (airplane.codeMessage) {
+            elf.CODEMESSAGE[k] = airplane.codeMessage;
         }
-    }
+    });
 };
 
-// logic
-
-elf.addAirport({
-    TOY: () => {
-        return {
-            origin: "https://sandbox.api.nexon.com/community-ext-api",
-            headers: {
-                "x-inface-api-key": "fb994959-da51-52a7-a2ac-2ce59e5ea506",
-                "community-id": 253,
-            },
-        };
-    },
-});
-
-elf.addAirport({
-    TOY: {
-        origin: "https://sandbox.api.nexon.com/community-ext-api",
-        headers: {
-            "x-inface-api-key": "fb994959-da51-52a7-a2ac-2ce59e5ea506",
-            "community-id": 253,
-        },
-        alias: "WPQA",
-        countryCode: "KR",
-        codeMessage: {
-            "-1": "에러 기본입니다",
-            "0000": "에러 0000 입니다",
-            123: "에러 12입니다",
-        },
-    },
-});
-
-// elf({
-//     method: elf.METHOD.GET,
-//     ticket: elf.TICKET.TOY,
-//     // log: true,
-//     path: "/api/v1/thread",
-// });
-
-const getthread = async ($threadId = "") => {
-    const method = elf.METHOD.GET;
-    const ticket = elf.TICKET.TOY;
-    const path = `/api/v1/thread/${$threadId}`;
-    const query = {
-        hey: "ho",
-    };
-    const payload = {
-        method,
-        ticket,
-        path,
-        query,
-        log: true,
-    };
-    const response = await elf(payload);
-    return response;
-};
-
-const getalias = async () => {
-    const method = elf.METHOD.GET;
-    const ticket = elf.TICKET.TOY;
-    const { alias, countryCode } = elf.getAirplane(ticket);
-    const path = `/api/v1/community/${alias}`;
-
-    const query = {
-        alias,
-        countryCode,
-    };
-
-    const payload = {
-        method,
-        ticket,
-        path,
-        query,
-    };
-    const response = await elf(payload);
-
-    return response;
-};
-
-const [b1, b2] = document.querySelectorAll("button");
-
-b1.addEventListener("click", async () => {
-    const r = await getthread("694870");
-    console.log(r);
-});
-b2.addEventListener("click", async () => {
-    const r = await getalias();
-    console.log(r);
-});
+export default elf;

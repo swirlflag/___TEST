@@ -9,6 +9,7 @@ const regex_mergeMessage = /Merge branch '([^']+)'.+into ([^\s]+)/;
 const regex_pullMessage = /Merge branch '([^']+)'.*of/;
 const STR_alreadyHighlight = "nexon-gitlab-styler-styled-highlight";
 const STR_alreadyCommitlink = "nexon-gitlab-styler-styled-commit-link";
+const STR_alreadyCheckOpened = "nexon-gitlab-styler-opened";
 
 const LIST_querySelectors = [
     ".commit-box > .commit-title",
@@ -29,6 +30,10 @@ const checkGitHash = (inputString) => {
         withoutString,
         slicedGitHash,
     };
+};
+
+const delay = async (time) => {
+    return new Promise((resolve) => setTimeout(() => resolve(), time));
 };
 
 const renderHighLightCommit = () => {
@@ -235,6 +240,63 @@ const renderWrapCommitLink = () => {
     });
 };
 
+const checkLiveDeploy = async () => {
+    const table = document.querySelector(".pipelines-container .ci-table");
+    if (!table) {
+        return;
+    }
+
+    const commits = [
+        ...table.querySelectorAll(
+            `.commit.gl-responsive-table-row:not([class*=${STR_alreadyCheckOpened}])`
+        ),
+    ];
+
+    if (!commits.length) {
+        return;
+    }
+
+    commits.forEach(async (commit) => {
+        commit.classList.add(STR_alreadyCheckOpened);
+        const buttons = [
+            ...commit.querySelectorAll(`.mini-pipeline-graph-dropdown-toggle`),
+        ];
+        // buttons.forEach((button) => button.click());
+        buttons[1].click();
+        await delay(1000);
+
+        const stages = [
+            ...commit.querySelectorAll(
+                ".dropdown-menu.js-builds-dropdown-container .ci-job-component"
+            ),
+        ];
+        const liveStage = stages.find((stage) => {
+            return stage.innerText.trim() === "Live_Azure_Pipeline_Deploy";
+        });
+        if (!liveStage) {
+            return;
+        }
+        const liveIcon = liveStage.querySelector(".ci-status-icon");
+        const isLive = liveIcon.classList.contains("ci-status-icon-success");
+        if (!isLive) {
+            return;
+        }
+
+        const labelWrap = commit.querySelector(".label-container");
+
+        const liveLabel = document.createElement("span");
+        liveLabel.innerText = "live";
+        liveLabel.classList.add("badge");
+        liveLabel.style.color = "#fff";
+        liveLabel.style.backgroundColor = "rgba(255, 50, 80, 0.8)";
+        liveLabel.style.marginRight = "4px";
+        labelWrap.append(liveLabel);
+    });
+
+    document.body.click();
+    window.scrollTo(0, 0);
+};
+
 const tick = async () => {
     if (chrome?.storage?.sync) {
         const { gitlabStylerOptions } = await chrome.storage.sync.get(
@@ -249,6 +311,7 @@ const tick = async () => {
 
     renderHighLightCommit();
     renderWrapCommitLink();
+    checkLiveDeploy();
 
     setTimeout(tick, INT_tickrate);
 };

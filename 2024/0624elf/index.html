@@ -8,6 +8,122 @@
     <body>
         <button>get Thread</button>
         <button>get alias</button>
-        <script src="./index.js"></script>
+        <button>get jarvis</button>
+        <script src="./elf.js"></script>
+        <script>
+            elf.setAirport({
+                TOY: {
+                    origin: "https://sandbox.api.nexon.com/community-ext-api",
+                    headers: {
+                        "x-inface-api-key":
+                            "fb994959-da51-52a7-a2ac-2ce59e5ea506",
+                        "community-id": 253,
+                    },
+                    alias: "WPQA",
+                    countryCode: "KR",
+                    codeMessage: {
+                        "-1": "에러 기본입니다",
+                        "0000": "에러 0000 입니다",
+                        123: "에러 12입니다",
+                    },
+                },
+                // JARVIS: {},
+
+                JARVIS: () => {
+                    return {
+                        origin: "https://stg-jarvis-api.nexon.com",
+                        headers: {
+                            "x-jarvis-api-key": "jarvis_wp",
+                            Authorization: "Bearer JARVIS_WP_API_KEY",
+                        },
+                        // origin: "https://jarvis-api.nexon.com",
+                        // headers: {
+                        //     "x-jarvis-api-key": "jarvis_wp",
+                        //     Authorization:
+                        //         "Bearer 46C559EC-6EBC-4A6B-943E-32F0E562CEA0",
+                        // },
+                    };
+                },
+            });
+
+            // elf({
+            //     method: "get",
+            //     ticket: "TOY",
+            //     path: "/api/v1/thread/694870",
+            //     log: true,
+            // });
+
+            const getthread = async ($threadId = "") => {
+                const method = elf.METHOD.GET;
+                const ticket = elf.TICKET.TOY;
+                const path = `/api/v1/thread/${$threadId}`;
+                const query = {
+                    hey: "ho",
+                };
+                const payload = {
+                    method,
+                    ticket,
+                    path,
+                    query: {},
+                    log: true,
+                };
+                const response = await elf(payload);
+                return response;
+            };
+
+            const getalias = async () => {
+                const method = elf.METHOD.GET;
+                const ticket = elf.TICKET.TOY;
+                const { alias, countryCode } = elf.getAirplane(ticket);
+
+                const path = `/api/v1/community/${alias}`;
+
+                const query = {
+                    alias,
+                    countryCode,
+                };
+
+                const payload = {
+                    method,
+                    ticket,
+                    path,
+                    query,
+                };
+                const response = await elf(payload);
+
+                return response;
+            };
+
+            const getjarvisitem = async ($contentId) => {
+                const method = elf.METHOD.GET;
+                const ticket = elf.TICKET.JARVIS;
+                const path = `/v1/Contents/list/${$contentId}`;
+
+                const payload = {
+                    method,
+                    ticket,
+                    path,
+                    log: true,
+                };
+
+                const response = await elf(payload);
+                return response;
+            };
+
+            const [b1, b2, b3] = document.querySelectorAll("button");
+
+            b1.addEventListener("click", async () => {
+                const r = await getthread("694870");
+                console.log("final res: ", r);
+            });
+            b2.addEventListener("click", async () => {
+                const r = await getalias();
+                console.log("final res: ", r);
+            });
+            b3.addEventListener("click", async () => {
+                const r = await getjarvisitem("WP_BANNER_MainPromotion");
+                console.log("final res: ", r);
+            });
+        </script>
     </body>
 </html>
