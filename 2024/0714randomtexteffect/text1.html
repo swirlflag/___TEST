@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>typed text</title>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Anton&family=Orbitron:wght@400..900&display=swap"
+            rel="stylesheet"
+        />
+
+        <link
+            rel="stylesheet"
+            as="style"
+            crossorigin
+            href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css"
+        />
+    </head>
+    <style>
+        :root {
+            --point-color1: rgb(151, 37, 240, 1);
+            --point-color2: rgb(249, 52, 208, 1);
+            --point-color3: rgba(41, 231, 177, 1);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html,
+        body {
+            font-family: "Pretendard";
+        }
+        #app {
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            /* justify-content: center; */
+            /* align-items: center; */
+            height: 100vh;
+            position: relative;
+            background-color: rgb(151, 37, 240, 1);
+        }
+        .bg {
+            background-image: url("https://www.playsupervive.com/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F121031%2F1720040513-sv_keyart_duo2_sky_emotes.jpg&w=3840&q=75");
+            background-size: cover;
+            background-position: center;
+            opacity: 1;
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: inline-block;
+            /* mix-blend-mode: overlay; */
+            width: 100%;
+            height: 100%;
+        }
+        .font-anton {
+            font-family: "Anton", sans-serif;
+        }
+        .font-orbitron {
+            font-family: "Orbitron", sans-serif;
+        }
+        body {
+            color: #fff;
+        }
+        h1 {
+            /* font-family: "Orbitron", sans-serif; */
+            font-family: "Anton", sans-serif;
+            font-size: 80px;
+            letter-spacing: -0.05em;
+            letter-spacing: 0.05em;
+            /* color: var(--point-color1); */
+
+            /* font-style: italic; */
+            line-height: 1;
+            display: inline-flex;
+            letter-spacing: 0.12em;
+        }
+        h1 span {
+            display: inline-block;
+            box-sizing: border-box;
+        }
+        .article {
+            /* border: 1px solid #fff; */
+            display: flex;
+            /* padding: 40px; */
+            margin: 30px;
+            gap: 20px;
+            max-width: 670px;
+            color: #fff;
+            padding: 5px;
+            padding-top: 100px;
+            backdrop-filter: blur(10px);
+            background-color: rgba(151, 37, 240, 0.7);
+            background-color: rgba(255, 255, 255, 0.9);
+            color: var(--point-color1);
+            margin-top: auto;
+            flex-direction: column;
+        }
+        .article h1 {
+            margin-bottom: 20px;
+        }
+        .text {
+            line-height: 1.4;
+            font-weight: 600;
+        }
+        .article .text span {
+            /* border: 1px solid #fff; */
+        }
+    </style>
+    <body>
+        <div id="app">
+            <div class="bg"></div>
+            <div class="article">
+                <h1>SUPERVIVE</h1>
+                <div class="text">
+                    "SUPERVIVE: Neon Revolution"는 미래의 사이버펑크 도시와
+                    신비로운 마법 세계가 융합된 독창적인 AOS 게임입니다.
+                    플레이어는 다양한 능력을 지닌 영웅들을 선택하여, 공중에 떠
+                    있는 섬과 고대 유적, 마법이 넘치는 자연 등 다양한 전장에서
+                    싸웁니다.
+                </div>
+                <div class="text">
+                    이 게임은 최대 20개의 팀이 동시에 대결하는 독특한 배틀로얄
+                    방식을 채택하여, 각 팀은 최후의 승자가 되기 위해 전략과
+                    팀워크를 발휘해야 합니다. 드론, 마법진, 고대 조형물 등
+                    다양한 요소들이 게임에 깊이를 더하며, 플레이어는 이러한
+                    환경을 이용한 전략적인 플레이를 통해 적을 물리치고 궁극적인
+                    승리를 쟁취할 수 있습니다.
+                </div>
+            </div>
+            <br />
+            <!-- <h1>
+                <span>S</span>
+                <span>U</span>
+                <span>P</span>
+                <span>E</span>
+                <span>R</span>
+                <span>V</span>
+                <span>I</span>
+                <span>V</span>
+                <span>E</span>
+            </h1> -->
+        </div>
+        <script>
+            const textAnimate = (target, isLinger) => {
+                const dummys =
+                    "0000000000000000000011111111111111111111/<>|?!+()%$#@ZXYVQIJ";
+                const innerText = target.innerText;
+                const innerTextArray = innerText.split("");
+                const textLength = innerText.length;
+
+                const template = `
+                    <div style="
+                        display: flex;
+                        border: 1px solid fff;
+                        flex-wrap: wrap;
+                    ">
+                        ${innerTextArray
+                            .map((unit) => {
+                                return `<span>${unit || "&nbsp;"}</span>`;
+                            })
+                            .join("")}
+                    <div>
+                `;
+
+                target.innerHTML = template;
+
+                const units = target.querySelectorAll("span");
+                const endLimit = {
+                    init: textLength,
+                    linger: 0,
+                };
+                const endCount = {
+                    init: 0,
+                    linger: 0,
+                };
+
+                const randomUnits = [...units].sort((a, b) =>
+                    Math.random() > 0.5 ? 1 : -1
+                );
+
+                const unitStart = ({
+                    unit,
+                    type,
+                    index,
+                    max = 0,
+                    speed = 0,
+                }) => {
+                    const data = {
+                        type: type,
+                        el: unit,
+                        text: unit.innerText,
+                        index,
+                        max: max || 3 + Math.ceil(Math.random() * 7),
+                        count: 0,
+                        speed: speed || 20 + Math.random() * 50,
+                    };
+                    if (unit.innerText) {
+                        unitAction(data);
+                    } else {
+                        ++endCount[type];
+                        unit.innerHTML = "&nbsp;";
+                    }
+                };
+
+                const unitAction = (data) => {
+                    const { type } = data;
+                    const isEnd = data.max < ++data.count;
+                    if (isEnd) {
+                        // console.log("wow");
+                        data.el.innerHTML = data.text;
+                        ++endCount[type];
+                        // console.log(endCount);
+                        if (endCount[type] >= endLimit[type]) {
+                            if (type === "init") {
+                                endAnimate(data);
+                            } else {
+                                console.log("linger end");
+                            }
+                        }
+                        return;
+                    }
+                    const dummy =
+                        dummys[Math.ceil(Math.random() * dummys.length - 1)];
+                    data.el.innerText = dummy;
+                    setTimeout(() => unitAction(data), data.speed);
+                };
+
+                const endAnimate = (data) => {
+                    // console.log(data, endCount, endLimit);
+
+                    if (isLinger && data.type === "init") {
+                        const lingerLength = Math.min(
+                            Math.ceil((Math.random() * textLength) / 3)
+                        );
+                        endLimit.linger = lingerLength;
+                        const lingerUnits = randomUnits.slice(0, lingerLength);
+
+                        setTimeout(() => {
+                            lingerUnits.forEach((unit, index) => {
+                                setTimeout(() => {
+                                    unitStart({
+                                        unit,
+                                        index,
+                                        type: "linger",
+                                        max: 10,
+                                        speed: 16,
+                                    });
+                                }, index * 200);
+                            });
+                        }, 800);
+                    } else {
+                        target.innerText = innerText;
+                    }
+                };
+
+                randomUnits.forEach((unit, index) => {
+                    unitStart({ unit, index, type: "init" });
+                });
+            };
+
+            const targetH1 = document.querySelector("h1");
+            const targetTexts = document.querySelectorAll(".text");
+
+            textAnimate(targetH1, true);
+            textAnimate(targetTexts[0]);
+            textAnimate(targetTexts[1]);
+            // gsap.from(targetH1, {
+            //     letterSpacing: "0.2em",
+            //     ease: "power1.out",
+            //     duration: 1.5,
+            // });
+            gsap.from(targetH1, {
+                color: "rgb(249, 52, 208, 1)",
+                duration: 3,
+                ease: "power2.out",
+            });
+
+            gsap.from(".article", {
+                // opacity: 0,
+                x: 50,
+                ease: "power4.out",
+                duration: 1,
+            });
+        </script>
+    </body>
+</html>
