@@ -176,7 +176,7 @@
                         <feDisplacementMap
                             in="SourceGraphic"
                             in2="NOISE"
-                            scale="15"
+                            scale="75"
                         ></feDisplacementMap>
 
                         <animate
@@ -184,7 +184,7 @@
                             attributeName="baseFrequency"
                             dur="5s"
                             keyTimes="0;0.5;1"
-                            values="0.01 0.01; 0.02 0.02; 0.01 0.01"
+                            values="0.03 0.03; 0.06 0.06; 0.08 0.08"
                             repeatCount="indefinite"
                         ></animate>
                         <!-- <animate xlink:href="#flagturbulence" attributeName="x" dur="5s" keyTimes="0;0.5;1"
@@ -197,14 +197,14 @@
                             in="SourceGraphic"
                             id="cloudyturbulence"
                             type="turbulence"
-                            baseFrequency="0.01 0.02"
+                            baseFrequency="0.05 0.02"
                             numOctaves="3"
                             result="NOISE"
                         ></feTurbulence>
                         <feDisplacementMap
                             in="SourceGraphic"
                             in2="NOISE"
-                            scale="50"
+                            scale="90"
                         ></feDisplacementMap>
                         <!-- <feBlend
                     in="SourceGraphic"
@@ -216,7 +216,7 @@
                         <animate
                             xlink:href="#cloudyturbulence"
                             attributeName="baseFrequency"
-                            dur="60s"
+                            dur="5s"
                             keyTimes="0;0.5;1"
                             values="0.01 0.02;0.02 0.04;0.01 0.02"
                             repeatCount="indefinite"

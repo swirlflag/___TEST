@@ -240,6 +240,42 @@ const renderWrapCommitLink = () => {
     });
 };
 
+const checkLiveDeployInnerTick = (commitLine) => {
+    const stages = [
+        ...commitLine.querySelectorAll(
+            ".dropdown-menu.js-builds-dropdown-container .ci-job-component"
+        ),
+    ];
+
+    if (!stages.length) {
+        setTimeout(() => checkLiveDeployInnerTick(commitLine), 400);
+        return;
+    }
+
+    const liveStage = stages.find((stage) => {
+        const regex = /(?=.*live)(?=.*deploy)/i;
+        return regex.test(stage.innerText.trim());
+    });
+    if (!liveStage) {
+        return;
+    }
+    const liveIcon = liveStage.querySelector(".ci-status-icon");
+    const isLive = liveIcon.classList.contains("ci-status-icon-success");
+    if (!isLive) {
+        return;
+    }
+
+    const labelWrap = commitLine.querySelector(".label-container");
+
+    const liveLabel = document.createElement("span");
+    liveLabel.innerText = "live";
+    liveLabel.classList.add("badge");
+    liveLabel.style.color = "#fff";
+    liveLabel.style.backgroundColor = "rgba(255, 50, 80, 0.8)";
+    liveLabel.style.marginRight = "4px";
+    labelWrap.append(liveLabel);
+};
+
 const checkLiveDeploy = async () => {
     const table = document.querySelector(".pipelines-container .ci-table");
     if (!table) {
@@ -263,34 +299,7 @@ const checkLiveDeploy = async () => {
         ];
         // buttons.forEach((button) => button.click());
         buttons[1].click();
-        await delay(1000);
-
-        const stages = [
-            ...commit.querySelectorAll(
-                ".dropdown-menu.js-builds-dropdown-container .ci-job-component"
-            ),
-        ];
-        const liveStage = stages.find((stage) => {
-            return stage.innerText.trim() === "Live_Azure_Pipeline_Deploy";
-        });
-        if (!liveStage) {
-            return;
-        }
-        const liveIcon = liveStage.querySelector(".ci-status-icon");
-        const isLive = liveIcon.classList.contains("ci-status-icon-success");
-        if (!isLive) {
-            return;
-        }
-
-        const labelWrap = commit.querySelector(".label-container");
-
-        const liveLabel = document.createElement("span");
-        liveLabel.innerText = "live";
-        liveLabel.classList.add("badge");
-        liveLabel.style.color = "#fff";
-        liveLabel.style.backgroundColor = "rgba(255, 50, 80, 0.8)";
-        liveLabel.style.marginRight = "4px";
-        labelWrap.append(liveLabel);
+        checkLiveDeployInnerTick(commit);
     });
 
     document.body.click();
