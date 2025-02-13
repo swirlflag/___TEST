@@ -36,6 +36,14 @@ const delay = async (time) => {
     return new Promise((resolve) => setTimeout(() => resolve(), time));
 };
 
+const getSubstringAfterColon = (str) => {
+    const index = str.indexOf(":");
+    if (index === -1) {
+        return "";
+    }
+    return str.substring(index + 1);
+};
+
 const renderHighLightCommit = () => {
     if (storage.reset) {
         const el_reset_targets = [
@@ -64,17 +72,20 @@ const renderHighLightCommit = () => {
         const message = el.innerText;
 
         const prefix = Object.entries(DATA_prefix).find(
-            ([k]) => message.indexOf(`${k}:`) === 0
+            ([k]) =>
+                message.indexOf(`${k}:`) === 0 ||
+                message.indexOf(`${k} :`) === 0
         );
 
         if (prefix) {
             const [key, value] = prefix;
+            const realMessage = getSubstringAfterColon(message);
             el.style.backgroundColor = value.color;
             el.style.borderRadius = "3px";
             el.style.padding = "1px 3px";
             el.style.boxSizing = "border-box";
             if (useEmoji) {
-                el.innerText = el.innerText.replace(`${key}:`, value.emoji);
+                el.innerText = `${value.emoji}${realMessage}`;
             }
             return;
         }

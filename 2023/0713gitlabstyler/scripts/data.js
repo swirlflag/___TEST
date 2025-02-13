@@ -12,7 +12,7 @@ const DATA_prefix = {
         emoji: "🐛",
     },
     test: {
-        color: "rgba(255,128,0,0.15)",
+        color: "rgba(255,128,30,0.15)",
         emoji: "🧪",
     },
     refactor: {
@@ -38,6 +38,14 @@ const DATA_prefix = {
     ui: {
         color: "rgba(90,255,200,0.2)",
         emoji: "🖼️",
+    },
+    git: {
+        color: "rgba(241, 78, 50, 0.15)",
+        emoji: "📚",
+    },
+    merge: {
+        color: "rgba(241, 78, 50, 0.15)",
+        emoji: "🔀",
     },
 };
 
@@ -264,5 +272,63 @@ const LIST_projects = [
             "https://gitlab.nexon.com/PublishingRPG_Web/tfd/deployment/backend/tfd_api",
     },
 
-    // V4
+    // 슈퍼바이브
+    {
+        name: "슈퍼바이브",
+        detail: "슈퍼바이브 프론트",
+        keyword: "슈퍼바이브",
+        development:
+            "https://gitlab.nexon.com/PublishingRPG_Web/sv/development/frontend/com.nexon.supervive",
+        deployment:
+            "https://gitlab.nexon.com/PublishingRPG_Web/sv/deployment/frontend/com.nexon.supervive",
+    },
+    {
+        name: "슈퍼바이브",
+        detail: "슈퍼바이브 API",
+        keyword: "슈퍼바이브",
+        development:
+            "https://gitlab.nexon.com/PublishingRPG_Web/sv/development/backend/sv_api",
+        deployment:
+            "https://gitlab.nexon.com/PublishingRPG_Web/sv/deployment/backend/sv_api",
+    },
+
+    // 슈퍼바이브
+    {
+        name: "슈퍼바이브",
+        detail: "슈퍼바이브 프론트",
+        keyword: "슈퍼바이브",
+        development:
+            "https://gitlab.nexon.com/PublishingRPG_Web/sv/development/frontend/com.nexon.supervive",
+        deployment:
+            "https://gitlab.nexon.com/PublishingRPG_Web/sv/deployment/frontend/com.nexon.supervive",
+    },
+    {
+        name: "슈퍼바이브",
+        detail: "슈퍼바이브 API",
+        keyword: "슈퍼바이브",
+        development:
+            "https://gitlab.nexon.com/PublishingRPG_Web/sv/development/backend/sv_api",
+        deployment:
+            "https://gitlab.nexon.com/PublishingRPG_Web/sv/deployment/backend/sv_api",
+    },
+
+    // 바람의나라2
+    {
+        name: "바람의나라2",
+        detail: "바람의나라2 프론트",
+        keyword: "바람2",
+        development:
+            "https://gitlab.nexon.com/PublishingRPG_Web/baram2/development/frontend/com.nexon.baram2",
+        deployment:
+            "https://gitlab.nexon.com/PublishingRPG_Web/baram2/deployment/frontend/com.nexon.baram2",
+    },
+    {
+        name: "바람의나라2",
+        detail: "바람의나라2 API",
+        keyword: "바람2",
+        development:
+            "https://gitlab.nexon.com/PublishingRPG_Web/baram2/development/backend/com.nexon.baram2-api",
+        deployment:
+            "https://gitlab.nexon.com/PublishingRPG_Web/baram2/deployment/backend/com.nexon.baram2-api",
+    },
 ];

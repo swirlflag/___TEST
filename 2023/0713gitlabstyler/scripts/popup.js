@@ -2,7 +2,7 @@ const DATA_options = {
     "use-emoji": {
         name: "USE EMOJI",
         type: "checkbox",
-        value: false,
+        value: true,
     },
 };
 
@@ -26,9 +26,11 @@ const el_savebutton = document.querySelector(".save-button");
 const el_listemoji = document.querySelector(".list-emoji");
 
 const setupRenderElements = () => {
-    const DOM_emojis = Object.entries(DATA_prefix).map((item, idx) => {
-        return `<li>${idx}</li>`
-    }).join("");
+    const DOM_emojis = Object.entries(DATA_prefix)
+        .map((item, idx) => {
+            return `<li>${idx}</li>`;
+        })
+        .join("");
 
     // el_listemoji.innerHTML = DOM_emojis;
 
@@ -38,7 +40,7 @@ const setupRenderElements = () => {
             return `
             <label class="label-${option.type}">
                 <input type="${option.type}" id="option-${key}" ${
-                option.value ? "checked" : ""
+                option.value ? " checked" : ""
             }>
                 <span>${option.name}</span>
             </label>
@@ -77,13 +79,13 @@ const setupSyncStorage = () => {
 };
 
 const initPopup = async () => {
+    savingOption();
     if (!chrome.storage) {
         return;
     }
     await setupSyncStorage();
     setupRenderElements();
     setupBindEvents();
-    savingOption();
 };
 
 initPopup();
